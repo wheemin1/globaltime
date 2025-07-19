@@ -1,0 +1,156 @@
+import { useState, useRef, useCallback, useEffect, Fragment } from "react";
+import { useDragSelection } from "@/hooks/use-drag-selection";
+import { convertSlotToLocalTime, formatTimeForDisplay } from "@/lib/time-slots";
+import type { RoomWithParticipants } from "@shared/schema";
+
+interface TimeGridProps {
+  room: RoomWithParticipants;
+  selectedSlots: boolean[];
+  onSlotsChange: (slots: boolean[]) => void;
+  viewingTimezone: string;
+  isEditMode?: boolean;
+  heatmapData?: number[];
+  onSlotClick?: (slotIndex: number) => void;
+  selectedParticipant?: number | null;
+}
+
+export function TimeGrid({
+  room,
+  selectedSlots,
+  onSlotsChange,
+  viewingTimezone,
+  isEditMode = false,
+  heatmapData,
+  onSlotClick,
+  selectedParticipant,
+}: TimeGridProps) {
+  const gridRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragValue, setDragValue] = useState(false);
+
+  const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const hours = Array.from({ length: 24 }, (_, i) => i);
+
+  const getSlotIndex = (dayIndex: number, hourIndex: number) => {
+    return dayIndex * 24 + hourIndex;
+  };
+
+  const handleMouseDown = useCallback((slotIndex: number) => {
+    if (!isEditMode) {
+      onSlotClick?.(slotIndex);
+      return;
+    }
+
+    setIsDragging(true);
+    const newValue = !selectedSlots[slotIndex];
+    setDragValue(newValue);
+    
+    const newSlots = [...selectedSlots];
+    newSlots[slotIndex] = newValue;
+    onSlotsChange(newSlots);
+  }, [isEditMode, selectedSlots, onSlotsChange, onSlotClick]);
+
+  const handleMouseEnter = useCallback((slotIndex: number) => {
+    if (!isDragging || !isEditMode) return;
+    
+    const newSlots = [...selectedSlots];
+    newSlots[slotIndex] = dragValue;
+    onSlotsChange(newSlots);
+  }, [isDragging, isEditMode, selectedSlots, dragValue, onSlotsChange]);
+
+  const handleMouseUp = useCallback(() => {
+    setIsDragging(false);
+  }, []);
+
+  // Add event listeners for mouse up
+  useEffect(() => {
+    document.addEventListener("mouseup", handleMouseUp);
+    return () => document.removeEventListener("mouseup", handleMouseUp);
+  }, [handleMouseUp]);
+
+  const getCellClass = (dayIndex: number, hourIndex: number) => {
+    const slotIndex = getSlotIndex(dayIndex, hourIndex);
+    let classes = "time-cell";
+
+    if (isEditMode && selectedSlots[slotIndex]) {
+      classes += " selected";
+    }
+
+    if (heatmapData && !isEditMode) {
+      const count = heatmapData[slotIndex];
+      if (count > 0) {
+        const intensity = Math.min(count, 5);
+        classes += ` heatmap-${intensity}`;
+      }
+    }
+
+    if (selectedParticipant && room.participants[selectedParticipant]) {
+      const participant = room.participants.find(p => p.id === selectedParticipant);
+      if (participant?.availability[slotIndex] === "1") {
+        classes += " user-focus";
+      }
+    }
+
+    if (room.isConfirmed && room.confirmedSlot === slotIndex) {
+      classes += " confirmed";
+    }
+
+    return classes;
+  };
+
+  const getSlotTooltip = (dayIndex: number, hourIndex: number) => {
+    const slotIndex = getSlotIndex(dayIndex, hourIndex);
+    const localTime = convertSlotToLocalTime(dayIndex, hourIndex, viewingTimezone);
+    
+    if (heatmapData && !isEditMode) {
+      const count = heatmapData[slotIndex];
+      const availableParticipants = room.participants.filter(
+        p => p.availability[slotIndex] === "1"
+      );
+      
+      return `${formatTimeForDisplay(localTime)} - ${count} people available${
+        availableParticipants.length > 0 
+          ? `: ${availableParticipants.map(p => p.name).join(", ")}`
+          : ""
+      }`;
+    }
+    
+    return formatTimeForDisplay(localTime);
+  };
+
+  return (
+    <div className="w-full overflow-x-auto">
+      <div ref={gridRef} className="time-grid min-w-[800px]">
+        {/* Corner cell */}
+        <div className="bg-gray-100"></div>
+        
+        {/* Hour headers */}
+        {hours.map(hour => (
+          <div key={hour} className="time-header">
+            {hour.toString().padStart(2, "0")}
+          </div>
+        ))}
+        
+        {/* Day rows */}
+        {days.map((day, dayIndex) => (
+          <Fragment key={day}>
+            <div className="day-header">{day}</div>
+            {hours.map((hour, hourIndex) => {
+              const slotIndex = getSlotIndex(dayIndex, hourIndex);
+              return (
+                <div
+                  key={`${dayIndex}-${hourIndex}`}
+                  className={getCellClass(dayIndex, hourIndex)}
+                  title={getSlotTooltip(dayIndex, hourIndex)}
+                  onMouseDown={() => handleMouseDown(slotIndex)}
+                  onMouseEnter={() => handleMouseEnter(slotIndex)}
+                  style={{ userSelect: "none" }}
+                />
+              );
+            })}
+          </Fragment>
+        ))}
+      </div>
+    </div>
+  );
+}
