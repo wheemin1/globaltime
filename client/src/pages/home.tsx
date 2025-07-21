@@ -2,10 +2,15 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Clock, Users, Globe, Calendar } from "lucide-react";
 import { Link } from "wouter";
+import { SEO, seoConfigs } from "@/components/SEO";
+import { StructuredData, structuredDataConfigs } from "@/components/StructuredData";
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-gray-50">
+      <SEO {...seoConfigs.home} />
+      <StructuredData type="WebApplication" data={structuredDataConfigs.webApplication} />
+      <StructuredData type="Organization" data={structuredDataConfigs.organization} />
       {/* Header */}
       <header className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -16,6 +21,11 @@ export default function Home() {
                 TimeSync
               </h1>
             </div>
+            <nav className="hidden md:flex space-x-6">
+              <Link href="/features" className="text-gray-600 hover:text-gray-900">Features</Link>
+              <Link href="/how-it-works" className="text-gray-600 hover:text-gray-900">How It Works</Link>
+              <Link href="/help/share" className="text-gray-600 hover:text-gray-900">Help</Link>
+            </nav>
           </div>
         </div>
       </header>

@@ -20,6 +20,7 @@ import { apiRequest } from "@/lib/queryClient";
 import { getUserTimezone, getTimezoneOffset } from "@/lib/timezone-utils";
 import { parseISO, eachDayOfInterval } from "date-fns";
 import type { RoomWithParticipants, JoinRoomRequest } from "@shared/schema";
+import { SEO, seoConfigs } from "@/components/SEO";
 
 export default function Room() {
   const params = useParams<{ roomId: string }>();
@@ -247,6 +248,7 @@ export default function Room() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <SEO {...seoConfigs.room} />
       {/* Header */}
       <header className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

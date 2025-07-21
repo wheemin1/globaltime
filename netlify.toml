@@ -6,11 +6,66 @@
   command = "npm run dev"
   port = 3003
 
+# SEO Headers for different routes
+[[headers]]
+  for = "/r/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    Cache-Control = "private, no-cache"
+
+[[headers]]
+  for = "/"
+  [headers.values]
+    X-Robots-Tag = "index, follow"
+    Cache-Control = "public, max-age=3600"
+
+[[headers]]
+  for = "/features"
+  [headers.values]
+    X-Robots-Tag = "index, follow"
+    Cache-Control = "public, max-age=3600"
+
+[[headers]]
+  for = "/how-it-works"
+  [headers.values]
+    X-Robots-Tag = "index, follow"
+    Cache-Control = "public, max-age=3600"
+
+[[headers]]
+  for = "/help/*"
+  [headers.values]
+    X-Robots-Tag = "index, follow"
+    Cache-Control = "public, max-age=3600"
+
+# API redirects
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/api/:splat"
   status = 200
 
+# Room URL redirects with dynamic noindex
+[[redirects]]
+  from = "/r/:roomId"
+  to = "/index.html"
+  status = 200
+
+# Static page redirects
+[[redirects]]
+  from = "/features"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/how-it-works" 
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/help/*"
+  to = "/index.html"
+  status = 200
+
+# Catch-all for SPA
 [[redirects]]
   from = "/*"
   to = "/index.html"
