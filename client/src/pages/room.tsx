@@ -46,6 +46,11 @@ export default function Room() {
     }
   }, [hostId]);
 
+  const { data: room, isLoading } = useQuery<RoomWithParticipants>({
+    queryKey: ["/api/rooms", roomId],
+    enabled: roomId > 0,
+  });
+
   // 호스트인 경우 참가자 ID 설정
   useEffect(() => {
     if (isHost && room?.participants.length > 0 && !currentParticipantId) {
@@ -53,11 +58,6 @@ export default function Room() {
       setCurrentParticipantId(hostParticipant.id);
     }
   }, [isHost, room, currentParticipantId]);
-
-  const { data: room, isLoading } = useQuery<RoomWithParticipants>({
-    queryKey: ["/api/rooms", roomId],
-    enabled: roomId > 0,
-  });
 
   const joinRoomMutation = useMutation({
     mutationFn: async (data: JoinRoomRequest) => {
