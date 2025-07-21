@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient } from "@/lib/queryClient";
@@ -25,6 +26,7 @@ export default function Room() {
   const { toast } = useToast();
   const isMobile = useIsMobile();
   
+  // All state hooks first - never conditional
   const [currentView, setCurrentView] = useState<"select" | "results">("select");
   const [showJoinDialog, setShowJoinDialog] = useState(false);
   const [selectedAvailability, setSelectedAvailability] = useState<boolean[]>(new Array(168).fill(false));
@@ -35,32 +37,18 @@ export default function Room() {
   const [viewingTimezone, setViewingTimezone] = useState(getUserTimezone());
   const [selectedParticipant, setSelectedParticipant] = useState<number | null>(null);
 
-  const roomId = parseInt(params.roomId!) || 0;
+  // Constants derived from params - always computed
+  const roomId = parseInt(params.roomId || "0") || 0;
   const hostId = new URLSearchParams(search).get("host");
 
-  // Initialize host status first
-  useEffect(() => {
-    if (hostId) {
-      setIsHost(true);
-    } else {
-      setShowJoinDialog(true);
-    }
-  }, [hostId]);
-
+  // Query hook - always called
   const { data: room, isLoading, error } = useQuery<RoomWithParticipants>({
     queryKey: ["/api/rooms", roomId],
     enabled: roomId > 0,
     retry: false,
   });
 
-  // 호스트인 경우 참가자 ID 설정
-  useEffect(() => {
-    if (isHost && room?.participants.length > 0 && !currentParticipantId) {
-      const hostParticipant = room.participants[0]; // 첫 번째 참가자가 호스트
-      setCurrentParticipantId(hostParticipant.id);
-    }
-  }, [isHost, room, currentParticipantId]);
-
+  // Mutation hooks - always called
   const joinRoomMutation = useMutation({
     mutationFn: async (data: JoinRoomRequest) => {
       const response = await apiRequest("POST", `/api/rooms/${roomId}/join`, data);
@@ -137,6 +125,35 @@ export default function Room() {
     },
   });
 
+  // All useEffect hooks - always called, with proper dependencies
+  useEffect(() => {
+    if (hostId) {
+      setIsHost(true);
+    } else {
+      setShowJoinDialog(true);
+    }
+  }, [hostId]);
+
+  useEffect(() => {
+    if (isHost && room?.participants && room.participants.length > 0 && !currentParticipantId) {
+      const hostParticipant = room.participants[0];
+      setCurrentParticipantId(hostParticipant.id);
+    }
+  }, [isHost, room?.participants, currentParticipantId]);
+
+  useEffect(() => {
+    if (currentParticipantId && room?.participants) {
+      const currentParticipant = room.participants.find(p => p.id === currentParticipantId);
+      if (currentParticipant?.availability) {
+        const availabilityBits = currentParticipant.availability.split("").map(bit => bit === "1");
+        if (selectedAvailability.every(slot => !slot)) {
+          setSelectedAvailability(availabilityBits);
+        }
+      }
+    }
+  }, [currentParticipantId, room?.participants]);
+
+  // Event handlers
   const handleJoinRoom = (e: React.FormEvent) => {
     e.preventDefault();
     if (!participantName.trim()) {
@@ -180,6 +197,7 @@ export default function Room() {
     confirmTimeMutation.mutate(slotIndex);
   };
 
+  // Early returns after all hooks
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -208,20 +226,9 @@ export default function Room() {
     );
   }
 
-  const currentParticipant = currentParticipantId 
+  const currentParticipant = currentParticipantId && room.participants
     ? room.participants.find(p => p.id === currentParticipantId)
     : null;
-
-  // Load current participant's availability only once
-  useEffect(() => {
-    if (currentParticipant?.availability) {
-      const availabilityBits = currentParticipant.availability.split("").map(bit => bit === "1");
-      // Only update if current selection is empty to avoid overwriting user changes
-      if (selectedAvailability.every(slot => !slot)) {
-        setSelectedAvailability(availabilityBits);
-      }
-    }
-  }, [currentParticipant?.id, currentParticipant?.availability]);
 
   return (
     <div className="min-h-screen bg-gray-50">
