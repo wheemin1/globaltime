@@ -120,9 +120,9 @@ export function TimeGrid({
 
   return (
     <div className="w-full overflow-x-auto">
-      <div ref={gridRef} className="time-grid min-w-[800px]">
+      <div ref={gridRef} className="time-grid min-w-[1200px]">
         {/* Corner cell */}
-        <div className="bg-gray-100"></div>
+        <div className="day-header">Time</div>
         
         {/* Hour headers */}
         {hours.map(hour => (

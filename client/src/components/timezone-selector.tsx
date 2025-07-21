@@ -74,9 +74,15 @@ export function TimezoneSelector({ value, onChange, compact = false }: TimezoneS
                         value === timezone.value ? "opacity-100" : "opacity-0"
                       )}
                     />
-                    <div className="flex flex-col">
-                      <span className="font-medium">{timezone.city}</span>
-                      <span className="text-xs text-gray-500">{timezone.label}</span>
+                    <div className="flex items-center gap-3 w-full">
+                      {timezone.flag && <span className="text-xl">{timezone.flag}</span>}
+                      <div className="flex flex-col flex-1">
+                        <div className="flex items-center gap-2">
+                          <span className="font-medium">{timezone.city}</span>
+                          {timezone.country && <span className="text-xs text-muted-foreground">{timezone.country}</span>}
+                        </div>
+                        <span className="text-xs text-muted-foreground">{timezone.offset}</span>
+                      </div>
                     </div>
                   </CommandItem>
                 ))}
@@ -98,9 +104,13 @@ export function TimezoneSelector({ value, onChange, compact = false }: TimezoneS
           className="w-full justify-between"
         >
           <div className="flex items-center">
-            <Globe className="mr-2 h-4 w-4" />
+            {selectedTimezone?.flag ? (
+              <span className="mr-2 text-lg">{selectedTimezone.flag}</span>
+            ) : (
+              <Globe className="mr-2 h-4 w-4" />
+            )}
             <span className="truncate">
-              {selectedTimezone ? formatTimezoneForDisplay(selectedTimezone) : "Select your timezone"}
+              {selectedTimezone ? `${selectedTimezone.city} (${selectedTimezone.offset})` : "시간대를 선택하세요"}
             </span>
           </div>
           <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -132,9 +142,15 @@ export function TimezoneSelector({ value, onChange, compact = false }: TimezoneS
                       value === timezone.value ? "opacity-100" : "opacity-0"
                     )}
                   />
-                  <div className="flex flex-col">
-                    <span className="font-medium">{timezone.city}</span>
-                    <span className="text-xs text-gray-500">{timezone.label}</span>
+                  <div className="flex items-center gap-3 w-full">
+                    {timezone.flag && <span className="text-xl">{timezone.flag}</span>}
+                    <div className="flex flex-col flex-1">
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium">{timezone.city}</span>
+                        {timezone.country && <span className="text-xs text-muted-foreground">{timezone.country}</span>}
+                      </div>
+                      <span className="text-xs text-muted-foreground">{timezone.offset}</span>
+                    </div>
                   </div>
                 </CommandItem>
               ))}

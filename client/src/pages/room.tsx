@@ -46,6 +46,14 @@ export default function Room() {
     }
   }, [hostId]);
 
+  // 호스트인 경우 참가자 ID 설정
+  useEffect(() => {
+    if (isHost && room?.participants.length > 0 && !currentParticipantId) {
+      const hostParticipant = room.participants[0]; // 첫 번째 참가자가 호스트
+      setCurrentParticipantId(hostParticipant.id);
+    }
+  }, [isHost, room, currentParticipantId]);
+
   const { data: room, isLoading } = useQuery<RoomWithParticipants>({
     queryKey: ["/api/rooms", roomId],
     enabled: roomId > 0,
