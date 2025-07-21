@@ -23,7 +23,7 @@
   --destructive-foreground: hsl(60, 9.1%, 97.8%);
   --ring: hsl(20, 14.3%, 4.1%);
   --radius: 0.5rem;
-  
+
   /* Custom TimeSync colors */
   --timesync-primary: hsl(210, 100%, 50%);
   --timesync-primary-light: hsl(210, 100%, 97%);
@@ -80,7 +80,7 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     border: 1px solid var(--timesync-border-light);
   }
-  
+
   .time-cell {
     background: white;
     border: 2px solid transparent;
@@ -93,14 +93,14 @@
     justify-content: center;
     border-radius: 6px;
   }
-  
+
   .time-cell:hover {
     background: var(--timesync-primary-light);
     border-color: var(--timesync-primary);
     transform: scale(1.02);
     box-shadow: 0 2px 8px rgba(59, 130, 246, 0.15);
   }
-  
+
   .time-cell.selected {
     background: linear-gradient(135deg, var(--timesync-success), hsl(142, 76%, 42%));
     border-color: hsl(142, 76%, 30%);
@@ -108,32 +108,55 @@
     font-weight: 500;
     box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
   }
-  
+
   .time-cell.heatmap-1 { 
-    background: linear-gradient(135deg, hsla(142, 76%, 45%, 0.15), hsla(142, 76%, 45%, 0.25));
-    border-color: hsla(142, 76%, 45%, 0.3);
+    background: linear-gradient(135deg, #e8f5e8, #d4edda);
+    border-color: #c3e6cb;
+    color: #2d5a2d;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
   }
   .time-cell.heatmap-2 { 
-    background: linear-gradient(135deg, hsla(142, 76%, 45%, 0.3), hsla(142, 76%, 45%, 0.45));
-    border-color: hsla(142, 76%, 45%, 0.5);
+    background: linear-gradient(135deg, #b8e6b8, #95d895);
+    border-color: #7fcc7f;
+    color: #1a4d1a;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
   }
-  .time-cell.heatmap-3 { 
-    background: linear-gradient(135deg, hsla(142, 76%, 45%, 0.5), hsla(142, 76%, 45%, 0.65));
-    border-color: hsla(142, 76%, 45%, 0.7);
+  .time-cell.heatmap-3 {
+    background: linear-gradient(135deg, #7fc97f, #5cb85c);
+    border-color: #47a047;
     color: white;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.15);
   }
   .time-cell.heatmap-4 { 
-    background: linear-gradient(135deg, hsla(142, 76%, 45%, 0.7), hsla(142, 76%, 45%, 0.85));
-    border-color: hsla(142, 76%, 45%, 0.9);
+    background: linear-gradient(135deg, #4a934a, #2d7d2d);
+    border-color: #1f5f1f;
     color: white;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.2), 0 2px 4px rgba(0,0,0,0.1);
   }
   .time-cell.heatmap-5 { 
-    background: linear-gradient(135deg, var(--timesync-success), hsl(142, 76%, 30%));
-    border-color: hsl(142, 76%, 25%);
+    background: linear-gradient(135deg, #28a745, #1e7e34);
+    border-color: #155724;
     color: white;
-    font-weight: 600;
+    font-weight: 700;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.25), 0 3px 6px rgba(0,0,0,0.15);
+    position: relative;
   }
-  
+
+  .time-cell.heatmap-5::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    right: 2px;
+    bottom: 2px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
+    border-radius: 4px;
+    pointer-events: none;
+  }
+
   .day-header {
     background: linear-gradient(135deg, var(--timesync-primary), hsl(210, 100%, 45%));
     font-weight: 700;
@@ -147,7 +170,7 @@
     letter-spacing: 0.5px;
     box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
   }
-  
+
   .time-header {
     background: linear-gradient(135deg, hsl(220, 13%, 95%), white);
     font-weight: 600;
@@ -159,38 +182,38 @@
     border-radius: 6px;
     border: 1px solid var(--timesync-border-light);
   }
-  
+
   .participant-card {
     transition: all 0.3s ease;
     cursor: pointer;
   }
-  
+
   .participant-card:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   }
-  
+
   .segmented-control {
     background: hsl(210, 40%, 95%);
     border-radius: 12px;
     padding: 4px;
   }
-  
+
   .segmented-control button {
     border-radius: 8px;
     transition: all 0.2s ease;
   }
-  
+
   .segmented-control button.active {
     background: white;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   }
-  
+
   .bottom-sheet {
     transform: translateY(70%);
     transition: transform 0.3s ease;
   }
-  
+
   .bottom-sheet.expanded {
     transform: translateY(30%);
   }
@@ -201,11 +224,11 @@
       grid-template-columns: 40px repeat(24, minmax(32px, 1fr));
       grid-template-rows: 30px repeat(7, 40px);
     }
-    
+
     .time-cell {
       min-height: 40px;
     }
-    
+
     .day-header, .time-header {
       font-size: 10px;
     }
