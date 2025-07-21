@@ -36,12 +36,6 @@ export default function Home() {
                 미팅룸 만들기
               </Button>
             </Link>
-            <Link href="/room/1">
-              <Button size="lg" variant="outline" className="border-blue-600 text-blue-600 hover:bg-blue-50">
-                <Users className="mr-2" size={20} />
-                데모룸 참여
-              </Button>
-            </Link>
           </div>
         </div>
 

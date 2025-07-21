@@ -1,11 +1,25 @@
-import { format, addDays, startOfWeek, addHours } from "date-fns";
+import { format, addDays, startOfWeek, addHours, parseISO, eachDayOfInterval } from "date-fns";
 import { getTimezoneOffset } from "./timezone-utils";
 import type { Participant } from "@shared/schema";
 
-export function convertSlotToLocalTime(dayIndex: number, hourIndex: number, timezone: string): Date {
-  // Start with Monday of current week as reference
-  const monday = startOfWeek(new Date(), { weekStartsOn: 1 });
-  const targetDay = addDays(monday, dayIndex);
+export function convertSlotToLocalTime(
+  dayIndex: number, 
+  hourIndex: number, 
+  timezone: string, 
+  startDate?: string
+): Date {
+  let targetDay: Date;
+  
+  if (startDate) {
+    // 실제 룸의 시작 날짜를 기준으로 계산
+    const baseDate = parseISO(startDate);
+    targetDay = addDays(baseDate, dayIndex);
+  } else {
+    // 기존 방식: 현재 주의 월요일부터 계산
+    const monday = startOfWeek(new Date(), { weekStartsOn: 1 });
+    targetDay = addDays(monday, dayIndex);
+  }
+  
   const utcTime = new Date(targetDay);
   utcTime.setUTCHours(hourIndex, 0, 0, 0);
   

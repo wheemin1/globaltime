@@ -1,6 +1,7 @@
-import { useState, useRef, useCallback, useEffect, Fragment } from "react";
+import { useState, useRef, useCallback, useEffect, Fragment, useMemo } from "react";
 import { useDragSelection } from "@/hooks/use-drag-selection";
 import { convertSlotToLocalTime, formatTimeForDisplay } from "@/lib/time-slots";
+import { format, parseISO, eachDayOfInterval } from "date-fns";
 import type { RoomWithParticipants } from "@shared/schema";
 
 interface TimeGridProps {
@@ -28,7 +29,21 @@ export function TimeGrid({
   const [isDragging, setIsDragging] = useState(false);
   const [dragValue, setDragValue] = useState(false);
 
-  const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  // 룸의 날짜 범위에 따라 실제 날짜들을 계산
+  const actualDays = useMemo(() => {
+    const startDate = parseISO(room.startDate);
+    const endDate = parseISO(room.endDate);
+    const dateRange = eachDayOfInterval({ start: startDate, end: endDate });
+    
+    return dateRange.map(date => ({
+      date,
+      label: format(date, 'EEE'), // Mon, Tue, Wed 등
+      dateLabel: format(date, 'M/d'), // 7/22, 7/23 등
+      fullLabel: format(date, 'EEE M/d'), // Mon 7/22, Tue 7/23 등
+      tooltip: format(date, 'EEEE, MMMM d, yyyy'), // Monday, July 22, 2025
+    }));
+  }, [room.startDate, room.endDate]);
+
   const hours = Array.from({ length: 24 }, (_, i) => i);
 
   const getSlotIndex = (dayIndex: number, hourIndex: number) => {
@@ -100,7 +115,7 @@ export function TimeGrid({
 
   const getSlotTooltip = (dayIndex: number, hourIndex: number) => {
     const slotIndex = getSlotIndex(dayIndex, hourIndex);
-    const localTime = convertSlotToLocalTime(dayIndex, hourIndex, viewingTimezone);
+    const localTime = convertSlotToLocalTime(dayIndex, hourIndex, viewingTimezone, room.startDate);
     
     if (heatmapData && !isEditMode) {
       const count = heatmapData[slotIndex];
@@ -132,9 +147,12 @@ export function TimeGrid({
         ))}
         
         {/* Day rows */}
-        {days.map((day, dayIndex) => (
-          <Fragment key={day}>
-            <div className="day-header">{day}</div>
+        {actualDays.map((dayInfo, dayIndex) => (
+          <Fragment key={dayInfo.date.toISOString()}>
+            <div className="day-header" title={dayInfo.tooltip}>
+              <div className="day-name">{dayInfo.label}</div>
+              <div className="day-date">{dayInfo.dateLabel}</div>
+            </div>
             {hours.map((hour, hourIndex) => {
               const slotIndex = getSlotIndex(dayIndex, hourIndex);
               return (

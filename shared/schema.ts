@@ -20,7 +20,7 @@ export const participants = pgTable("participants", {
   roomId: integer("room_id").references(() => rooms.id),
   name: text("name").notNull(),
   timezone: text("timezone").notNull(),
-  availability: text("availability").notNull(), // 168-bit string representation
+  availability: text("availability").notNull(), // Dynamic bit string based on room date range
   createdAt: timestamp("created_at").defaultNow(),
 });
 
@@ -53,11 +53,10 @@ export const createRoomSchema = z.object({
 export const joinRoomSchema = z.object({
   name: z.string().min(1),
   timezone: z.string(),
-  availability: z.string().length(168), // 168 bits as string
 });
 
 export const updateAvailabilitySchema = z.object({
-  availability: z.string().length(168),
+  availability: z.string().min(1), // Dynamic length based on room date range
 });
 
 export type CreateRoomRequest = z.infer<typeof createRoomSchema>;
@@ -67,7 +66,7 @@ export type UpdateAvailabilityRequest = z.infer<typeof updateAvailabilitySchema>
 // Response types
 export interface RoomWithParticipants extends Room {
   participants: Participant[];
-  heatmap: number[]; // 168 numbers representing participant count per slot
+  heatmap: number[]; // Dynamic array representing participant count per slot
 }
 
 export interface HeatmapData {

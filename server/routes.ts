@@ -20,12 +20,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
         hostId,
       });
 
+      // Calculate slots for the room
+      const startDate = new Date(roomData.startDate);
+      const endDate = new Date(roomData.endDate);
+      const daysDiff = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+      const totalSlots = daysDiff * 24;
+
       // Add host as first participant with empty availability
       await storage.addParticipant({
         roomId: room.id,
         name: hostName,
         timezone: hostTimezone,
-        availability: '0'.repeat(168), // Empty availability initially
+        availability: '0'.repeat(totalSlots), // Empty availability initially
       });
 
       console.log("Room created successfully:", room.id);
@@ -56,7 +62,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/rooms/:id/join", async (req, res) => {
     try {
       const roomId = parseInt(req.params.id);
-      const participantData = joinRoomSchema.parse(req.body);
+      const { name, timezone } = joinRoomSchema.parse(req.body);
 
       // Check if room exists
       const room = await storage.getRoom(roomId);
@@ -64,10 +70,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "Room not found" });
       }
 
-      // Add participant
+      // Calculate slots for the room
+      const startDate = new Date(room.startDate);
+      const endDate = new Date(room.endDate);
+      const daysDiff = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+      const totalSlots = daysDiff * 24;
+
+      // Add participant with empty availability
       const participant = await storage.addParticipant({
         roomId,
-        ...participantData,
+        name,
+        timezone,
+        availability: '0'.repeat(totalSlots), // Empty availability initially
       });
 
       // Return updated room data

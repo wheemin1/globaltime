@@ -1,8 +1,8 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient } from "@/lib/queryClient";
-import { useParams, useSearch } from "wouter";
+import { useParams, useSearch, Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -18,6 +18,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { apiRequest } from "@/lib/queryClient";
 import { getUserTimezone, getTimezoneOffset } from "@/lib/timezone-utils";
+import { parseISO, eachDayOfInterval } from "date-fns";
 import type { RoomWithParticipants, JoinRoomRequest } from "@shared/schema";
 
 export default function Room() {
@@ -29,7 +30,6 @@ export default function Room() {
   // All state hooks first - never conditional
   const [currentView, setCurrentView] = useState<"select" | "results">("select");
   const [showJoinDialog, setShowJoinDialog] = useState(false);
-  const [selectedAvailability, setSelectedAvailability] = useState<boolean[]>(new Array(168).fill(false));
   const [currentParticipantId, setCurrentParticipantId] = useState<number | null>(null);
   const [isHost, setIsHost] = useState(false);
   const [participantName, setParticipantName] = useState("");
@@ -47,6 +47,22 @@ export default function Room() {
     enabled: roomId > 0,
     retry: false,
   });
+
+  // Calculate total slots based on room date range
+  const totalSlots = useMemo(() => {
+    if (!room) return 168; // default fallback
+    const startDate = parseISO(room.startDate);
+    const endDate = parseISO(room.endDate);
+    const dateRange = eachDayOfInterval({ start: startDate, end: endDate });
+    return dateRange.length * 24;
+  }, [room?.startDate, room?.endDate]);
+
+  const [selectedAvailability, setSelectedAvailability] = useState<boolean[]>([]);
+
+  // Initialize selectedAvailability when totalSlots changes
+  useEffect(() => {
+    setSelectedAvailability(new Array(totalSlots).fill(false));
+  }, [totalSlots]);
 
   // Mutation hooks - always called
   const joinRoomMutation = useMutation({
@@ -168,7 +184,6 @@ export default function Room() {
     joinRoomMutation.mutate({
       name: participantName.trim(),
       timezone: participantTimezone,
-      availability: "0".repeat(168),
     });
   };
 
@@ -237,10 +252,10 @@ export default function Room() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <h1 className="text-xl font-bold text-blue-700">
+              <Link href="/" className="flex items-center text-xl font-bold text-blue-700 hover:text-blue-800 transition-colors cursor-pointer">
                 <Clock className="inline mr-2" size={24} />
                 TimeSync
-              </h1>
+              </Link>
               <div className="ml-8 hidden md:block">
                 <span className="text-sm text-gray-600">{room.name}</span>
               </div>

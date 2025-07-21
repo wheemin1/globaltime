@@ -116,10 +116,10 @@ export default function CreateRoom() {
                   Back
                 </Button>
               </Link>
-              <h1 className="text-xl font-bold text-blue-700">
+              <Link href="/" className="flex items-center text-xl font-bold text-blue-700 hover:text-blue-800 transition-colors cursor-pointer">
                 <Clock className="inline mr-2" size={24} />
                 TimeSync
-              </h1>
+              </Link>
             </div>
           </div>
         </div>

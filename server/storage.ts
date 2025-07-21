@@ -7,6 +7,7 @@ interface Room {
   endDate: string;
   timeStart: number;
   timeEnd: number;
+  isConfirmed: boolean;
   confirmedSlot?: number;
   createdAt: Date;
 }
@@ -38,6 +39,7 @@ export const storage = {
     const room: Room = {
       id: nextRoomId++,
       ...data,
+      isConfirmed: false,
       createdAt: new Date(),
     };
     rooms.push(room);
@@ -54,10 +56,16 @@ export const storage = {
 
     const roomParticipants = participants.filter(p => p.roomId === id);
     
-    // Generate heatmap (168 slots for 7 days * 24 hours)
-    const heatmap = new Array(168).fill(0);
+    // Calculate total slots based on room date range
+    const startDate = new Date(room.startDate);
+    const endDate = new Date(room.endDate);
+    const daysDiff = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+    const totalSlots = daysDiff * 24;
+    
+    // Generate heatmap for the actual number of slots
+    const heatmap = new Array(totalSlots).fill(0);
     roomParticipants.forEach(participant => {
-      for (let i = 0; i < 168; i++) {
+      for (let i = 0; i < Math.min(totalSlots, participant.availability.length); i++) {
         if (participant.availability[i] === '1') {
           heatmap[i]++;
         }
@@ -104,6 +112,7 @@ export const storage = {
     const room = rooms.find(r => r.id === roomId);
     if (!room) return null;
 
+    room.isConfirmed = true;
     room.confirmedSlot = slotIndex;
     return room;
   },
