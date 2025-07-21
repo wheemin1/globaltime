@@ -205,12 +205,13 @@ export default function Room() {
     ? room.participants.find(p => p.id === currentParticipantId)
     : null;
 
-  if (currentParticipant) {
-    const availabilityBits = currentParticipant.availability.split("").map(bit => bit === "1");
-    if (selectedAvailability.every(slot => !slot)) {
+  // Load current participant's availability only once
+  useEffect(() => {
+    if (currentParticipant && selectedAvailability.every(slot => !slot)) {
+      const availabilityBits = currentParticipant.availability.split("").map(bit => bit === "1");
       setSelectedAvailability(availabilityBits);
     }
-  }
+  }, [currentParticipant?.availability]);
 
   return (
     <div className="min-h-screen bg-gray-50">

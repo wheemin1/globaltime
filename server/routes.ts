@@ -8,6 +8,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Create a new room
   app.post("/api/rooms", async (req, res) => {
     try {
+      console.log("Creating room with data:", req.body);
       const { hostName, hostTimezone, ...roomData } = createRoomSchema.parse(req.body);
       
       // Generate unique host ID
@@ -27,8 +28,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
         availability: '0'.repeat(168), // Empty availability initially
       });
 
+      console.log("Room created successfully:", room.id);
       res.json({ roomId: room.id, hostId });
     } catch (error) {
+      console.error("Error creating room:", error);
       res.status(400).json({ message: "Invalid room data", error: error instanceof Error ? error.message : String(error) });
     }
   });

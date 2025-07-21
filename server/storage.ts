@@ -1,116 +1,62 @@
-import { rooms, participants, type Room, type InsertRoom, type Participant, type InsertParticipant, type RoomWithParticipants } from "@shared/schema";
-import { nanoid } from "nanoid";
 
-export interface IStorage {
-  // Room operations
-  createRoom(room: InsertRoom): Promise<Room>;
-  getRoom(id: number): Promise<Room | undefined>;
-  getRoomWithParticipants(id: number): Promise<RoomWithParticipants | undefined>;
-  updateRoomConfirmation(id: number, confirmedSlot: number): Promise<Room | undefined>;
-  
-  // Participant operations
-  addParticipant(participant: InsertParticipant): Promise<Participant>;
-  updateParticipantAvailability(roomId: number, participantId: number, availability: string): Promise<Participant | undefined>;
-  getParticipantsByRoom(roomId: number): Promise<Participant[]>;
-  
-  // Utility
-  generateHeatmap(roomId: number): Promise<number[]>;
+interface Room {
+  id: number;
+  name: string;
+  hostId: string;
+  startDate: string;
+  endDate: string;
+  timeStart: number;
+  timeEnd: number;
+  confirmedSlot?: number;
+  createdAt: Date;
 }
 
-export class MemStorage implements IStorage {
-  private rooms: Map<number, Room>;
-  private participants: Map<number, Participant>;
-  private currentRoomId: number;
-  private currentParticipantId: number;
+interface Participant {
+  id: number;
+  roomId: number;
+  name: string;
+  timezone: string;
+  availability: string;
+  joinedAt: Date;
+}
 
-  constructor() {
-    this.rooms = new Map();
-    this.participants = new Map();
-    this.currentRoomId = 1;
-    this.currentParticipantId = 1;
-  }
+// In-memory storage for development
+let rooms: Room[] = [];
+let participants: Participant[] = [];
+let nextRoomId = 1;
+let nextParticipantId = 1;
 
-  async createRoom(insertRoom: InsertRoom): Promise<Room> {
-    const id = this.currentRoomId++;
+export const storage = {
+  async createRoom(data: {
+    name: string;
+    hostId: string;
+    startDate: string;
+    endDate: string;
+    timeStart: number;
+    timeEnd: number;
+  }): Promise<Room> {
     const room: Room = {
-      ...insertRoom,
-      id,
-      isConfirmed: false,
-      confirmedSlot: null,
+      id: nextRoomId++,
+      ...data,
       createdAt: new Date(),
     };
-    this.rooms.set(id, room);
+    rooms.push(room);
     return room;
-  }
+  },
 
-  async getRoom(id: number): Promise<Room | undefined> {
-    return this.rooms.get(id);
-  }
+  async getRoom(id: number): Promise<Room | null> {
+    return rooms.find(room => room.id === id) || null;
+  },
 
-  async getRoomWithParticipants(id: number): Promise<RoomWithParticipants | undefined> {
-    const room = this.rooms.get(id);
-    if (!room) return undefined;
+  async getRoomWithParticipants(id: number): Promise<any> {
+    const room = await this.getRoom(id);
+    if (!room) return null;
 
-    const participants = await this.getParticipantsByRoom(id);
-    const heatmap = await this.generateHeatmap(id);
-
-    return {
-      ...room,
-      participants,
-      heatmap,
-    };
-  }
-
-  async updateRoomConfirmation(id: number, confirmedSlot: number): Promise<Room | undefined> {
-    const room = this.rooms.get(id);
-    if (!room) return undefined;
-
-    const updatedRoom: Room = {
-      ...room,
-      isConfirmed: true,
-      confirmedSlot,
-    };
-    this.rooms.set(id, updatedRoom);
-    return updatedRoom;
-  }
-
-  async addParticipant(insertParticipant: InsertParticipant): Promise<Participant> {
-    const id = this.currentParticipantId++;
-    const participant: Participant = {
-      id,
-      roomId: insertParticipant.roomId ?? null,
-      name: insertParticipant.name,
-      timezone: insertParticipant.timezone,
-      availability: insertParticipant.availability,
-      createdAt: new Date(),
-    };
-    this.participants.set(id, participant);
-    return participant;
-  }
-
-  async updateParticipantAvailability(roomId: number, participantId: number, availability: string): Promise<Participant | undefined> {
-    const participant = this.participants.get(participantId);
-    if (!participant || participant.roomId !== roomId) return undefined;
-
-    const updatedParticipant: Participant = {
-      ...participant,
-      availability,
-    };
-    this.participants.set(participantId, updatedParticipant);
-    return updatedParticipant;
-  }
-
-  async getParticipantsByRoom(roomId: number): Promise<Participant[]> {
-    return Array.from(this.participants.values()).filter(
-      (participant) => participant.roomId === roomId
-    );
-  }
-
-  async generateHeatmap(roomId: number): Promise<number[]> {
-    const participants = await this.getParticipantsByRoom(roomId);
+    const roomParticipants = participants.filter(p => p.roomId === id);
+    
+    // Generate heatmap (168 slots for 7 days * 24 hours)
     const heatmap = new Array(168).fill(0);
-
-    participants.forEach((participant) => {
+    roomParticipants.forEach(participant => {
       for (let i = 0; i < 168; i++) {
         if (participant.availability[i] === '1') {
           heatmap[i]++;
@@ -118,8 +64,51 @@ export class MemStorage implements IStorage {
       }
     });
 
-    return heatmap;
-  }
-}
+    return {
+      ...room,
+      participants: roomParticipants,
+      heatmap,
+    };
+  },
 
-export const storage = new MemStorage();
+  async addParticipant(data: {
+    roomId: number;
+    name: string;
+    timezone: string;
+    availability: string;
+  }): Promise<Participant> {
+    const participant: Participant = {
+      id: nextParticipantId++,
+      ...data,
+      joinedAt: new Date(),
+    };
+    participants.push(participant);
+    return participant;
+  },
+
+  async updateParticipantAvailability(
+    roomId: number,
+    participantId: number,
+    availability: string
+  ): Promise<Participant | null> {
+    const participant = participants.find(
+      p => p.id === participantId && p.roomId === roomId
+    );
+    if (!participant) return null;
+
+    participant.availability = availability;
+    return participant;
+  },
+
+  async updateRoomConfirmation(roomId: number, slotIndex: number): Promise<Room | null> {
+    const room = rooms.find(r => r.id === roomId);
+    if (!room) return null;
+
+    room.confirmedSlot = slotIndex;
+    return room;
+  },
+
+  async getParticipantsByRoom(roomId: number): Promise<Participant[]> {
+    return participants.filter(p => p.roomId === roomId);
+  },
+};
