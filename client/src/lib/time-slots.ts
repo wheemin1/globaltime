@@ -11,11 +11,11 @@ export function convertSlotToLocalTime(
   let targetDay: Date;
   
   if (startDate) {
-    // 실제 룸의 시작 날짜를 기준으로 계산
+    // Calculate based on actual room start date
     const baseDate = parseISO(startDate);
     targetDay = addDays(baseDate, dayIndex);
   } else {
-    // 기존 방식: 현재 주의 월요일부터 계산
+    // Legacy method: calculate from Monday of current week
     const monday = startOfWeek(new Date(), { weekStartsOn: 1 });
     targetDay = addDays(monday, dayIndex);
   }

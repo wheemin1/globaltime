@@ -33,7 +33,7 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/create-room">
               <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white">
-                미팅룸 만들기
+                Create Meeting Room
               </Button>
             </Link>
           </div>

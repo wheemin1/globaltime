@@ -110,7 +110,7 @@ export function TimezoneSelector({ value, onChange, compact = false }: TimezoneS
               <Globe className="mr-2 h-4 w-4" />
             )}
             <span className="truncate">
-              {selectedTimezone ? `${selectedTimezone.city} (${selectedTimezone.offset})` : "시간대를 선택하세요"}
+              {selectedTimezone ? `${selectedTimezone.city} (${selectedTimezone.offset})` : "Select Timezone"}
             </span>
           </div>
           <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />

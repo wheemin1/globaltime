@@ -29,7 +29,7 @@ export function TimeGrid({
   const [isDragging, setIsDragging] = useState(false);
   const [dragValue, setDragValue] = useState(false);
 
-  // 룸의 날짜 범위에 따라 실제 날짜들을 계산
+  // Calculate actual dates based on room's date range
   const actualDays = useMemo(() => {
     const startDate = parseISO(room.startDate);
     const endDate = parseISO(room.endDate);
@@ -37,9 +37,9 @@ export function TimeGrid({
     
     return dateRange.map(date => ({
       date,
-      label: format(date, 'EEE'), // Mon, Tue, Wed 등
-      dateLabel: format(date, 'M/d'), // 7/22, 7/23 등
-      fullLabel: format(date, 'EEE M/d'), // Mon 7/22, Tue 7/23 등
+      label: format(date, 'EEE'), // Mon, Tue, Wed etc
+      dateLabel: format(date, 'M/d'), // 7/22, 7/23 etc
+      fullLabel: format(date, 'EEE M/d'), // Mon 7/22, Tue 7/23 etc
       tooltip: format(date, 'EEEE, MMMM d, yyyy'), // Monday, July 22, 2025
     }));
   }, [room.startDate, room.endDate]);
