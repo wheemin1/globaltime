@@ -117,6 +117,12 @@ export const storage = {
     return room;
   },
 
+  async confirmMeetingTime(roomId: number, slotIndex: number): Promise<any> {
+    const room = await this.updateRoomConfirmation(roomId, slotIndex);
+    if (!room) return null;
+    return await this.getRoomWithParticipants(roomId);
+  },
+
   async getParticipantsByRoom(roomId: number): Promise<Participant[]> {
     return participants.filter(p => p.roomId === roomId);
   },
