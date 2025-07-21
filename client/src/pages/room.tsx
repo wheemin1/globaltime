@@ -35,9 +35,10 @@ export default function Room() {
   const [viewingTimezone, setViewingTimezone] = useState(getUserTimezone());
   const [selectedParticipant, setSelectedParticipant] = useState<number | null>(null);
 
-  const roomId = parseInt(params.roomId!);
+  const roomId = parseInt(params.roomId!) || 0;
   const hostId = new URLSearchParams(search).get("host");
 
+  // Initialize host status first
   useEffect(() => {
     if (hostId) {
       setIsHost(true);
@@ -46,9 +47,10 @@ export default function Room() {
     }
   }, [hostId]);
 
-  const { data: room, isLoading } = useQuery<RoomWithParticipants>({
+  const { data: room, isLoading, error } = useQuery<RoomWithParticipants>({
     queryKey: ["/api/rooms", roomId],
     enabled: roomId > 0,
+    retry: false,
   });
 
   // 호스트인 경우 참가자 ID 설정
@@ -189,12 +191,17 @@ export default function Room() {
     );
   }
 
-  if (!room) {
+  if (error || !room) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <Card className="max-w-md">
           <CardContent className="pt-6 text-center">
-            <p className="text-red-600">Room not found</p>
+            <p className="text-red-600 mb-4">
+              {error ? "Failed to load room" : "Room not found"}
+            </p>
+            <Button onClick={() => window.location.href = "/"}>
+              Go Home
+            </Button>
           </CardContent>
         </Card>
       </div>
@@ -207,11 +214,14 @@ export default function Room() {
 
   // Load current participant's availability only once
   useEffect(() => {
-    if (currentParticipant && selectedAvailability.every(slot => !slot)) {
+    if (currentParticipant?.availability) {
       const availabilityBits = currentParticipant.availability.split("").map(bit => bit === "1");
-      setSelectedAvailability(availabilityBits);
+      // Only update if current selection is empty to avoid overwriting user changes
+      if (selectedAvailability.every(slot => !slot)) {
+        setSelectedAvailability(availabilityBits);
+      }
     }
-  }, [currentParticipant?.availability]);
+  }, [currentParticipant?.id, currentParticipant?.availability]);
 
   return (
     <div className="min-h-screen bg-gray-50">

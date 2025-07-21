@@ -35,7 +35,7 @@ export default function CreateRoom() {
         title: "Room created successfully!",
         description: "You can now add your availability and share with your team.",
       });
-      setLocation(`/r/${data.roomId}?host=${data.hostId}`);
+      setLocation(`/room/${data.roomId}?host=${data.hostId}`);
     },
     onError: (error) => {
       toast({
@@ -49,10 +49,19 @@ export default function CreateRoom() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!roomName.trim() || !hostName.trim()) {
+    if (!roomName.trim()) {
       toast({
-        title: "Missing information",
-        description: "Please fill in all required fields.",
+        title: "Meeting name required",
+        description: "Please enter a meeting name.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!hostName.trim()) {
+      toast({
+        title: "Your name required",
+        description: "Please enter your name.",
         variant: "destructive",
       });
       return;
