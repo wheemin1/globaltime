@@ -9,7 +9,7 @@ export const rooms = pgTable("rooms", {
   startDate: text("start_date").notNull(), // ISO date string
   endDate: text("end_date").notNull(), // ISO date string
   timeStart: integer("time_start").notNull(), // hour 0-23
-  timeEnd: integer("time_end").notNull(), // hour 0-23
+  timeEnd: integer("time_end").notNull(), // hour 1-24 (24 means midnight)
   isConfirmed: boolean("is_confirmed").default(false),
   confirmedSlot: integer("confirmed_slot"), // slot index if confirmed
   createdAt: timestamp("created_at").defaultNow(),
@@ -41,13 +41,29 @@ export type Participant = typeof participants.$inferSelect;
 
 // Additional schemas for API requests
 export const createRoomSchema = z.object({
-  name: z.string().min(1),
-  hostName: z.string().min(1),
-  hostTimezone: z.string(),
-  startDate: z.string(),
-  endDate: z.string(),
-  timeStart: z.number().min(0).max(23),
-  timeEnd: z.number().min(0).max(23),
+  name: z.string().min(1, "Meeting name is required"),
+  hostName: z.string().min(1, "Host name is required"),
+  hostTimezone: z.string().min(1, "Timezone is required"),
+  startDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid date format"),
+  endDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid date format"),
+  timeStart: z.number().int().min(0).max(23),
+  timeEnd: z.number().int().min(1).max(24),
+}).refine((data) => {
+  const start = new Date(data.startDate);
+  const end = new Date(data.endDate);
+  return start <= end;
+}, {
+  message: "End date must be after or equal to start date",
+  path: ["endDate"]
+}).refine((data) => {
+  // Special case: 24 represents midnight (next day)
+  if (data.timeEnd === 24) {
+    return true; // Always valid with 24 as end time
+  }
+  return data.timeStart < data.timeEnd;
+}, {
+  message: "End time must be after start time",
+  path: ["timeEnd"]
 });
 
 export const joinRoomSchema = z.object({

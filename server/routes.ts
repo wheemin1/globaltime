@@ -8,8 +8,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Create a new room
   app.post("/api/rooms", async (req, res) => {
     try {
-      console.log("Creating room with data:", req.body);
-      const { hostName, hostTimezone, ...roomData } = createRoomSchema.parse(req.body);
+      console.log("Creating room with data:", JSON.stringify(req.body, null, 2));
+      
+      // Validate the request body
+      const validationResult = createRoomSchema.safeParse(req.body);
+      if (!validationResult.success) {
+        console.error("Validation failed:", validationResult.error.format());
+        return res.status(400).json({ 
+          message: "Invalid room data", 
+          errors: validationResult.error.format(),
+          receivedData: req.body
+        });
+      }
+      
+      const { hostName, hostTimezone, ...roomData } = validationResult.data;
       
       // Generate unique host ID
       const hostId = nanoid();
@@ -38,7 +50,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json({ roomId: room.id, hostId });
     } catch (error) {
       console.error("Error creating room:", error);
-      res.status(400).json({ message: "Invalid room data", error: error instanceof Error ? error.message : String(error) });
+      if (error instanceof Error) {
+        console.error("Error stack:", error.stack);
+      }
+      res.status(400).json({ 
+        message: "Invalid room data", 
+        error: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined
+      });
     }
   });
 

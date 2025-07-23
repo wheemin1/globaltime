@@ -27,10 +27,17 @@ export default function CreateRoom() {
 
   const createRoomMutation = useMutation({
     mutationFn: async (data: CreateRoomRequest) => {
+      console.log("Sending create room request:", data);
       const response = await apiRequest("POST", "/api/rooms", data);
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("API Error Response:", errorData);
+        throw new Error(errorData.message || `HTTP ${response.status}`);
+      }
       return response.json();
     },
     onSuccess: (data) => {
+      console.log("Room created successfully:", data);
       toast({
         title: "Room created successfully!",
         description: "You can now add your availability and share with your team.",
@@ -38,9 +45,10 @@ export default function CreateRoom() {
       setLocation(`/room/${data.roomId}?host=${data.hostId}`);
     },
     onError: (error) => {
+      console.error("Create room error:", error);
       toast({
         title: "Error creating room",
-        description: error.message,
+        description: error.message || "Unknown error occurred",
         variant: "destructive",
       });
     },
