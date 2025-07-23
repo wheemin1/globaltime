@@ -28,21 +28,24 @@ export default function Room() {
   const { toast } = useToast();
   const isMobile = useIsMobile();
   
-  // All state hooks first - never conditional
-  const [currentView, setCurrentView] = useState<"select" | "results">("select");
-  const [showJoinDialog, setShowJoinDialog] = useState(false);
-  const [currentParticipantId, setCurrentParticipantId] = useState<number | null>(null);
-  const [isHost, setIsHost] = useState(false);
-  const [participantName, setParticipantName] = useState("");
-  const [participantTimezone, setParticipantTimezone] = useState(getUserTimezone());
-  const [viewingTimezone, setViewingTimezone] = useState(getUserTimezone());
-  const [selectedParticipant, setSelectedParticipant] = useState<number | null>(null);
-
   // Constants derived from params - always computed
   const roomId = parseInt(params.roomId || "0") || 0;
   const queryHostId = new URLSearchParams(search).get("host");
   const storedHostId = typeof window !== 'undefined' ? localStorage.getItem(`room_${roomId}_hostId`) : null;
   const hostId = queryHostId || storedHostId;
+  const storedParticipantId = typeof window !== 'undefined' ? localStorage.getItem(`room_${roomId}_participantId`) : null;
+  
+  // All state hooks first - never conditional
+  const [currentView, setCurrentView] = useState<"select" | "results">("select");
+  const [showJoinDialog, setShowJoinDialog] = useState(false);
+  const [currentParticipantId, setCurrentParticipantId] = useState<number | null>(
+    storedParticipantId ? parseInt(storedParticipantId) : null
+  );
+  const [isHost, setIsHost] = useState(false);
+  const [participantName, setParticipantName] = useState("");
+  const [participantTimezone, setParticipantTimezone] = useState(getUserTimezone());
+  const [viewingTimezone, setViewingTimezone] = useState(getUserTimezone());
+  const [selectedParticipant, setSelectedParticipant] = useState<number | null>(null);
 
   // Query hook - always called
   const { data: room, isLoading, error } = useQuery<RoomWithParticipants>({
@@ -78,7 +81,12 @@ export default function Room() {
       return response.json();
     },
     onSuccess: (data) => {
-      setCurrentParticipantId(data.participant.id);
+      const participantId = data.participant.id;
+      setCurrentParticipantId(participantId);
+      // Store participantId in localStorage
+      if (typeof window !== 'undefined' && roomId > 0) {
+        localStorage.setItem(`room_${roomId}_participantId`, participantId.toString());
+      }
       setShowJoinDialog(false);
       queryClient.invalidateQueries({ queryKey: ["/api/rooms", roomId] });
       toast({
@@ -156,10 +164,13 @@ export default function Room() {
       if (typeof window !== 'undefined' && roomId > 0) {
         localStorage.setItem(`room_${roomId}_hostId`, hostId);
       }
-    } else {
+    }
+    
+    // Only show join dialog if user is not a host and doesn't have a participant ID
+    if (!hostId && !currentParticipantId) {
       setShowJoinDialog(true);
     }
-  }, [hostId, roomId]);
+  }, [hostId, roomId, currentParticipantId]);
 
   useEffect(() => {
     if (isHost && room?.participants && room.participants.length > 0 && !currentParticipantId) {
