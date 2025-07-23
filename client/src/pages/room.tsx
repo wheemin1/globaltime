@@ -40,7 +40,9 @@ export default function Room() {
 
   // Constants derived from params - always computed
   const roomId = parseInt(params.roomId || "0") || 0;
-  const hostId = new URLSearchParams(search).get("host");
+  const queryHostId = new URLSearchParams(search).get("host");
+  const storedHostId = typeof window !== 'undefined' ? localStorage.getItem(`room_${roomId}_hostId`) : null;
+  const hostId = queryHostId || storedHostId;
 
   // Query hook - always called
   const { data: room, isLoading, error } = useQuery<RoomWithParticipants>({
@@ -69,6 +71,10 @@ export default function Room() {
   const joinRoomMutation = useMutation({
     mutationFn: async (data: JoinRoomRequest) => {
       const response = await apiRequest("POST", `/api/rooms/${roomId}/join`, data);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || errorData.message || "Failed to join room");
+      }
       return response.json();
     },
     onSuccess: (data) => {
@@ -146,10 +152,14 @@ export default function Room() {
   useEffect(() => {
     if (hostId) {
       setIsHost(true);
+      // Store hostId in localStorage
+      if (typeof window !== 'undefined' && roomId > 0) {
+        localStorage.setItem(`room_${roomId}_hostId`, hostId);
+      }
     } else {
       setShowJoinDialog(true);
     }
-  }, [hostId]);
+  }, [hostId, roomId]);
 
   useEffect(() => {
     if (isHost && room?.participants && room.participants.length > 0 && !currentParticipantId) {

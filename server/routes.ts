@@ -89,6 +89,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "Room not found" });
       }
 
+      // Check if name already exists in this room
+      const existingParticipants = await storage.getParticipantsByRoom(roomId);
+      const nameExists = existingParticipants.some((p: {name: string}) => 
+        p.name.toLowerCase() === name.toLowerCase());
+      
+      if (nameExists) {
+        return res.status(400).json({ 
+          message: "Name already taken", 
+          error: "A participant with this name already exists in the room. Please choose a different name."
+        });
+      }
+
       // Calculate slots for the room
       const startDate = new Date(room.startDate);
       const endDate = new Date(room.endDate);
