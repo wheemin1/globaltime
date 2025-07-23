@@ -21,6 +21,7 @@ import { getUserTimezone, getTimezoneOffset } from "@/lib/timezone-utils";
 import { parseISO, eachDayOfInterval } from "date-fns";
 import type { RoomWithParticipants, JoinRoomRequest } from "@shared/schema";
 import { SEO, seoConfigs } from "@/components/SEO";
+import { BugReport } from "@/components/bug-report";
 
 export default function Room() {
   const params = useParams<{ roomId: string }>();
@@ -487,6 +488,7 @@ export default function Room() {
           </form>
         </DialogContent>
       </Dialog>
+      <BugReport position="bottom" />
     </div>
   );
 }

@@ -13,6 +13,7 @@ import { format, addDays } from "date-fns";
 import { TimezoneSelector } from "@/components/timezone-selector";
 import { getUserTimezone } from "@/lib/timezone-utils";
 import type { CreateRoomRequest } from "@shared/schema";
+import { BugReport } from "@/components/bug-report";
 
 export default function CreateRoom() {
   const [, setLocation] = useLocation();
@@ -246,6 +247,7 @@ export default function CreateRoom() {
           </CardContent>
         </Card>
       </div>
+      <BugReport position="bottom" />
     </div>
   );
 }

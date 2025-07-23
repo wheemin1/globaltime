@@ -4,6 +4,7 @@ import { Clock, Users, Globe, Calendar } from "lucide-react";
 import { Link } from "wouter";
 import { SEO, seoConfigs } from "@/components/SEO";
 import { StructuredData, structuredDataConfigs } from "@/components/StructuredData";
+import { BugReport } from "@/components/bug-report";
 
 export default function Home() {
   return (
@@ -122,6 +123,7 @@ export default function Home() {
           </div>
         </div>
       </div>
+      <BugReport position="bottom" />
     </div>
   );
 }
