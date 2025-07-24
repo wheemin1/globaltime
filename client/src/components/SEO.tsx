@@ -74,32 +74,32 @@ export function SEO({
 // Predefined SEO configurations for different pages
 export const seoConfigs = {
   home: {
-    title: "TimeSync – Find the perfect meeting time across time zones",
-    description: "Drag & drop to share your availability and get an instant overlap heatmap. Schedule meetings effortlessly across different time zones with visual availability tracking.",
-    keywords: "meeting scheduler, timezone converter, team coordination, availability tracker, global meetings, time zone planner"
+    title: "TimeSync – Global Meeting Scheduler | Find Perfect Meeting Times Across Time Zones",
+    description: "Free global meeting scheduler with drag & drop availability selection. Coordinate team meetings across time zones with visual heatmaps. No registration required - instant meeting room creation.",
+    keywords: "meeting scheduler, global meeting planner, timezone converter, team coordination, availability tracker, international meetings, time zone planner, meeting room scheduler, drag and drop calendar, team scheduling tool, cross timezone meetings, meeting coordination, availability heatmap, free meeting scheduler"
   },
   
   features: {
-    title: "Features – TimeSync Meeting Scheduler",
-    description: "Discover TimeSync's powerful features: drag-and-drop availability, real-time collaboration, timezone visualization, and instant meeting optimization.",
-    keywords: "meeting features, availability calendar, timezone tools, team scheduling, collaboration tools"
+    title: "Features – TimeSync Global Meeting Scheduler | Timezone Tools & Team Coordination",
+    description: "Discover TimeSync's powerful features: drag-and-drop availability selection, automatic timezone detection, real-time collaboration, visual heatmaps, and instant meeting optimization for global teams.",
+    keywords: "meeting scheduler features, availability calendar, timezone tools, team scheduling features, collaboration tools, drag and drop interface, timezone converter, meeting heatmap, global team coordination"
   },
 
   howItWorks: {
-    title: "How It Works – TimeSync Meeting Scheduler",
-    description: "Learn how to use TimeSync in 3 simple steps: create a room, share your availability, and find the perfect meeting time with visual overlap analysis.",
-    keywords: "how to schedule meetings, meeting tutorial, timezone scheduling guide, team coordination steps"
+    title: "How It Works – TimeSync Meeting Scheduler | 3-Step Global Meeting Coordination",
+    description: "Learn how to use TimeSync in 3 simple steps: create a meeting room, share your availability with drag & drop, and find the perfect meeting time with visual overlap analysis across time zones.",
+    keywords: "how to schedule meetings, meeting tutorial, timezone scheduling guide, team coordination steps, global meeting planning, meeting room setup, availability sharing"
   },
 
   helpShare: {
-    title: "Sharing Guide – TimeSync Help Center",
-    description: "Learn how to share meeting rooms, invite participants, and collaborate effectively with TimeSync's sharing features.",
-    keywords: "sharing meetings, invite participants, collaboration guide, meeting room sharing"
+    title: "Sharing Guide – TimeSync Help | Invite Team Members & Collaborate",
+    description: "Learn how to share meeting rooms, invite participants across different time zones, and collaborate effectively with TimeSync's sharing features for global teams.",
+    keywords: "sharing meetings, invite participants, collaboration guide, meeting room sharing, team invitation, global team coordination"
   },
 
   room: {
-    title: "Meeting Room – TimeSync",
-    description: "Private meeting coordination space",
+    title: "Meeting Room – TimeSync Global Scheduler",
+    description: "Private meeting coordination space for scheduling across time zones",
     noIndex: true
   }
 };

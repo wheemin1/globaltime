@@ -1,0 +1,80 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#f8fafc"/>
+  
+  <!-- Grid pattern -->
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#e2e8f0" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  
+  <!-- Main container -->
+  <rect x="80" y="80" width="1040" height="470" fill="white" rx="16" stroke="#e2e8f0" stroke-width="2"/>
+  
+  <!-- Header -->
+  <rect x="80" y="80" width="1040" height="80" fill="#2563eb" rx="16 16 0 0"/>
+  
+  <!-- Clock icon -->
+  <circle cx="140" cy="120" r="16" fill="white"/>
+  <path d="M140 112 L140 120 L146 126" stroke="#2563eb" stroke-width="2" fill="none" stroke-linecap="round"/>
+  
+  <!-- Title -->
+  <text x="180" y="135" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="white">TimeSync</text>
+  
+  <!-- Subtitle -->
+  <text x="100" y="210" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#1e293b">Find the Perfect Meeting Time</text>
+  <text x="100" y="250" font-family="Arial, sans-serif" font-size="24" fill="#64748b">Coordinate across timezones with drag-and-drop scheduling</text>
+  
+  <!-- Feature boxes -->
+  <!-- Timezone Smart -->
+  <rect x="100" y="300" width="300" height="100" fill="#dbeafe" rx="8"/>
+  <circle cx="130" cy="330" r="12" fill="#2563eb"/>
+  <text x="155" y="335" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#1e293b">Timezone Smart</text>
+  <text x="155" y="355" font-family="Arial, sans-serif" font-size="12" fill="#64748b">Automatic timezone detection</text>
+  <text x="155" y="370" font-family="Arial, sans-serif" font-size="12" fill="#64748b">and conversion</text>
+  
+  <!-- Visual Heatmap -->
+  <rect x="450" y="300" width="300" height="100" fill="#dcfce7" rx="8"/>
+  <circle cx="480" cy="330" r="12" fill="#16a34a"/>
+  <text x="505" y="335" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#1e293b">Visual Heatmap</text>
+  <text x="505" y="355" font-family="Arial, sans-serif" font-size="12" fill="#64748b">See availability at a glance</text>
+  <text x="505" y="370" font-family="Arial, sans-serif" font-size="12" fill="#64748b">with color-coded overlaps</text>
+  
+  <!-- Drag & Drop -->
+  <rect x="800" y="300" width="300" height="100" fill="#fef3c7" rx="8"/>
+  <circle cx="830" cy="330" r="12" fill="#d97706"/>
+  <text x="855" y="335" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#1e293b">Drag &amp; Drop</text>
+  <text x="855" y="355" font-family="Arial, sans-serif" font-size="12" fill="#64748b">Intuitive selection for</text>
+  <text x="855" y="370" font-family="Arial, sans-serif" font-size="12" fill="#64748b">desktop and mobile</text>
+  
+  <!-- Mini calendar visualization -->
+  <rect x="100" y="430" width="200" height="80" fill="#f1f5f9" rx="4"/>
+  <text x="115" y="450" font-family="Arial, sans-serif" font-size="10" fill="#64748b">MON TUE WED THU FRI</text>
+  
+  <!-- Time slots visualization -->
+  <rect x="115" y="460" width="15" height="15" fill="#ef4444" rx="2"/>
+  <rect x="135" y="460" width="15" height="15" fill="#22c55e" rx="2"/>
+  <rect x="155" y="460" width="15" height="15" fill="#22c55e" rx="2"/>
+  <rect x="175" y="460" width="15" height="15" fill="#ef4444" rx="2"/>
+  <rect x="195" y="460" width="15" height="15" fill="#f59e0b" rx="2"/>
+  
+  <rect x="115" y="480" width="15" height="15" fill="#22c55e" rx="2"/>
+  <rect x="135" y="480" width="15" height="15" fill="#22c55e" rx="2"/>
+  <rect x="155" y="480" width="15" height="15" fill="#22c55e" rx="2"/>
+  <rect x="175" y="480" width="15" height="15" fill="#22c55e" rx="2"/>
+  <rect x="195" y="480" width="15" height="15" fill="#ef4444" rx="2"/>
+  
+  <!-- Legend -->
+  <text x="330" y="455" font-family="Arial, sans-serif" font-size="11" fill="#64748b">Legend:</text>
+  <rect x="330" y="465" width="10" height="10" fill="#22c55e" rx="1"/>
+  <text x="345" y="473" font-family="Arial, sans-serif" font-size="9" fill="#64748b">Available</text>
+  <rect x="400" y="465" width="10" height="10" fill="#f59e0b" rx="1"/>
+  <text x="415" y="473" font-family="Arial, sans-serif" font-size="9" fill="#64748b">Partial</text>
+  <rect x="460" y="465" width="10" height="10" fill="#ef4444" rx="1"/>
+  <text x="475" y="473" font-family="Arial, sans-serif" font-size="9" fill="#64748b">Busy</text>
+  
+  <!-- Website URL -->
+  <text x="850" y="500" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#2563eb">globalmeetingtime.netlify.app</text>
+</svg>
