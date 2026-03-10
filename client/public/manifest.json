@@ -1,0 +1,9 @@
+{
+  "name": "TimeSync",
+  "short_name": "TimeSync",
+  "description": "Find the perfect meeting time across time zones",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb"
+}

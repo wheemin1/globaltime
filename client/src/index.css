@@ -1,0 +1,269 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* ── Light mode — Deep Navy + Indigo + White ── */
+  --background: hsl(0, 0%, 100%);
+  --foreground: hsl(222, 47%, 11%);
+  --muted: hsl(220, 14%, 96%);
+  --muted-foreground: hsl(220, 9%, 46%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(222, 47%, 11%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(222, 47%, 11%);
+  --border: hsl(220, 13%, 91%);
+  --input: hsl(220, 13%, 91%);
+  --primary: hsl(231, 89%, 63%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(220, 14%, 96%);
+  --secondary-foreground: hsl(222, 47%, 11%);
+  --accent: hsl(220, 14%, 96%);
+  --accent-foreground: hsl(222, 47%, 11%);
+  --destructive: hsl(0, 84%, 60%);
+  --destructive-foreground: hsl(0, 0%, 100%);
+  --ring: hsl(231, 89%, 63%);
+  --radius: 0.625rem;
+
+  /* App tokens */
+  --navy: hsl(222, 47%, 11%);
+  --navy-mid: hsl(222, 47%, 15%);
+  --cell-hover: hsl(231, 89%, 97%);
+  --cell-selected-from: hsl(231, 89%, 62%);
+  --cell-selected-to: hsl(231, 89%, 50%);
+}
+
+.dark {
+  --background: hsl(222, 47%, 6%);
+  --foreground: hsl(210, 40%, 96%);
+  --muted: hsl(217, 33%, 17%);
+  --muted-foreground: hsl(215, 20%, 65%);
+  --popover: hsl(222, 47%, 10%);
+  --popover-foreground: hsl(210, 40%, 96%);
+  --card: hsl(222, 47%, 10%);
+  --card-foreground: hsl(210, 40%, 96%);
+  --border: hsl(217, 33%, 17%);
+  --input: hsl(217, 33%, 17%);
+  --primary: hsl(231, 89%, 65%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(217, 33%, 17%);
+  --secondary-foreground: hsl(210, 40%, 96%);
+  --accent: hsl(217, 33%, 17%);
+  --accent-foreground: hsl(210, 40%, 96%);
+  --destructive: hsl(0, 62%, 40%);
+  --destructive-foreground: hsl(210, 40%, 96%);
+  --ring: hsl(231, 89%, 65%);
+  --radius: 0.625rem;
+
+  --navy: hsl(222, 47%, 5%);
+  --navy-mid: hsl(222, 47%, 8%);
+  --cell-hover: hsl(231, 89%, 15%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Geist', system-ui, -apple-system, sans-serif;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer components {
+  /* ── Time Grid ── */
+  .time-grid {
+    display: grid;
+    gap: 2px;
+    background: var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+    /* Columns/rows are set inline via gridTemplateColumns */
+  }
+
+  .time-cell {
+    background: var(--background);
+    border: 1.5px solid transparent;
+    transition: background 0.1s ease, border-color 0.1s ease;
+    cursor: pointer;
+    min-height: 44px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+    user-select: none;
+  }
+
+  .time-cell:hover {
+    background: var(--cell-hover);
+    border-color: hsl(231, 89%, 75%);
+  }
+
+  .time-cell.selected {
+    background: linear-gradient(135deg, var(--cell-selected-from), var(--cell-selected-to));
+    border-color: hsl(231, 89%, 45%);
+  }
+
+  /* Indigo heatmap — 5-step scale */
+  .time-cell.heatmap-1 {
+    background: hsl(231, 77%, 94%);
+    border-color: hsl(231, 77%, 83%);
+    color: hsl(231, 47%, 38%);
+  }
+  .time-cell.heatmap-2 {
+    background: hsl(231, 77%, 85%);
+    border-color: hsl(231, 77%, 70%);
+    color: hsl(231, 47%, 26%);
+  }
+  .time-cell.heatmap-3 {
+    background: hsl(231, 77%, 71%);
+    border-color: hsl(231, 77%, 57%);
+    color: white;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  }
+  .time-cell.heatmap-4 {
+    background: hsl(231, 77%, 56%);
+    border-color: hsl(231, 77%, 44%);
+    color: white;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  }
+  .time-cell.heatmap-5 {
+    background: linear-gradient(135deg, hsl(231, 77%, 52%), hsl(231, 77%, 40%));
+    border-color: hsl(231, 77%, 34%);
+    color: white;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  }
+
+  .time-cell.selecting {
+    background: hsl(231, 77%, 80%) !important;
+    border-color: hsl(231, 77%, 62%) !important;
+  }
+
+  .time-cell.user-focus {
+    box-shadow: inset 0 0 0 2px var(--ring);
+  }
+
+  .time-cell.if-needed {
+    background: hsl(45, 95%, 82%);
+    border-color: hsl(45, 95%, 65%);
+    color: hsl(40, 68%, 28%);
+  }
+
+  .time-cell.heatmap-soft {
+    background: hsl(45, 77%, 94%);
+    border-color: hsl(45, 77%, 80%);
+    color: hsl(45, 60%, 38%);
+  }
+
+  .time-cell.confirmed {
+    background: hsl(142, 71%, 38%);
+    border-color: hsl(142, 71%, 28%);
+    animation: pulse-confirmed 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-confirmed {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.72; }
+  }
+
+  /* ── Grid Headers ── */
+  .day-header {
+    background: var(--navy);
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    color: hsl(220, 20%, 72%);
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 4px 2px;
+  }
+
+  .day-name {
+    font-size: 11px;
+    font-weight: 700;
+    color: white;
+    line-height: 1.2;
+  }
+
+  .day-date {
+    font-size: 9px;
+    font-weight: 500;
+    opacity: 0.68;
+    margin-top: 1px;
+  }
+
+  .time-header {
+    background: var(--muted);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: var(--muted-foreground);
+    border-radius: 3px;
+    border: 1px solid var(--border);
+  }
+
+  /* ── Mobile View Toggle ── */
+  .view-toggle {
+    display: flex;
+    background: var(--muted);
+    border-radius: 8px;
+    padding: 3px;
+    gap: 2px;
+  }
+
+  .view-toggle button {
+    flex: 1;
+    border-radius: 6px;
+    padding: 6px 16px;
+    min-height: 44px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted-foreground);
+    transition: all 0.15s ease;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  .view-toggle button.active {
+    background: var(--background);
+    color: var(--foreground);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  /* ── Participant card ── */
+  .participant-card {
+    transition: background 0.15s ease, box-shadow 0.15s ease;
+    cursor: pointer;
+  }
+
+  .participant-card:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  }
+
+  /* ── Mobile responsive ── */
+  @media (max-width: 768px) {
+    .time-cell {
+      min-height: 30px;
+    }
+    .day-header {
+      font-size: 10px;
+    }
+    .time-header {
+      font-size: 10px;
+    }
+  }
+}
