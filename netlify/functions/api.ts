@@ -41,7 +41,8 @@ app.post("/api/rooms", async (req, res) => {
     const startDate = new Date(roomData.startDate);
     const endDate = new Date(roomData.endDate);
     const daysDiff = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
-    const totalSlots = daysDiff * 24;
+    const slotMinutes = roomData.slotMinutes ?? 60;
+    const totalSlots = daysDiff * 24 * Math.round(60 / slotMinutes);
 
     // Add host as first participant with empty availability
     await storage.addParticipant({
@@ -91,7 +92,8 @@ app.post("/api/rooms/:id/join", async (req, res) => {
     const startDate = new Date(room.startDate);
     const endDate = new Date(room.endDate);
     const daysDiff = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
-    const totalSlots = daysDiff * 24;
+    const slotMinutes = room.slotMinutes ?? 60;
+    const totalSlots = daysDiff * 24 * Math.round(60 / slotMinutes);
 
     // Add participant with empty availability
     const participant = await storage.addParticipant({
@@ -151,6 +153,16 @@ app.post("/api/rooms/:id/confirm", async (req, res) => {
     res.json({ success: true, room: updatedRoom });
   } catch (error) {
     res.status(500).json({ message: "Error confirming meeting time", error: error instanceof Error ? error.message : String(error) });
+  }
+});
+
+// Get global stats
+app.get("/api/stats", async (_req, res) => {
+  try {
+    const stats = await storage.getStats();
+    res.json(stats);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching stats" });
   }
 });
 

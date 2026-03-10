@@ -1,6 +1,6 @@
 import { db } from "./db";
 import { rooms, participants } from "@shared/schema";
-import { eq, and } from "drizzle-orm";
+import { eq, and, count } from "drizzle-orm";
 import type { Room, Participant } from "@shared/schema";
 
 export const storage = {
@@ -115,5 +115,14 @@ export const storage = {
       .delete(participants)
       .where(and(eq(participants.id, participantId), eq(participants.roomId, roomId)));
     return true;
+  },
+
+  async getStats(): Promise<{ totalRooms: number; totalParticipants: number }> {
+    const [roomResult] = await db.select({ count: count() }).from(rooms);
+    const [participantResult] = await db.select({ count: count() }).from(participants);
+    return {
+      totalRooms: Number(roomResult.count),
+      totalParticipants: Number(participantResult.count),
+    };
   },
 };

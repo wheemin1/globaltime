@@ -270,6 +270,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get global stats (total rooms and participants)
+  app.get("/api/stats", async (_req, res) => {
+    try {
+      const stats = await storage.getStats();
+      res.json(stats);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching stats" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
