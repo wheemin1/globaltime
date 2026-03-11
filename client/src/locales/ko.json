@@ -168,6 +168,10 @@
       "meetingUnconfirmed": "회의 시간 확정을 취소했습니다.",
       "participantRemoved": "참가자를 삭제했습니다",
       "roomUpdated": "방을 업데이트했습니다!",
+      "errorCreating": "방 생성 오류",
+      "errorJoining": "방 참가 실패. 이 방이 존재하지 않을 수 있습니다.",
+      "errorSaving": "가능한 시간 저장 실패",
+      "errorConfirming": "시간 확정 실패",
       "error": "오류"
     },
     "loading": "방 로딩 중...",
@@ -179,7 +183,8 @@
     "title": "참가자",
     "noParticipants": "아직 참가자가 없습니다",
     "team": "팀 ({{count}})",
-    "removeParticipant": "참가자 삭제"
+    "removeParticipant": "참가자 삭제",
+    "responded": "응답함"
   },
   "heatmap": {
     "heatmapTitle": "가용성 히트맵",
@@ -258,7 +263,8 @@
     "createButton": "회의실 만들기",
     "creating": "만드는 중...",
     "back": "뒤로",
-    "next": "다음"
+    "next": "다음",
+    "stepOf": "{{current}}/{{total}} 단계"
   },
   "features": {
     "title": "글로벌 회의 조율에 필요한 모든 것",

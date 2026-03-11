@@ -2,7 +2,7 @@ import { Handler } from '@netlify/functions';
 import express from 'express';
 import serverless from 'serverless-http';
 import { storage } from '../../server/storage';
-import { createRoomSchema, joinRoomSchema, updateAvailabilitySchema } from '../../shared/schema';
+import { createRoomSchema, joinRoomSchema, updateAvailabilitySchema, updateRoomSchema } from '../../shared/schema';
 import { nanoid } from 'nanoid';
 
 const app = express();
@@ -33,15 +33,9 @@ app.post("/api/rooms", async (req, res) => {
     
     // Create room
     const room = await storage.createRoom({
-      name: roomData.name,
-      startDate: roomData.startDate,
-      endDate: roomData.endDate,
-      timeStart: roomData.timeStart,
-      timeEnd: roomData.timeEnd,
-      description: roomData.description,
-      slotMinutes: roomData.slotMinutes,
+      ...roomData,
       hostId,
-      deadline: deadlineStr ? new Date(deadlineStr) : undefined,
+      ...(deadlineStr ? { deadline: new Date(deadlineStr) } : {}),
     });
 
     // Calculate slots for the room
@@ -95,6 +89,18 @@ app.post("/api/rooms/:id/join", async (req, res) => {
       return res.status(404).json({ message: "Room not found" });
     }
 
+    // Check if name already exists in this room
+    const existingParticipants = await storage.getParticipantsByRoom(roomId);
+    const nameExists = existingParticipants.some((p: { name: string }) =>
+      p.name.toLowerCase() === name.toLowerCase()
+    );
+    if (nameExists) {
+      return res.status(400).json({
+        message: "Name already taken",
+        error: "A participant with this name already exists in the room. Please choose a different name.",
+      });
+    }
+
     // Calculate slots for the room
     const startDate = new Date(room.startDate);
     const endDate = new Date(room.endDate);
@@ -107,7 +113,7 @@ app.post("/api/rooms/:id/join", async (req, res) => {
       roomId,
       name,
       timezone,
-      availability: '0'.repeat(totalSlots), // Empty availability initially
+      availability: '0'.repeat(totalSlots),
     });
 
     // Return updated room data
@@ -124,6 +130,20 @@ app.put("/api/rooms/:roomId/participants/:participantId", async (req, res) => {
     const roomId = parseInt(req.params.roomId);
     const participantId = parseInt(req.params.participantId);
     const { availability } = updateAvailabilitySchema.parse(req.body);
+
+    // Validate availability string length matches room's totalSlots
+    const room = await storage.getRoom(roomId);
+    if (!room) return res.status(404).json({ message: "Room not found" });
+    const startDate = new Date(room.startDate);
+    const endDate = new Date(room.endDate);
+    const daysDiff = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+    const slotMinutes = room.slotMinutes ?? 60;
+    const totalSlots = daysDiff * 24 * Math.round(60 / slotMinutes);
+    if (availability.length !== totalSlots) {
+      return res.status(400).json({
+        message: `Availability length ${availability.length} does not match expected ${totalSlots} slots`,
+      });
+    }
 
     const participant = await storage.updateParticipantAvailability(
       roomId,
@@ -160,6 +180,54 @@ app.post("/api/rooms/:id/confirm", async (req, res) => {
     res.json({ success: true, room: updatedRoom });
   } catch (error) {
     res.status(500).json({ message: "Error confirming meeting time", error: error instanceof Error ? error.message : String(error) });
+  }
+});
+
+// Unconfirm time slot (host only)
+app.post("/api/rooms/:id/unconfirm", async (req, res) => {
+  try {
+    const roomId = parseInt(req.params.id);
+    const { hostId } = req.body;
+    const room = await storage.getRoom(roomId);
+    if (!room) return res.status(404).json({ message: "Room not found" });
+    if (room.hostId !== hostId) return res.status(403).json({ message: "Only the host can unconfirm" });
+    const updatedRoom = await storage.unconfirmRoom(roomId);
+    res.json(updatedRoom);
+  } catch (error) {
+    res.status(400).json({ message: "Error unconfirming", error: error instanceof Error ? error.message : String(error) });
+  }
+});
+
+// Update room name/description (host only)
+app.patch("/api/rooms/:id", async (req, res) => {
+  try {
+    const roomId = parseInt(req.params.id);
+    const parsed = updateRoomSchema.safeParse(req.body);
+    if (!parsed.success) return res.status(400).json({ message: "Invalid data" });
+    const { hostId, ...data } = parsed.data;
+    const room = await storage.getRoom(roomId);
+    if (!room) return res.status(404).json({ message: "Room not found" });
+    if (room.hostId !== hostId) return res.status(403).json({ message: "Unauthorized" });
+    const updated = await storage.updateRoom(roomId, data);
+    res.json(updated);
+  } catch (error) {
+    res.status(500).json({ message: "Error updating room", error: error instanceof Error ? error.message : String(error) });
+  }
+});
+
+// Delete participant (host only)
+app.delete("/api/rooms/:roomId/participants/:participantId", async (req, res) => {
+  try {
+    const roomId = parseInt(req.params.roomId);
+    const participantId = parseInt(req.params.participantId);
+    const hostId = req.query.hostId as string;
+    const room = await storage.getRoom(roomId);
+    if (!room) return res.status(404).json({ message: "Room not found" });
+    if (room.hostId !== hostId) return res.status(403).json({ message: "Unauthorized" });
+    await storage.deleteParticipant(roomId, participantId);
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting participant", error: error instanceof Error ? error.message : String(error) });
   }
 });
 

@@ -350,14 +350,3 @@ export function HeatmapResults({
     </>
   );
 }
-
-
-interface HeatmapResultsProps {
-  room: RoomWithParticipants;
-  viewingTimezone: string;
-  selectedParticipant: number | null;
-  onParticipantSelect: (participantId: number | null) => void;
-  onConfirmSlot: (slotIndex: number) => void;
-  onEditTimes?: () => void;
-  isHost: boolean;
-}

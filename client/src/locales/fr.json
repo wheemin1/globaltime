@@ -168,6 +168,10 @@
       "meetingUnconfirmed": "Heure de réunion non confirmée.",
       "participantRemoved": "Participant supprimé",
       "roomUpdated": "Salle mise à jour !",
+      "errorCreating": "Erreur lors de la création de la salle",
+      "errorJoining": "Impossible de rejoindre la salle. Cette salle n'existe peut-être pas.",
+      "errorSaving": "Impossible d'enregistrer les disponibilités",
+      "errorConfirming": "Impossible de confirmer l'heure",
       "error": "Erreur"
     },
     "loading": "Chargement de la salle...",
@@ -179,7 +183,8 @@
     "title": "Participants",
     "noParticipants": "Aucun participant pour l'instant",
     "team": "Équipe ({{count}})",
-    "removeParticipant": "Supprimer le participant"
+    "removeParticipant": "Supprimer le participant",
+    "responded": "répondu"
   },
   "heatmap": {
     "heatmapTitle": "Carte de disponibilité",
@@ -258,7 +263,8 @@
     "createButton": "Créer la salle de réunion",
     "creating": "Création...",
     "back": "Retour",
-    "next": "Suivant"
+    "next": "Suivant",
+    "stepOf": "Étape {{current}} sur {{total}}"
   },
   "features": {
     "title": "Tout ce dont vous avez besoin pour coordonner des réunions mondiales",

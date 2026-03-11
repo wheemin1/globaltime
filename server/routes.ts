@@ -147,6 +147,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const participantId = parseInt(req.params.participantId);
       const { availability } = updateAvailabilitySchema.parse(req.body);
 
+      // Validate availability string length matches room's totalSlots
+      const room = await storage.getRoom(roomId);
+      if (!room) return res.status(404).json({ message: "Room not found" });
+      const startDate = new Date(room.startDate);
+      const endDate = new Date(room.endDate);
+      const daysDiff = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+      const slotMinutes = room.slotMinutes ?? 60;
+      const totalSlots = daysDiff * 24 * Math.round(60 / slotMinutes);
+      if (availability.length !== totalSlots) {
+        return res.status(400).json({
+          message: `Availability length ${availability.length} does not match expected ${totalSlots} slots`,
+        });
+      }
+
       const participant = await storage.updateParticipantAvailability(roomId, participantId, availability);
       
       if (!participant) {

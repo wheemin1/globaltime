@@ -168,6 +168,10 @@
       "meetingUnconfirmed": "Hora de reunión sin confirmar.",
       "participantRemoved": "Participante eliminado",
       "roomUpdated": "¡Sala actualizada!",
+      "errorCreating": "Error al crear la sala",
+      "errorJoining": "Error al unirse a la sala. Es posible que esta sala no exista.",
+      "errorSaving": "Error al guardar la disponibilidad",
+      "errorConfirming": "Error al confirmar la hora",
       "error": "Error"
     },
     "loading": "Cargando sala...",
@@ -179,7 +183,8 @@
     "title": "Participantes",
     "noParticipants": "Aún no hay participantes",
     "team": "Equipo ({{count}})",
-    "removeParticipant": "Eliminar participante"
+    "removeParticipant": "Eliminar participante",
+    "responded": "respondió"
   },
   "heatmap": {
     "heatmapTitle": "Mapa de disponibilidad",
@@ -258,7 +263,8 @@
     "createButton": "Crear sala de reunión",
     "creating": "Creando...",
     "back": "Volver",
-    "next": "Siguiente"
+    "next": "Siguiente",
+    "stepOf": "Paso {{current}} de {{total}}"
   },
   "features": {
     "title": "Todo lo que necesitas para coordinar reuniones globales",

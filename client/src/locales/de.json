@@ -168,6 +168,10 @@
       "meetingUnconfirmed": "Besprechungszeit nicht bestätigt.",
       "participantRemoved": "Teilnehmer entfernt",
       "roomUpdated": "Raum aktualisiert!",
+      "errorCreating": "Fehler beim Erstellen des Raums",
+      "errorJoining": "Beitreten fehlgeschlagen. Dieser Raum existiert möglicherweise nicht.",
+      "errorSaving": "Verfügbarkeit konnte nicht gespeichert werden",
+      "errorConfirming": "Zeit konnte nicht bestätigt werden",
       "error": "Fehler"
     },
     "loading": "Raum wird geladen...",
@@ -179,7 +183,8 @@
     "title": "Teilnehmer",
     "noParticipants": "Noch keine Teilnehmer",
     "team": "Team ({{count}})",
-    "removeParticipant": "Teilnehmer entfernen"
+    "removeParticipant": "Teilnehmer entfernen",
+    "responded": "geantwortet"
   },
   "heatmap": {
     "heatmapTitle": "Verfügbarkeits-Heatmap",
@@ -258,7 +263,8 @@
     "createButton": "Meeting-Raum erstellen",
     "creating": "Wird erstellt...",
     "back": "Zurück",
-    "next": "Weiter"
+    "next": "Weiter",
+    "stepOf": "Schritt {{current}} von {{total}}"
   },
   "features": {
     "title": "Alles, was Sie für globale Meeting-Koordination benötigen",

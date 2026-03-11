@@ -1,5 +1,4 @@
 import { useState, useRef, useCallback, useEffect, Fragment, useMemo } from "react";
-import { useDragSelection } from "@/hooks/use-drag-selection";
 import { convertSlotToLocalTime, formatTimeForDisplay } from "@/lib/time-slots";
 import { format, parseISO, eachDayOfInterval } from "date-fns";
 import type { RoomWithParticipants } from "@shared/schema";

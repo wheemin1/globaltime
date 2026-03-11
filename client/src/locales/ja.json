@@ -168,6 +168,10 @@
       "meetingUnconfirmed": "会議時間の確定を取り消しました。",
       "participantRemoved": "参加者を削除しました",
       "roomUpdated": "部屋を更新しました！",
+      "errorCreating": "部屋の作成に失敗しました",
+      "errorJoining": "部屋への参加に失敗しました。この部屋が存在しない可能性があります。",
+      "errorSaving": "空き時間の保存に失敗しました",
+      "errorConfirming": "時間の確定に失敗しました",
       "error": "エラー"
     },
     "loading": "部屋を読み込み中...",
@@ -179,7 +183,8 @@
     "title": "参加者",
     "noParticipants": "まだ参加者がいません",
     "team": "チーム ({{count}})",
-    "removeParticipant": "参加者を削除"
+    "removeParticipant": "参加者を削除",
+    "responded": "回答済み"
   },
   "heatmap": {
     "heatmapTitle": "空き時間ヒートマップ",
@@ -258,7 +263,8 @@
     "createButton": "会議室を作成",
     "creating": "作成中...",
     "back": "戻る",
-    "next": "次へ"
+    "next": "次へ",
+    "stepOf": "ステップ {{current}}/{{total}}"
   },
   "features": {
     "title": "グローバル会議を調整するために必要なすべて",

@@ -1,5 +1,5 @@
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient } from "@/lib/queryClient";
 import { useParams, useSearch, Link } from "wouter";
@@ -21,7 +21,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { apiRequest } from "@/lib/queryClient";
 import { getUserTimezone } from "@/lib/timezone-utils";
-import { parseISO, eachDayOfInterval, format, differenceInCalendarDays } from "date-fns";
+import { parseISO, eachDayOfInterval, format } from "date-fns";
 import type { RoomWithParticipants, JoinRoomRequest } from "@shared/schema";
 import { SEO, seoConfigs } from "@/components/SEO";
 import { BugReport } from "@/components/bug-report";
@@ -104,6 +104,7 @@ export default function Room() {
   }, [room?.startDate, room?.endDate, room?.slotMinutes]);
 
   const [selectedAvailability, setSelectedAvailability] = useState<number[]>([]);
+  const hasLoadedAvailabilityRef = useRef(false);
 
   // Initialize selectedAvailability when totalSlots changes
   useEffect(() => {
@@ -124,10 +125,6 @@ export default function Room() {
   const joinRoomMutation = useMutation({
     mutationFn: async (data: JoinRoomRequest) => {
       const response = await apiRequest("POST", `/api/rooms/${roomId}/join`, data);
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || errorData.message || "Failed to join room");
-      }
       return response.json();
     },
     onSuccess: (data) => {
@@ -144,9 +141,20 @@ export default function Room() {
       });
     },
     onError: (error) => {
+      let description = t('room.toast.errorJoining');
+      const colonIdx = error.message.indexOf(': ');
+      if (colonIdx !== -1) {
+        try {
+          const parsed = JSON.parse(error.message.slice(colonIdx + 2));
+          if (parsed.error) description = parsed.error;
+          else if (parsed.message) description = parsed.message;
+        } catch {
+          // keep default i18n message
+        }
+      }
       toast({
         title: t('room.toast.error'),
-        description: error.message,
+        description,
         variant: "destructive",
       });
     },
@@ -251,14 +259,18 @@ export default function Room() {
     }
   }, [isHost, room?.participants, currentParticipantId]);
 
+  // Reset loaded flag when participant changes so fresh data loads
   useEffect(() => {
-    if (currentParticipantId && room?.participants) {
+    hasLoadedAvailabilityRef.current = false;
+  }, [currentParticipantId]);
+
+  useEffect(() => {
+    if (currentParticipantId && room?.participants && !hasLoadedAvailabilityRef.current) {
       const currentParticipant = room.participants.find(p => p.id === currentParticipantId);
       if (currentParticipant?.availability) {
         const availabilityBits = currentParticipant.availability.split("").map(b => parseInt(b) as 0 | 1 | 2);
-        if (selectedAvailability.every(slot => slot === 0)) {
-          setSelectedAvailability(availabilityBits);
-        }
+        setSelectedAvailability(availabilityBits);
+        hasLoadedAvailabilityRef.current = true;
       }
     }
   }, [currentParticipantId, room?.participants]);
