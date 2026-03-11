@@ -3,47 +3,47 @@ import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { Layout } from "@/components/layout";
-
-const steps = [
-  {
-    number: "01",
-    title: "Create a Meeting Room",
-    description:
-      "Set up your meeting with a name, date range (up to 2 weeks), and a daily time window. Your timezone is auto-detected.",
-    details: [
-      "Choose your meeting dates",
-      "Set time boundaries (e.g. 9am – 6pm)",
-      "Name your meeting room",
-      "Instantly receive a shareable link",
-    ],
-  },
-  {
-    number: "02",
-    title: "Share with Participants",
-    description:
-      "Send the link to your team. Participants join by entering their name and selecting their timezone — no accounts required.",
-    details: [
-      "Share the unique room URL",
-      "Participants join with just their name",
-      "Everyone picks their own timezone",
-      "No registration or passwords",
-    ],
-  },
-  {
-    number: "03",
-    title: "Find the Perfect Time",
-    description:
-      "Everyone drags to mark their availability. The heatmap shows overlapping times. The host confirms the final slot.",
-    details: [
-      "Drag to select available hours",
-      "Real-time availability heatmap",
-      "Best slots ranked automatically",
-      "Host confirms — done",
-    ],
-  },
-];
+import { useTranslation } from "react-i18next";
 
 export default function HowItWorks() {
+  const { t } = useTranslation();
+
+  const steps = [
+    {
+      number: "01",
+      title: t('howItWorks.step1.title'),
+      description: t('howItWorks.step1.desc'),
+      details: [
+        "Choose your meeting dates",
+        "Set time boundaries (e.g. 9am – 6pm)",
+        "Name your meeting room",
+        "Instantly receive a shareable link",
+      ],
+    },
+    {
+      number: "02",
+      title: t('howItWorks.step2.title'),
+      description: t('howItWorks.step2.desc'),
+      details: [
+        "Share the unique room URL",
+        "Participants join with just their name",
+        "Everyone picks their own timezone",
+        "No registration or passwords",
+      ],
+    },
+    {
+      number: "03",
+      title: t('howItWorks.step3.title'),
+      description: t('howItWorks.step3.desc'),
+      details: [
+        "Drag to select available hours",
+        "Real-time availability heatmap",
+        "Best slots ranked automatically",
+        "Host confirms — done",
+      ],
+    },
+  ];
+
   return (
     <Layout>
       <SEO {...seoConfigs.howItWorks} />
@@ -52,10 +52,10 @@ export default function HowItWorks() {
       <section className="pt-16 pb-12 px-4 sm:px-6 lg:px-8 text-center">
         <div className="max-w-2xl mx-auto">
           <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground mb-4">
-            How TimeSync works
+            {t('howItWorks.title')}
           </h1>
           <p className="text-base text-muted-foreground">
-            Three steps to coordinate your global team meeting — takes less than two minutes.
+            {t('howItWorks.subtitle')}
           </p>
         </div>
       </section>
@@ -63,7 +63,7 @@ export default function HowItWorks() {
       {/* Steps */}
       <section className="py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto space-y-8">
-          {steps.map((step, idx) => (
+          {steps.map((step) => (
             <div key={step.number} className="rounded-xl border border-border bg-card p-6 sm:p-8">
               <div className="flex items-start gap-5">
                 <span className="shrink-0 text-3xl font-black text-primary/20 leading-none">
@@ -96,10 +96,10 @@ export default function HowItWorks() {
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link href="/create-room">
-              <Button size="lg" className="font-semibold">Create Your First Room</Button>
+              <Button size="lg" className="font-semibold">{t('howItWorks.cta')}</Button>
             </Link>
             <Link href="/features">
-              <Button size="lg" variant="outline">See All Features</Button>
+              <Button size="lg" variant="outline">{t('nav.features')}</Button>
             </Link>
           </div>
         </div>

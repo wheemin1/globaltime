@@ -3,6 +3,7 @@ import { useDragSelection } from "@/hooks/use-drag-selection";
 import { convertSlotToLocalTime, formatTimeForDisplay } from "@/lib/time-slots";
 import { format, parseISO, eachDayOfInterval } from "date-fns";
 import type { RoomWithParticipants } from "@shared/schema";
+import { useTranslation } from "react-i18next";
 
 interface TimeGridProps {
   room: RoomWithParticipants;
@@ -28,6 +29,7 @@ export function TimeGrid({
   selectedParticipant,
 }: TimeGridProps) {
   const gridRef = useRef<HTMLDivElement>(null);
+  const { t } = useTranslation();
   const [isDragging, setIsDragging] = useState(false);
   const [dragValue, setDragValue] = useState<number>(0);
   const [dragMode, setDragMode] = useState<"available" | "if-needed">("available");
@@ -190,7 +192,7 @@ export function TimeGrid({
     <div className="w-full overflow-x-auto">
       {isEditMode && (
         <div className="flex items-center gap-2 mb-2">
-          <span className="text-xs text-muted-foreground font-medium">Mark as:</span>
+          <span className="text-xs text-muted-foreground font-medium">{t('timeGrid.markAs')}</span>
           <div className="flex gap-1">
             <button
               type="button"
@@ -201,7 +203,7 @@ export function TimeGrid({
               }`}
               onClick={() => setDragMode("available")}
             >
-              ✓ Available
+              ✓ {t('timeGrid.available')}
             </button>
             <button
               type="button"
@@ -212,7 +214,7 @@ export function TimeGrid({
               }`}
               onClick={() => setDragMode("if-needed")}
             >
-              ~ If Needed
+              ~ {t('timeGrid.ifNeeded')}
             </button>
           </div>
         </div>

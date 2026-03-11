@@ -17,38 +17,19 @@ import { SEO, seoConfigs } from "@/components/SEO";
 import { StructuredData, structuredDataConfigs } from "@/components/StructuredData";
 import { Layout } from "@/components/layout";
 import { BugReport } from "@/components/bug-report";
+import { useTranslation } from "react-i18next";
 import type { CreateRoomRequest } from "@shared/schema";
 
-const features = [
-  {
-    icon: Globe,
-    title: "Timezone-Smart",
-    description:
-      "Auto-detects your timezone. Every participant sees availability in their local time — no math required.",
-  },
-  {
-    icon: Users,
-    title: "Visual Heatmap",
-    description:
-      "Color-coded overlap view shows when your team is free. Pick the darkest block.",
-  },
-  {
-    icon: Zap,
-    title: "No Sign Up",
-    description:
-      "Drag to select hours, share a link. No accounts, no email, no friction.",
-  },
-];
-
-const steps = [
-  { n: "1", title: "Create a room", desc: "Name your meeting, pick dates, set a time window." },
-  { n: "2", title: "Share the link", desc: "Teammates join with just their name and timezone." },
-  { n: "3", title: "Confirm the best time", desc: "Review the heatmap and confirm the slot." },
+const featureKeys = [
+  { icon: Globe, key: "timezone" },
+  { icon: Users, key: "heatmap" },
+  { icon: Zap, key: "noSignUp" },
 ];
 
 export default function Home() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
+  const { t } = useTranslation();
 
   const { data: stats } = useQuery<{ totalRooms: number; totalParticipants: number }>({
     queryKey: ["/api/stats"],
@@ -80,8 +61,8 @@ export default function Home() {
     },
     onError: (error) => {
       toast({
-        title: "Error creating room",
-        description: error.message || "Unknown error occurred",
+        title: t('errors.unknown'),
+        description: error.message || t('errors.unknown'),
         variant: "destructive",
       });
     },
@@ -90,19 +71,19 @@ export default function Home() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!roomName.trim()) {
-      toast({ title: "Meeting name required", variant: "destructive" });
+      toast({ title: t('errors.meetingNameRequired'), variant: "destructive" });
       return;
     }
     if (!hostName.trim()) {
-      toast({ title: "Your name required", variant: "destructive" });
+      toast({ title: t('errors.yourNameRequired'), variant: "destructive" });
       return;
     }
     if (!selectedRange?.from) {
-      toast({ title: "Select at least one date", variant: "destructive" });
+      toast({ title: t('errors.selectOneDate'), variant: "destructive" });
       return;
     }
     if (timeStart >= timeEnd) {
-      toast({ title: "End time must be after start time", variant: "destructive" });
+      toast({ title: t('errors.endAfterStart'), variant: "destructive" });
       return;
     }
     const endD = selectedRange.to || selectedRange.from;
@@ -132,22 +113,22 @@ export default function Home() {
             {/* Left: copy */}
             <div className="pt-4 lg:pt-8">
               <div className="inline-flex items-center gap-2 rounded-full border border-border bg-muted px-3 py-1 text-xs text-muted-foreground mb-6">
-                Free · No registration · Works globally
+                {t('common.free114cities')}
               </div>
               <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-foreground leading-[1.1]">
-                Find the time that works{" "}
-                <span className="text-primary">for everyone</span>
+                {t('home.hero.headline')}{" "}
+                <span className="text-primary">{t('home.hero.headlineHighlight')}</span>
               </h1>
               <p className="mt-4 text-base text-muted-foreground leading-relaxed max-w-md">
-                <strong className="text-foreground font-medium">Free global meeting scheduler.</strong>{" "}
-                Each participant picks availability in their own timezone — you see the overlap instantly.
+                <strong className="text-foreground font-medium">{t('home.hero.subtext')}</strong>{" "}
+                {t('home.hero.description')}
               </p>
 
               <ul className="mt-6 space-y-2">
                 {[
-                  "Drag-and-drop time selection",
-                  "Heatmap shows the best overlap",
-                  "No accounts or email needed",
+                  t('home.hero.checks.drag'),
+                  t('home.hero.checks.heatmap'),
+                  t('home.hero.checks.noAccount'),
                 ].map((item) => (
                   <li key={item} className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Check className="h-4 w-4 text-primary shrink-0" />
@@ -163,29 +144,33 @@ export default function Home() {
                     <p className="text-2xl font-bold text-foreground tabular-nums">
                       {stats.totalRooms.toLocaleString()}
                     </p>
-                    <p className="text-xs text-muted-foreground mt-0.5">rooms created</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">{t('home.stats.roomsCreated')}</p>
                   </div>
                   <div className="w-px bg-border" />
                   <div>
                     <p className="text-2xl font-bold text-foreground tabular-nums">
                       {stats.totalParticipants.toLocaleString()}
                     </p>
-                    <p className="text-xs text-muted-foreground mt-0.5">participants joined</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">{t('home.stats.participantsJoined')}</p>
                   </div>
                 </div>
               )}
 
               {/* "How it works" mini-steps — hidden on mobile to save space */}
               <div className="hidden lg:block mt-10 space-y-4">
-                {steps.map((step, idx) => (
+                {[
+                  { n: "1", title: t('home.steps.step1Title'), desc: t('home.steps.step1Desc') },
+                  { n: "2", title: t('home.steps.step2Title'), desc: t('home.steps.step2Desc') },
+                  { n: "3", title: t('home.steps.step3Title'), desc: t('home.steps.step3Desc') },
+                ].map((step, idx, arr) => (
                   <div key={step.n} className="flex gap-4">
                     <div className="flex flex-col items-center">
                       <div className="w-7 h-7 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary text-xs font-bold shrink-0">
                         {step.n}
                       </div>
-                      {idx < steps.length - 1 && <div className="w-px flex-1 bg-border my-1" />}
+                      {idx < arr.length - 1 && <div className="w-px flex-1 bg-border my-1" />}
                     </div>
-                    <div className={`${idx < steps.length - 1 ? "pb-4" : ""} pt-0.5`}>
+                    <div className={`${idx < arr.length - 1 ? "pb-4" : ""} pt-0.5`}>
                       <p className="text-sm font-medium text-foreground">{step.title}</p>
                       <p className="text-xs text-muted-foreground">{step.desc}</p>
                     </div>
@@ -198,49 +183,49 @@ export default function Home() {
             <div className="rounded-2xl border border-border bg-card shadow-sm p-6 sm:p-8">
               <div className="flex items-center gap-2 mb-6">
                 <Clock className="h-5 w-5 text-primary" />
-                <h2 className="text-base font-semibold text-foreground">New Meeting Room</h2>
+                <h2 className="text-base font-semibold text-foreground">{t('home.form.title')}</h2>
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-5">
                 {/* Meeting name + your name */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <Label htmlFor="roomName" className="text-sm font-medium">Meeting Name</Label>
+                    <Label htmlFor="roomName" className="text-sm font-medium">{t('home.form.meetingName')}</Label>
                     <Input
                       id="roomName"
                       value={roomName}
                       onChange={(e) => setRoomName(e.target.value)}
-                      placeholder="Weekly Standup"
+                      placeholder={t('home.form.meetingNamePlaceholder')}
                       autoFocus
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <Label htmlFor="hostName" className="text-sm font-medium">Your Name</Label>
+                    <Label htmlFor="hostName" className="text-sm font-medium">{t('home.form.yourName')}</Label>
                     <Input
                       id="hostName"
                       value={hostName}
                       onChange={(e) => setHostName(e.target.value)}
-                      placeholder="Alex Kim"
+                      placeholder={t('home.form.yourNamePlaceholder')}
                     />
                   </div>
                 </div>
 
                 {/* Timezone */}
                 <div className="space-y-1.5">
-                  <Label className="text-sm font-medium">Your Timezone</Label>
+                  <Label className="text-sm font-medium">{t('home.form.yourTimezone')}</Label>
                   <TimezoneSelector value={hostTimezone} onChange={setHostTimezone} />
                 </div>
 
                 {/* Date picker */}
                 <div className="space-y-1.5">
                   <Label className="text-sm font-medium">
-                    Meeting Dates
+                    {t('home.form.meetingDates')}
                     <span className="ml-1.5 text-xs text-muted-foreground font-normal">
                       {selectedRange?.from
                         ? selectedRange.to && selectedRange.to.getTime() !== selectedRange.from.getTime()
                           ? `${format(selectedRange.from, "MMM d")} – ${format(selectedRange.to, "MMM d")}`
                           : format(selectedRange.from, "MMM d, yyyy")
-                        : "select range"}
+                        : t('home.form.selectRange')}
                     </span>
                   </Label>
                   <div className="flex justify-center">
@@ -256,7 +241,7 @@ export default function Home() {
 
                 {/* Time window */}
                 <div className="space-y-1.5">
-                  <Label className="text-sm font-medium">Daily Time Window</Label>
+                  <Label className="text-sm font-medium">{t('home.form.dailyWindow')}</Label>
                   <div className="grid grid-cols-2 gap-3">
                     <Select
                       value={String(timeStart)}
@@ -300,7 +285,7 @@ export default function Home() {
                   className="w-full h-11 text-sm font-semibold"
                   disabled={createRoomMutation.isPending}
                 >
-                  {createRoomMutation.isPending ? "Creating..." : "Create Room & Get Link →"}
+                  {createRoomMutation.isPending ? t('common.creating') : t('home.form.createButton')}
                 </Button>
               </form>
             </div>
@@ -311,14 +296,17 @@ export default function Home() {
       {/* ── Feature cards ── */}
       <section className="py-14 px-4 sm:px-6 lg:px-8 border-t border-border bg-muted/30">
         <div className="max-w-5xl mx-auto">
+          <h2 className="text-xl font-semibold text-foreground text-center mb-8">
+            {t('home.features.sectionTitle')}
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {features.map(({ icon: Icon, title, description }) => (
-              <div key={title} className="rounded-xl border border-border bg-card p-6 space-y-3">
+            {featureKeys.map(({ icon: Icon, key }) => (
+              <div key={key} className="rounded-xl border border-border bg-card p-6 space-y-3">
                 <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
                   <Icon className="h-5 w-5 text-primary" />
                 </div>
-                <h3 className="text-sm font-semibold text-foreground">{title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{description}</p>
+                <h3 className="text-sm font-semibold text-foreground">{t(`home.features.${key}.title`)}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{t(`home.features.${key}.desc`)}</p>
               </div>
             ))}
           </div>
@@ -329,18 +317,22 @@ export default function Home() {
       <section className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl mx-auto">
           <h2 className="text-2xl font-bold text-foreground text-center mb-10">
-            Three steps — under 2 minutes
+            {t('home.stepsSection.headline')}
           </h2>
           <div className="space-y-0">
-            {steps.map((step, idx) => (
+            {[
+              { n: "1", title: t('home.steps.step1Title'), desc: t('home.steps.step1Desc') },
+              { n: "2", title: t('home.steps.step2Title'), desc: t('home.steps.step2Desc') },
+              { n: "3", title: t('home.steps.step3Title'), desc: t('home.steps.step3Desc') },
+            ].map((step, idx, arr) => (
               <div key={step.n} className="flex gap-6">
                 <div className="flex flex-col items-center">
                   <div className="w-9 h-9 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-sm font-bold shrink-0">
                     {step.n}
                   </div>
-                  {idx < steps.length - 1 && <div className="w-px flex-1 bg-border my-1" />}
+                  {idx < arr.length - 1 && <div className="w-px flex-1 bg-border my-1" />}
                 </div>
-                <div className={`${idx < steps.length - 1 ? "pb-10" : ""} pt-1`}>
+                <div className={`${idx < arr.length - 1 ? "pb-10" : ""} pt-1`}>
                   <h3 className="text-sm font-semibold text-foreground mb-1">{step.title}</h3>
                   <p className="text-sm text-muted-foreground">{step.desc}</p>
                 </div>
@@ -352,15 +344,33 @@ export default function Home() {
 
       <BugReport position="bottom" />
 
+      {/* SEO content section */}
+      <section className="py-12 px-4 sm:px-6 lg:px-8 border-t border-border bg-muted/20">
+        <div className="max-w-3xl mx-auto space-y-6 text-sm text-muted-foreground">
+          <div>
+            <h2 className="text-base font-semibold text-foreground mb-2">{t('home.seoSection.title1')}</h2>
+            <p>{t('home.seoSection.body1')}</p>
+          </div>
+          <div>
+            <h2 className="text-base font-semibold text-foreground mb-2">{t('home.seoSection.title2')}</h2>
+            <p>{t('home.seoSection.body2')}</p>
+          </div>
+          <div>
+            <h2 className="text-base font-semibold text-foreground mb-2">{t('home.seoSection.title3')}</h2>
+            <p>{t('home.seoSection.body3')}</p>
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="border-t border-border bg-muted/20 py-6 px-4">
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-muted-foreground">
-          <span>© {new Date().getFullYear()} TimeSync. Free global meeting scheduler.</span>
+          <span>{t('footer.copyright', { year: new Date().getFullYear() })}</span>
           <nav className="flex items-center gap-4">
-            <Link href="/features" className="hover:text-foreground transition-colors">Features</Link>
-            <Link href="/how-it-works" className="hover:text-foreground transition-colors">How It Works</Link>
-            <Link href="/help/share" className="hover:text-foreground transition-colors">Help</Link>
-            <Link href="/privacy" className="hover:text-foreground transition-colors">Privacy Policy</Link>
+            <Link href="/features" className="hover:text-foreground transition-colors">{t('nav.features')}</Link>
+            <Link href="/how-it-works" className="hover:text-foreground transition-colors">{t('nav.howItWorks')}</Link>
+            <Link href="/help/share" className="hover:text-foreground transition-colors">{t('nav.help')}</Link>
+            <Link href="/privacy" className="hover:text-foreground transition-colors">{t('common.privacy')}</Link>
           </nav>
         </div>
       </footer>

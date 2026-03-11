@@ -1,6 +1,9 @@
 import { useEffect } from 'react';
 import { useLocation } from 'wouter';
 
+const DOMAIN = 'https://globalmeetingtime.netlify.app';
+const SUPPORTED_LANGS = ['en', 'es', 'ja', 'ko', 'fr', 'de', 'pt'];
+
 interface SEOProps {
   title?: string;
   description?: string;
@@ -66,6 +69,24 @@ export function SEO({
     }
     canonicalElement.href = canonical || `${window.location.origin}${location}`;
 
+    // Hreflang tags for multilingual support
+    const canonicalPath = canonical || `${DOMAIN}${location}`;
+    // Remove old hreflang links
+    document.querySelectorAll('link[rel="alternate"][hreflang]').forEach(el => el.remove());
+    // Add x-default + each language (all pointing to the same canonical since we use URL-agnostic i18n)
+    const xDefault = document.createElement('link');
+    xDefault.rel = 'alternate';
+    xDefault.setAttribute('hreflang', 'x-default');
+    xDefault.href = canonicalPath;
+    document.head.appendChild(xDefault);
+    SUPPORTED_LANGS.forEach(lang => {
+      const link = document.createElement('link');
+      link.rel = 'alternate';
+      link.setAttribute('hreflang', lang);
+      link.href = canonicalPath;
+      document.head.appendChild(link);
+    });
+
   }, [title, description, keywords, ogImage, noIndex, canonical, location]);
 
   return null; // This component doesn't render anything
@@ -74,9 +95,9 @@ export function SEO({
 // Predefined SEO configurations for different pages
 export const seoConfigs = {
   home: {
-    title: "TimeSync – Global Meeting Scheduler | Find Perfect Meeting Times Across Time Zones",
-    description: "Free global meeting scheduler with drag & drop availability selection. Coordinate team meetings across time zones with visual heatmaps. No registration required - instant meeting room creation.",
-    keywords: "meeting scheduler, global meeting planner, timezone converter, team coordination, availability tracker, international meetings, time zone planner, meeting room scheduler, drag and drop calendar, team scheduling tool, cross timezone meetings, meeting coordination, availability heatmap, free meeting scheduler"
+    title: "TimeSync – Free Global Meeting Scheduler for Different Time Zones",
+    description: "Free meeting scheduler for different time zones. Share availability, see the overlap heatmap, and find the perfect meeting time across time zones — no sign-up required.",
+    keywords: "global meeting scheduler, time zone meeting scheduler, meeting scheduler for different time zones, find meeting time across time zones, international meeting scheduler, meeting timezone planner, time zone meeting planner, free meeting scheduler, cross timezone meeting, schedule meeting across time zones, global time scheduler, timezone meeting tool"
   },
   
   features: {

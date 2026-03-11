@@ -1,0 +1,282 @@
+{
+  "common": {
+    "appName": "TimeSync",
+    "tagline": "Planificateur de réunion mondial gratuit",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "confirm": "Confirmer",
+    "close": "Fermer",
+    "back": "Retour",
+    "next": "Suivant",
+    "create": "Créer",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "copy": "Copier",
+    "share": "Partager",
+    "loading": "Chargement...",
+    "saving": "Enregistrement...",
+    "creating": "Création...",
+    "joining": "Connexion...",
+    "confirming": "Confirmation...",
+    "copyLink": "Copier le lien",
+    "backToHome": "Retour à l'accueil",
+    "newMeeting": "Nouvelle réunion",
+    "features": "Fonctionnalités",
+    "howItWorks": "Comment ça marche",
+    "help": "Aide",
+    "privacy": "Politique de confidentialité",
+    "free": "Gratuit",
+    "noSignUp": "Sans inscription",
+    "free114cities": "Planificateur de réunion mondial gratuit · Sans inscription · Plus de 114 villes"
+  },
+  "nav": {
+    "features": "Fonctionnalités",
+    "howItWorks": "Comment ça marche",
+    "help": "Aide"
+  },
+  "footer": {
+    "tagline": "Planificateur de réunion mondial gratuit",
+    "copyright": "© {{year}} TimeSync. Planificateur de réunion mondial gratuit."
+  },
+  "home": {
+    "hero": {
+      "headline": "Trouvez le meilleur moment",
+      "headlineHighlight": "pour se réunir à travers les fuseaux horaires",
+      "subtext": "Planificateur de réunion gratuit avec gestion des fuseaux horaires.",
+      "description": "Chaque participant saisit ses disponibilités dans son fuseau horaire — la carte de chaleur montre les créneaux communs en un coup d'œil pour confirmer le meilleur moment. Aucun compte requis, pas d'e-mail.",
+      "checks": {
+        "drag": "Sélection des disponibilités par glisser-déposer",
+        "heatmap": "Carte de chaleur montrant les meilleures intersections",
+        "noAccount": "Aucun compte ni e-mail requis"
+      }
+    },
+    "stats": {
+      "roomsCreated": "salles créées",
+      "participantsJoined": "participants ont rejoint"
+    },
+    "steps": {
+      "step1Title": "Créer une salle",
+      "step1Desc": "Saisissez le nom de la réunion et définissez les dates et la plage horaire.",
+      "step2Title": "Partager le lien",
+      "step2Desc": "Les participants rejoignent avec seulement leur nom et leur fuseau horaire.",
+      "step3Title": "Confirmer le meilleur créneau",
+      "step3Desc": "Consultez la carte de chaleur et confirmez le meilleur créneau."
+    },
+    "features": {
+      "sectionTitle": "Planificateur de réunion pour différents fuseaux horaires — pour les équipes distribuées",
+      "timezone": {
+        "title": "Détection automatique du fuseau horaire",
+        "desc": "Détecte automatiquement le fuseau horaire. Chaque participant voit ses disponibilités dans sa propre heure locale."
+      },
+      "heatmap": {
+        "title": "Carte de chaleur visuelle",
+        "desc": "Visualisez quand votre équipe est disponible avec un code couleur."
+      },
+      "noSignUp": {
+        "title": "Aucune inscription requise",
+        "desc": "Glissez pour sélectionner vos disponibilités et partagez le lien. Aucun compte ni e-mail requis."
+      }
+    },
+    "stepsSection": {
+      "headline": "Planifiez une réunion entre fuseaux horaires en 3 étapes"
+    },
+    "seoSection": {
+      "title1": "Planificateur de réunion mondial pour les équipes internationales",
+      "body1": "Coordonner des réunions à travers les fuseaux horaires est difficile. TimeSync est un planificateur de réunion mondial gratuit qui élimine les suppositions. Créez une salle, partagez le lien et chaque participant saisit ses disponibilités dans son heure locale.",
+      "title2": "Comment trouver un horaire de réunion à travers les fuseaux horaires",
+      "body2": "Contrairement aux convertisseurs de fuseaux horaires statiques, TimeSync collecte les vraies disponibilités de tous les participants. Tokyo et New York, Londres et Sydney — toutes les combinaisons sont supportées.",
+      "title3": "Alternative gratuite à Doodle et When2Meet",
+      "body3": "TimeSync offre la sélection des disponibilités par glisser-déposer, une carte de chaleur visuelle, des mises à jour en temps réel et le support de plus de 114 villes — entièrement gratuit."
+    },
+    "form": {
+      "title": "Nouvelle salle de réunion",
+      "meetingName": "Nom de la réunion",
+      "meetingNamePlaceholder": "Réunion hebdomadaire",
+      "yourName": "Votre nom",
+      "yourNamePlaceholder": "Jean Dupont",
+      "yourTimezone": "Votre fuseau horaire",
+      "meetingDates": "Dates de la réunion",
+      "selectRange": "Sélectionner les dates",
+      "dailyWindow": "Plage horaire quotidienne",
+      "createButton": "Créer la salle et obtenir le lien →",
+      "creating": "Création..."
+    }
+  },
+  "room": {
+    "shareBanner": {
+      "title": "Partagez ce lien avec votre équipe",
+      "desc": "Copiez le lien et envoyez-le aux participants pour qu'ils saisissent leurs disponibilités",
+      "copyLink": "Copier le lien"
+    },
+    "deadline": "Répondre avant le {{date}}",
+    "selectTitle": "Veuillez sélectionner vos disponibilités",
+    "selectDesc": "Cliquez ou glissez pour marquer vos disponibilités",
+    "joinToSave": "Rejoignez la salle pour enregistrer vos disponibilités.",
+    "joinToSaveSm": "Rejoignez pour enregistrer.",
+    "saveAvailability": "Enregistrer les disponibilités",
+    "saveViewResults": "Enregistrer et voir les résultats",
+    "joinRoom": "Rejoindre la salle",
+    "selectTimes": "Sélectionner les créneaux",
+    "viewResults": "Voir les résultats",
+    "viewHeatmap": "Voir la carte de chaleur",
+    "editMyTimes": "Modifier mes créneaux",
+    "joinDialog": {
+      "title": "Rejoindre {{roomName}}",
+      "desc": "Saisissez votre nom et votre fuseau horaire pour marquer vos disponibilités.",
+      "yourName": "Votre nom",
+      "namePlaceholder": "Ex : Jean Dupont",
+      "timezone": "Votre fuseau horaire",
+      "joinButton": "Rejoindre et sélectionner les créneaux",
+      "joining": "Connexion..."
+    },
+    "confirmDialog": {
+      "title": "Confirmer cet horaire de réunion ?",
+      "desc": "L'horaire de réunion sera confirmé pour tous les participants. Cette action est irréversible.",
+      "confirmButton": "Confirmer",
+      "confirming": "Confirmation..."
+    },
+    "editRoomDialog": {
+      "title": "Modifier la salle",
+      "roomName": "Nom de la salle",
+      "description": "Description",
+      "descriptionOptional": "(facultatif)",
+      "descPlaceholder": "Ajouter une description ou un ordre du jour...",
+      "saveChanges": "Enregistrer les modifications",
+      "saving": "Enregistrement..."
+    },
+    "toast": {
+      "roomCreated": "Salle créée !",
+      "roomCreatedDesc": "Partagez le lien avec votre équipe.",
+      "linkCopied": "Lien copié !",
+      "linkCopiedDesc": "Partagez ce lien avec votre équipe.",
+      "availabilitySaved": "Disponibilités enregistrées !",
+      "meetingConfirmed": "Réunion confirmée !",
+      "participantRemoved": "Participant supprimé",
+      "roomUpdated": "Salle mise à jour !",
+      "error": "Erreur"
+    },
+    "loading": "Chargement de la salle...",
+    "notFound": "Salle introuvable",
+    "notFoundDesc": "Cette salle a peut-être été supprimée ou le lien est invalide.",
+    "errorLoading": "Erreur de chargement de la salle"
+  },
+  "participants": {
+    "title": "Participants",
+    "noParticipants": "Aucun participant pour l'instant",
+    "team": "Équipe ({{count}})",
+    "removeParticipant": "Supprimer le participant"
+  },
+  "heatmap": {
+    "heatmapTitle": "Carte de disponibilité",
+    "heatmapSubtitle": "Plus c'est foncé, plus il y a de personnes disponibles · cliquez sur une cellule pour les détails",
+    "title": "Meilleures disponibilités",
+    "sortedByOverlap": "Triés par chevauchement des participants",
+    "confirmed": "Confirmé",
+    "awaitingConfirmation": "En attente de confirmation",
+    "thisTimeConfirmed": "Ce créneau est confirmé",
+    "noneAvailableAtTime": "Personne de définitivement disponible à cette heure.",
+    "confirmButton": "Confirmer",
+    "noData": "Pas encore de données de disponibilité",
+    "noDataDesc": "Ajoutez des participants et demandez-leur de sélectionner leurs disponibilités.",
+    "bestTimes": "Meilleurs créneaux",
+    "confirmTime": "Confirmer ce créneau",
+    "downloadICS": "Télécharger .ics",
+    "confirmedTime": "Réunion confirmée",
+    "availableLabel": "Disponible",
+    "ifNeededLabel": "Si nécessaire",
+    "noneLabel": "Indisponible",
+    "allLabel": "Tous {{count}}",
+    "slotDetail": {
+      "available": "Disponible",
+      "ifNeeded": "Si nécessaire",
+      "unavailable": "Indisponible"
+    },
+    "legend": {
+      "none": "Aucun",
+      "some": "Certains",
+      "all": "Tous",
+      "ifNeeded": "Si nécessaire"
+    }
+  },
+  "timeGrid": {
+    "markAs": "Marquer comme :",
+    "available": "Disponible",
+    "ifNeeded": "Si nécessaire",
+    "dragHint": "Cliquez ou faites glisser pour sélectionner"
+  },
+  "createRoom": {
+    "title": "Planifier une réunion",
+    "subtitle": "Configurez votre salle de réunion en quelques étapes simples",
+    "step1": {
+      "title": "Informations de base",
+      "meetingName": "Nom de la réunion",
+      "namePlaceholder": "Ex : Réunion hebdomadaire d'équipe",
+      "yourName": "Votre nom",
+      "yourNamePlaceholder": "Ex : Jean Dupont",
+      "timezone": "Votre fuseau horaire",
+      "description": "Description",
+      "descriptionOptional": "(facultatif)",
+      "descPlaceholder": "À propos de cette réunion (facultatif)"
+    },
+    "step2": {
+      "title": "Choisir les dates",
+      "label": "Sélectionner une plage de dates",
+      "hint": "Cliquez sur la date de début puis sur la date de fin",
+      "rangeHint": "Choisissez les dates de début et de fin de la réunion (jusqu'à 14 jours)."
+    },
+    "step3": {
+      "title": "Horaires et options",
+      "slotDuration": "Durée des créneaux",
+      "oneHour": "1 heure",
+      "thirtyMin": "30 minutes",
+      "dailyWindow": "Plage horaire quotidienne",
+      "from": "De",
+      "to": "À",
+      "hint": "Les heures de la journée pendant lesquelles les participants peuvent sélectionner leur disponibilité.",
+      "deadline": "Date limite de réponse",
+      "deadlineOptional": "(facultatif)",
+      "deadlineLabel": "Date limite",
+      "deadlineHint": "Bloquer les modifications de disponibilité après cette date."
+    },
+    "createButton": "Créer la salle de réunion",
+    "creating": "Création...",
+    "back": "Retour",
+    "next": "Suivant"
+  },
+  "features": {
+    "title": "Tout ce dont vous avez besoin pour coordonner des réunions mondiales",
+    "subtitle": "Conçu pour les équipes distribuées à travers les fuseaux horaires",
+    "cta": "Essayer gratuitement",
+    "list": {
+      "timezone": { "title": "Gestion intelligente des fuseaux horaires", "desc": "Détecte automatiquement le fuseau horaire de chaque participant. Tout le monde voit les créneaux dans son heure locale." },
+      "heatmap": { "title": "Carte de chaleur visuelle", "desc": "Voyez instantanément quels créneaux conviennent au plus grand nombre." },
+      "drag": { "title": "Sélection par glisser-déposer", "desc": "Cliquez et glissez pour marquer vos disponibilités. Fonctionne sur ordinateur et mobile." },
+      "realtime": { "title": "Collaboration en temps réel", "desc": "Regardez les participants mettre à jour leurs disponibilités en temps réel." },
+      "noSignup": { "title": "Aucune inscription", "desc": "Partagez simplement le lien. Les participants rejoignent avec juste leur nom." },
+      "export": { "title": "Export calendrier", "desc": "Téléchargez le fichier .ics pour la réunion confirmée et ajoutez-la à n'importe quel agenda." }
+    }
+  },
+  "howItWorks": {
+    "title": "Comment utiliser TimeSync",
+    "subtitle": "Coordonnez votre prochaine réunion en 3 étapes simples",
+    "step1": { "title": "Créer une salle de réunion", "desc": "Saisissez le nom de la réunion, votre nom et sélectionnez les dates candidates et la plage horaire." },
+    "step2": { "title": "Partager avec les participants", "desc": "Copiez le lien unique de la salle et envoyez-le à votre équipe." },
+    "step3": { "title": "Trouver le meilleur créneau", "desc": "Chaque participant marque ses disponibilités. La carte de chaleur affiche en temps réel la meilleure intersection." },
+    "cta": "Créer votre première salle"
+  },
+  "notFound": {
+    "title": "Page introuvable",
+    "desc": "La page que vous recherchez n'existe pas ou a été déplacée.",
+    "back": "Retour à l'accueil"
+  },
+  "errors": {
+    "meetingNameRequired": "Le nom de la réunion est requis",
+    "yourNameRequired": "Votre nom est requis",
+    "selectOneDate": "Veuillez sélectionner au moins une date",
+    "endAfterStart": "L'heure de fin doit être après l'heure de début",
+    "unknown": "Une erreur inconnue s'est produite"
+  },
+  "languageSuggest": {
+    "fr": "Passer en français ?"
+  }
+}

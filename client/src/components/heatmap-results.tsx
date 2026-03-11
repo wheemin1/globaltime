@@ -9,6 +9,7 @@ import { Check, Pencil, CalendarDays, CheckCircle2 } from "lucide-react";
 import { convertSlotToLocalTime, formatTimeForDisplay, generateBestSlots } from "@/lib/time-slots";
 import { format, parseISO, eachDayOfInterval, addDays } from "date-fns";
 import type { RoomWithParticipants } from "@shared/schema";
+import { useTranslation } from "react-i18next";
 
 interface HeatmapResultsProps {
   room: RoomWithParticipants;
@@ -31,6 +32,7 @@ export function HeatmapResults({
 }: HeatmapResultsProps) {
   const [selectedSlotIndex, setSelectedSlotIndex] = useState<number | null>(null);
   const [showSlotModal, setShowSlotModal] = useState(false);
+  const { t } = useTranslation();
 
   const bestSlots = generateBestSlots(room.heatmap, room.participants, room.softHeatmap);
 
@@ -100,26 +102,26 @@ export function HeatmapResults({
         <CardHeader className="pb-3">
           <div className="flex items-start justify-between gap-3">
             <div>
-              <CardTitle className="text-base font-semibold">Availability Heatmap</CardTitle>
+              <CardTitle className="text-base font-semibold">{t('heatmap.heatmapTitle')}</CardTitle>
               <p className="text-xs text-muted-foreground mt-0.5">
-                Darker = more people free · click any cell for details
+                {t('heatmap.heatmapSubtitle')}
               </p>
             </div>
             <div className="flex items-center gap-2 shrink-0">
               {onEditTimes && (
                 <Button variant="outline" size="sm" onClick={onEditTimes} className="h-8 text-xs">
                   <Pencil className="h-3 w-3 mr-1.5" />
-                  Edit
+                  {t('common.edit')}
                 </Button>
               )}
               {room.isConfirmed ? (
                 <Badge className="bg-emerald-600 hover:bg-emerald-600 text-white border-0">
                   <CheckCircle2 className="h-3 w-3 mr-1" />
-                  Confirmed
+                  {t('heatmap.confirmed')}
                 </Badge>
               ) : isHost ? (
                 <Badge variant="secondary" className="text-xs">
-                  Awaiting confirmation
+                  {t('heatmap.awaitingConfirmation')}
                 </Badge>
               ) : null}
             </div>
@@ -140,20 +142,20 @@ export function HeatmapResults({
 
           {/* Legend */}
           <div className="flex items-center gap-3 text-xs text-muted-foreground flex-wrap">
-            <span className="font-medium">Availability:</span>
+            <span className="font-medium">{t('heatmap.availableLabel')}:</span>
             <div className="flex items-center gap-1.5">
               <div className="w-3.5 h-3.5 rounded border border-border bg-background" />
-              <span>None</span>
+              <span>{t('heatmap.legend.none')}</span>
             </div>
             {[1, 2, 3, 4, 5].map((n) => (
               <div key={n} className="flex items-center gap-1.5">
                 <div className={`w-3.5 h-3.5 rounded time-cell heatmap-${n} p-0`} />
-                <span>{n >= totalParticipants && totalParticipants > 0 ? "All" : `${n}+`}</span>
+                <span>{n >= totalParticipants && totalParticipants > 0 ? t('heatmap.legend.all') : `${n}+`}</span>
               </div>
             ))}
             <div className="flex items-center gap-1.5">
               <div className="w-3.5 h-3.5 rounded time-cell heatmap-soft p-0" />
-              <span>If needed</span>
+              <span>{t('heatmap.legend.ifNeeded')}</span>
             </div>
           </div>
         </CardContent>
@@ -163,9 +165,9 @@ export function HeatmapResults({
       {bestSlots.length > 0 && (
         <Card className="mt-5">
           <CardHeader className="pb-3">
-            <CardTitle className="text-base font-semibold">Best Available Times</CardTitle>
+            <CardTitle className="text-base font-semibold">{t('heatmap.title')}</CardTitle>
             <p className="text-xs text-muted-foreground">
-              Sorted by participant overlap
+              {t('heatmap.sortedByOverlap')}
             </p>
           </CardHeader>
           <CardContent>
@@ -212,7 +214,7 @@ export function HeatmapResults({
                           }}
                         >
                           <Check className="h-3 w-3 mr-1" />
-                          Confirm
+                          {t('heatmap.confirmButton')}
                         </Button>
                       )}
                     </div>
@@ -237,7 +239,7 @@ export function HeatmapResults({
             <div className="space-y-4 pt-1">
               <div>
                 <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-2">
-                  Available ({getSlotParticipants(selectedSlotIndex).length} / {totalParticipants})
+                  {t('heatmap.slotDetail.available')} ({getSlotParticipants(selectedSlotIndex).length} / {totalParticipants})
                 </p>
                 <div className="space-y-2">
                   {getSlotParticipants(selectedSlotIndex).map((participant) => {
@@ -254,7 +256,7 @@ export function HeatmapResults({
                     );
                   })}
                   {getSlotParticipants(selectedSlotIndex).length === 0 && (
-                    <p className="text-sm text-muted-foreground">No one definitely available at this time.</p>
+                    <p className="text-sm text-muted-foreground">{t('heatmap.noneAvailableAtTime')}</p>
                   )}
                 </div>
               </div>
@@ -262,7 +264,7 @@ export function HeatmapResults({
               {getIfNeededParticipants(selectedSlotIndex).length > 0 && (
                 <div>
                   <p className="text-xs font-medium text-amber-600 uppercase tracking-wide mb-2">
-                    If Needed ({getIfNeededParticipants(selectedSlotIndex).length})
+                    {t('heatmap.slotDetail.ifNeeded')} ({getIfNeededParticipants(selectedSlotIndex).length})
                   </p>
                   <div className="space-y-2">
                     {getIfNeededParticipants(selectedSlotIndex).map((participant) => {
@@ -287,7 +289,7 @@ export function HeatmapResults({
               {isHost && !room.isConfirmed && (
                 <Button onClick={handleConfirmSelectedSlot} className="w-full">
                   <Check className="h-4 w-4 mr-2" />
-                  Confirm This Time
+                  {t('heatmap.confirmTime')}
                 </Button>
               )}
 
@@ -295,7 +297,7 @@ export function HeatmapResults({
                 <div className="space-y-3">
                   <div className="flex items-center gap-2 text-sm text-emerald-600 font-medium">
                     <CheckCircle2 className="h-4 w-4" />
-                    This time is confirmed
+                    {t('heatmap.thisTimeConfirmed')}
                   </div>
                   <Button
                     onClick={() => generateICSFile(selectedSlotIndex)}
@@ -303,7 +305,7 @@ export function HeatmapResults({
                     className="w-full"
                   >
                     <CalendarDays className="h-4 w-4 mr-2" />
-                    Download .ics
+                    {t('heatmap.downloadICS')}
                   </Button>
                 </div>
               )}

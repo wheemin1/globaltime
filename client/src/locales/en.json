@@ -1,0 +1,341 @@
+{
+  "common": {
+    "appName": "TimeSync",
+    "tagline": "Free global meeting scheduler",
+    "save": "Save",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "create": "Create",
+    "edit": "Edit",
+    "delete": "Delete",
+    "copy": "Copy",
+    "share": "Share",
+    "loading": "Loading...",
+    "saving": "Saving...",
+    "creating": "Creating...",
+    "joining": "Joining...",
+    "confirming": "Confirming...",
+    "copyLink": "Copy Link",
+    "backToHome": "Back to Home",
+    "newMeeting": "New Meeting",
+    "features": "Features",
+    "howItWorks": "How it works",
+    "help": "Help",
+    "privacy": "Privacy Policy",
+    "free": "Free",
+    "noSignUp": "No sign-up",
+    "noRegistration": "No registration",
+    "worksGlobally": "Works globally",
+    "free114cities": "Free global meeting scheduler · No sign-up · 114+ cities"
+  },
+  "nav": {
+    "features": "Features",
+    "howItWorks": "How it works",
+    "help": "Help"
+  },
+  "footer": {
+    "tagline": "Free global meeting scheduler",
+    "copyright": "© {{year}} TimeSync. Free global meeting scheduler."
+  },
+  "home": {
+    "hero": {
+      "headline": "Find meeting time",
+      "headlineHighlight": "across time zones",
+      "subtext": "Free time zone meeting scheduler.",
+      "description": "Each participant marks availability in their own timezone — you see the overlap heatmap and confirm the best slot. No accounts, no email.",
+      "checks": {
+        "drag": "Drag-and-drop time selection",
+        "heatmap": "Heatmap shows the best overlap",
+        "noAccount": "No accounts or email needed"
+      }
+    },
+    "stats": {
+      "roomsCreated": "rooms created",
+      "participantsJoined": "participants joined"
+    },
+    "steps": {
+      "step1Title": "Create a room",
+      "step1Desc": "Name your meeting, pick dates, set a time window.",
+      "step2Title": "Share the link",
+      "step2Desc": "Teammates join with just their name and timezone.",
+      "step3Title": "Confirm the best time",
+      "step3Desc": "Review the heatmap and confirm the slot."
+    },
+    "features": {
+      "sectionTitle": "Meeting scheduler for different time zones — built for distributed teams",
+      "timezone": {
+        "title": "Timezone-Smart",
+        "desc": "Auto-detects your timezone. Every participant sees availability in their local time — no math required."
+      },
+      "heatmap": {
+        "title": "Visual Heatmap",
+        "desc": "Color-coded overlap view shows when your team is free. Pick the darkest block."
+      },
+      "noSignUp": {
+        "title": "No Sign Up",
+        "desc": "Drag to select hours, share a link. No accounts, no email, no friction."
+      }
+    },
+    "stepsSection": {
+      "headline": "Schedule a cross-timezone meeting in 3 steps"
+    },
+    "seoSection": {
+      "title1": "Global meeting scheduler for international teams",
+      "body1": "Coordinating meetings across different time zones is hard — someone always ends up calculating offsets or sending the wrong time. TimeSync is a free global meeting scheduler that removes the guesswork. Create a room, share the link, and every participant marks their availability in their own local time. The heatmap shows you exactly when your team overlaps.",
+      "title2": "How to find meeting time across time zones",
+      "body2": "Unlike static timezone converters, TimeSync collects real availability from all participants and surfaces the best slots. Whether you're scheduling between Seoul and New York, London and Sydney, or any combination of cities — the overlap heatmap does the work for you. No sign-up, no calendar access required.",
+      "title3": "Free alternative to Doodle and When2Meet",
+      "body3": "Looking for a free time zone meeting planner? TimeSync offers drag-and-drop availability selection, visual heatmaps, real-time updates, and support for 114+ cities worldwide — completely free, with no account needed. Perfect for remote teams, international clients, and anyone who needs to schedule meetings across time zones."
+    },
+    "form": {
+      "title": "New Meeting Room",
+      "meetingName": "Meeting Name",
+      "meetingNamePlaceholder": "Weekly Standup",
+      "yourName": "Your Name",
+      "yourNamePlaceholder": "Alex Kim",
+      "yourTimezone": "Your Timezone",
+      "meetingDates": "Meeting Dates",
+      "selectRange": "select range",
+      "dailyWindow": "Daily Time Window",
+      "createButton": "Create Room & Get Link →",
+      "creating": "Creating..."
+    }
+  },
+  "room": {
+    "shareBanner": {
+      "title": "Share this room with your team",
+      "desc": "Copy the link and send it to participants so they can add their availability",
+      "copyLink": "Copy Link"
+    },
+    "deadline": "Respond by {{date}}",
+    "selectTitle": "Select Your Available Times",
+    "selectDesc": "Click or drag to mark your free hours",
+    "joinToSave": "Join the room to save your availability.",
+    "joinToSaveSm": "Join the room to save.",
+    "saveAvailability": "Save Availability",
+    "saveViewResults": "Save & View Results",
+    "joinRoom": "Join Room",
+    "selectTimes": "Select Times",
+    "viewResults": "View Results",
+    "viewHeatmap": "View Heatmap",
+    "editMyTimes": "Edit My Times",
+    "joinDialog": {
+      "title": "Join {{roomName}}",
+      "desc": "Enter your details to mark your availability.",
+      "yourName": "Your Name",
+      "namePlaceholder": "e.g. Alex Kim",
+      "timezone": "Your Timezone",
+      "joinButton": "Join & Select Times",
+      "joining": "Joining..."
+    },
+    "confirmDialog": {
+      "title": "Confirm this meeting time?",
+      "desc": "This will lock the meeting time for all participants. This action cannot be undone.",
+      "confirmButton": "Confirm",
+      "confirming": "Confirming..."
+    },
+    "editRoomDialog": {
+      "title": "Edit Room",
+      "roomName": "Room Name",
+      "description": "Description",
+      "descriptionOptional": "(optional)",
+      "descPlaceholder": "Add a description or agenda...",
+      "saveChanges": "Save Changes",
+      "saving": "Saving..."
+    },
+    "toast": {
+      "roomCreated": "Room created!",
+      "roomCreatedDesc": "Share the link with your team.",
+      "linkCopied": "Link copied!",
+      "linkCopiedDesc": "Share this link with your team.",
+      "availabilitySaved": "Availability saved!",
+      "meetingConfirmed": "Meeting time confirmed!",
+      "participantRemoved": "Participant removed",
+      "roomUpdated": "Room updated!",
+      "errorCreating": "Error creating room",
+      "errorJoining": "Failed to join room. This room may not exist.",
+      "errorSaving": "Failed to save availability",
+      "errorConfirming": "Failed to confirm time",
+      "error": "Error"
+    },
+    "loading": "Loading room...",
+    "notFound": "Room not found",
+    "notFoundDesc": "This room may have been deleted or the link is invalid.",
+    "errorLoading": "Error loading room"
+  },
+  "participants": {
+    "title": "Participants",
+    "noParticipants": "No participants yet",
+    "team": "Team ({{count}})",
+    "removeParticipant": "Remove participant",
+    "responded": "responded"
+  },
+  "heatmap": {
+    "heatmapTitle": "Availability Heatmap",
+    "heatmapSubtitle": "Darker = more people free · click any cell for details",
+    "title": "Best Available Times",
+    "sortedByOverlap": "Sorted by participant overlap",
+    "confirmed": "Confirmed",
+    "awaitingConfirmation": "Awaiting confirmation",
+    "thisTimeConfirmed": "This time is confirmed",
+    "noneAvailableAtTime": "No one definitely available at this time.",
+    "confirmButton": "Confirm",
+    "noData": "No availability data yet",
+    "noDataDesc": "Add participants and have them select their available times.",
+    "bestTimes": "Best Times",
+    "confirmTime": "Confirm this time",
+    "downloadICS": "Download .ics",
+    "confirmedTime": "Confirmed Meeting Time",
+    "availableLabel": "Available",
+    "ifNeededLabel": "If needed",
+    "noneLabel": "None",
+    "allLabel": "All {{count}}",
+    "slotDetail": {
+      "available": "Available",
+      "ifNeeded": "If Needed",
+      "unavailable": "Unavailable"
+    },
+    "legend": {
+      "none": "None",
+      "some": "Some",
+      "all": "All",
+      "ifNeeded": "If needed"
+    }
+  },
+  "timeGrid": {
+    "markAs": "Mark as:",
+    "available": "Available",
+    "ifNeeded": "If Needed",
+    "dragHint": "Click or drag to select"
+  },
+  "createRoom": {
+    "title": "Schedule a Meeting",
+    "subtitle": "Set up your meeting room in a few quick steps",
+    "step1": {
+      "title": "Basic Info",
+      "meetingName": "Meeting Name",
+      "namePlaceholder": "e.g., Weekly team sync",
+      "yourName": "Your Name",
+      "yourNamePlaceholder": "e.g., Alex Kim",
+      "timezone": "Your Timezone",
+      "description": "Description",
+      "descriptionOptional": "(optional)",
+      "descPlaceholder": "What's this meeting about? (optional, max 500 chars)"
+    },
+    "step2": {
+      "title": "Pick Dates",
+      "label": "Select a date range",
+      "hint": "Click start date then end date",
+      "rangeHint": "Pick the start and end dates for the meeting (up to 14 days ahead)."
+    },
+    "step3": {
+      "title": "Time & Options",
+      "slotDuration": "Slot Duration",
+      "oneHour": "1 hour",
+      "thirtyMin": "30 min",
+      "dailyWindow": "Daily Time Window",
+      "from": "From",
+      "to": "To",
+      "hint": "The hours of the day participants can select availability within.",
+      "deadline": "Response Deadline",
+      "deadlineOptional": "(optional)",
+      "deadlineLabel": "Respond by date",
+      "deadlineHint": "Block availability changes after this date."
+    },
+    "createButton": "Create Meeting Room",
+    "creating": "Creating...",
+    "back": "Back",
+    "next": "Next",
+    "stepOf": "Step {{current}} of {{total}}"
+  },
+  "features": {
+    "title": "Everything you need to coordinate global meetings",
+    "subtitle": "Purpose-built for distributed teams across time zones",
+    "cta": "Try it free",
+    "list": {
+      "timezone": {
+        "title": "Smart Timezone Handling",
+        "desc": "Auto-detects each participant's timezone. Everyone sees times in their local timezone — zero manual conversion."
+      },
+      "heatmap": {
+        "title": "Visual Overlap Heatmap",
+        "desc": "Instantly see which time slots work for the most people with a color-coded availability heatmap."
+      },
+      "drag": {
+        "title": "Drag & Drop Selection",
+        "desc": "Quickly mark your available hours by clicking and dragging — works on desktop and mobile."
+      },
+      "realtime": {
+        "title": "Real-Time Collaboration",
+        "desc": "See participants join and update their availability live, without refreshing the page."
+      },
+      "noSignup": {
+        "title": "Zero Friction — No Sign Up",
+        "desc": "Share a link. Participants join with just their name. No accounts, no passwords, no email required."
+      },
+      "export": {
+        "title": "Calendar Export",
+        "desc": "Download a .ics file for your confirmed meeting and add it to any calendar app instantly."
+      }
+    }
+  },
+  "howItWorks": {
+    "title": "How TimeSync works",
+    "subtitle": "Coordinate your next meeting in 3 simple steps",
+    "step1": {
+      "title": "Create a meeting room",
+      "desc": "Enter a meeting name, your name, and select the candidate dates and time window. Takes under a minute."
+    },
+    "step2": {
+      "title": "Share with participants",
+      "desc": "Copy the unique room link and send it to your team by email, Slack, WhatsApp — whatever you use."
+    },
+    "step3": {
+      "title": "Find the best time",
+      "desc": "Each participant marks their availability. The heatmap updates in real-time showing the best overlap slot."
+    },
+    "cta": "Create your first room"
+  },
+  "helpShare": {
+    "title": "Sharing Guide",
+    "subtitle": "How to invite participants and collaborate",
+    "sections": {
+      "share": {
+        "title": "How to share your room",
+        "desc": "After creating a room, copy the link from the room page and send it to your participants."
+      },
+      "join": {
+        "title": "How participants join",
+        "desc": "Participants open the link, enter their name and timezone, then drag to mark their available times."
+      },
+      "results": {
+        "title": "Reading the heatmap",
+        "desc": "Darker cells mean more people are available at that time. The top 3–5 best times are highlighted automatically."
+      }
+    }
+  },
+  "notFound": {
+    "title": "Page not found",
+    "desc": "The page you're looking for doesn't exist or has been moved.",
+    "back": "Go home"
+  },
+  "errors": {
+    "meetingNameRequired": "Meeting name required",
+    "yourNameRequired": "Your name required",
+    "selectOneDate": "Select at least one date",
+    "endAfterStart": "End time must be after start time",
+    "unknown": "Unknown error occurred"
+  },
+  "languageSuggest": {
+    "en": "Switch to English?",
+    "es": "¿Cambiar a Español?",
+    "ja": "日本語に切り替えますか？",
+    "ko": "한국어로 전환할까요?",
+    "fr": "Passer en français ?",
+    "de": "Auf Deutsch wechseln?",
+    "pt": "Mudar para Português?"
+  }
+}

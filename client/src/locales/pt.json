@@ -1,0 +1,282 @@
+{
+  "common": {
+    "appName": "TimeSync",
+    "tagline": "Agendador de reuniões global gratuito",
+    "save": "Salvar",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "close": "Fechar",
+    "back": "Voltar",
+    "next": "Próximo",
+    "create": "Criar",
+    "edit": "Editar",
+    "delete": "Excluir",
+    "copy": "Copiar",
+    "share": "Compartilhar",
+    "loading": "Carregando...",
+    "saving": "Salvando...",
+    "creating": "Criando...",
+    "joining": "Entrando...",
+    "confirming": "Confirmando...",
+    "copyLink": "Copiar link",
+    "backToHome": "Voltar ao início",
+    "newMeeting": "Nova reunião",
+    "features": "Recursos",
+    "howItWorks": "Como funciona",
+    "help": "Ajuda",
+    "privacy": "Política de privacidade",
+    "free": "Gratuito",
+    "noSignUp": "Sem cadastro",
+    "free114cities": "Agendador de reuniões global gratuito · Sem cadastro · Mais de 114 cidades"
+  },
+  "nav": {
+    "features": "Recursos",
+    "howItWorks": "Como funciona",
+    "help": "Ajuda"
+  },
+  "footer": {
+    "tagline": "Agendador de reuniões global gratuito",
+    "copyright": "© {{year}} TimeSync. Agendador de reuniões global gratuito."
+  },
+  "home": {
+    "hero": {
+      "headline": "Encontre o melhor horário",
+      "headlineHighlight": "para reuniões entre fusos horários",
+      "subtext": "Agendador de reuniões gratuito com suporte a fusos horários.",
+      "description": "Cada participante insere sua disponibilidade no seu fuso horário — o mapa de calor mostra as sobreposições em um só olhar para confirmar o melhor horário. Sem conta necessária, sem e-mail.",
+      "checks": {
+        "drag": "Selecione disponibilidade por arrastar e soltar",
+        "heatmap": "Mapa de calor mostrando as melhores sobreposições",
+        "noAccount": "Sem conta ou e-mail necessário"
+      }
+    },
+    "stats": {
+      "roomsCreated": "salas criadas",
+      "participantsJoined": "participantes entraram"
+    },
+    "steps": {
+      "step1Title": "Criar sala",
+      "step1Desc": "Digite o nome da reunião e defina datas e janela de horário.",
+      "step2Title": "Compartilhar link",
+      "step2Desc": "Os participantes entram com apenas nome e fuso horário.",
+      "step3Title": "Confirmar melhor horário",
+      "step3Desc": "Verifique o mapa de calor e confirme o melhor horário."
+    },
+    "features": {
+      "sectionTitle": "Agendador de reuniões para diferentes fusos horários — para equipes distribuídas",
+      "timezone": {
+        "title": "Detecção automática de fuso horário",
+        "desc": "Detecta o fuso horário automaticamente. Cada participante vê a disponibilidade no seu horário local."
+      },
+      "heatmap": {
+        "title": "Mapa de calor visual",
+        "desc": "Visualize quando sua equipe está disponível com código de cores."
+      },
+      "noSignUp": {
+        "title": "Sem cadastro necessário",
+        "desc": "Arraste para selecionar disponibilidade e compartilhe o link. Sem conta ou e-mail necessário."
+      }
+    },
+    "stepsSection": {
+      "headline": "Agende uma reunião entre fusos horários em 3 etapas"
+    },
+    "seoSection": {
+      "title1": "Agendador de reuniões global para equipes internacionais",
+      "body1": "Coordenar reuniões entre fusos horários é difícil. O TimeSync é um agendador de reuniões global gratuito que elimina as suposições. Crie uma sala, compartilhe o link e cada participante insere sua disponibilidade no horário local.",
+      "title2": "Como encontrar horário de reunião entre fusos horários",
+      "body2": "Ao contrário de conversores de fuso horário estáticos, o TimeSync coleta disponibilidades reais de todos os participantes. Tóquio e Nova York, Londres e Sydney — todas as combinações são suportadas.",
+      "title3": "Alternativa gratuita ao Doodle e When2Meet",
+      "body3": "O TimeSync oferece seleção de disponibilidade por arrastar e soltar, mapa de calor visual, atualizações em tempo real e suporte a mais de 114 cidades — completamente gratuito."
+    },
+    "form": {
+      "title": "Nova sala de reunião",
+      "meetingName": "Nome da reunião",
+      "meetingNamePlaceholder": "Reunião semanal",
+      "yourName": "Seu nome",
+      "yourNamePlaceholder": "João Silva",
+      "yourTimezone": "Seu fuso horário",
+      "meetingDates": "Datas da reunião",
+      "selectRange": "Selecionar datas",
+      "dailyWindow": "Janela diária de horário",
+      "createButton": "Criar sala e obter link →",
+      "creating": "Criando..."
+    }
+  },
+  "room": {
+    "shareBanner": {
+      "title": "Compartilhe este link com sua equipe",
+      "desc": "Copie o link e envie para os participantes inserem sua disponibilidade",
+      "copyLink": "Copiar link"
+    },
+    "deadline": "Responder até {{date}}",
+    "selectTitle": "Selecione sua disponibilidade",
+    "selectDesc": "Clique ou arraste para marcar horários disponíveis",
+    "joinToSave": "Entre na sala para salvar sua disponibilidade.",
+    "joinToSaveSm": "Entre para salvar.",
+    "saveAvailability": "Salvar disponibilidade",
+    "saveViewResults": "Salvar e ver resultados",
+    "joinRoom": "Entrar na sala",
+    "selectTimes": "Selecionar horários",
+    "viewResults": "Ver resultados",
+    "viewHeatmap": "Ver mapa de calor",
+    "editMyTimes": "Editar meus horários",
+    "joinDialog": {
+      "title": "Entrar em {{roomName}}",
+      "desc": "Digite seu nome e fuso horário para marcar sua disponibilidade.",
+      "yourName": "Seu nome",
+      "namePlaceholder": "Ex: João Silva",
+      "timezone": "Seu fuso horário",
+      "joinButton": "Entrar e selecionar horários",
+      "joining": "Entrando..."
+    },
+    "confirmDialog": {
+      "title": "Confirmar este horário de reunião?",
+      "desc": "O horário da reunião será confirmado para todos os participantes. Esta ação não pode ser desfeita.",
+      "confirmButton": "Confirmar",
+      "confirming": "Confirmando..."
+    },
+    "editRoomDialog": {
+      "title": "Editar sala",
+      "roomName": "Nome da sala",
+      "description": "Descrição",
+      "descriptionOptional": "(opcional)",
+      "descPlaceholder": "Adicionar descrição ou pauta...",
+      "saveChanges": "Salvar alterações",
+      "saving": "Salvando..."
+    },
+    "toast": {
+      "roomCreated": "Sala criada!",
+      "roomCreatedDesc": "Compartilhe o link com sua equipe.",
+      "linkCopied": "Link copiado!",
+      "linkCopiedDesc": "Compartilhe este link com sua equipe.",
+      "availabilitySaved": "Disponibilidade salva!",
+      "meetingConfirmed": "Reunião confirmada!",
+      "participantRemoved": "Participante removido",
+      "roomUpdated": "Sala atualizada!",
+      "error": "Erro"
+    },
+    "loading": "Carregando sala...",
+    "notFound": "Sala não encontrada",
+    "notFoundDesc": "Esta sala pode ter sido excluída ou o link é inválido.",
+    "errorLoading": "Erro ao carregar a sala"
+  },
+  "participants": {
+    "title": "Participantes",
+    "noParticipants": "Nenhum participante ainda",
+    "team": "Equipe ({{count}})",
+    "removeParticipant": "Remover participante"
+  },
+  "heatmap": {
+    "heatmapTitle": "Mapa de disponibilidade",
+    "heatmapSubtitle": "Mais escuro = mais pessoas disponíveis · clique em qualquer célula para detalhes",
+    "title": "Melhores disponibilidades",
+    "sortedByOverlap": "Ordenado por sobreposição de participantes",
+    "confirmed": "Confirmado",
+    "awaitingConfirmation": "Aguardando confirmação",
+    "thisTimeConfirmed": "Este horário está confirmado",
+    "noneAvailableAtTime": "Ninguém definitivamente disponível neste horário.",
+    "confirmButton": "Confirmar",
+    "noData": "Ainda sem dados de disponibilidade",
+    "noDataDesc": "Adicione participantes e peça-lhes para selecionar disponibilidade.",
+    "bestTimes": "Melhores horários",
+    "confirmTime": "Confirmar este horário",
+    "downloadICS": "Baixar .ics",
+    "confirmedTime": "Reunião confirmada",
+    "availableLabel": "Disponível",
+    "ifNeededLabel": "Se necessário",
+    "noneLabel": "Indisponível",
+    "allLabel": "Todos {{count}}",
+    "slotDetail": {
+      "available": "Disponível",
+      "ifNeeded": "Se necessário",
+      "unavailable": "Indisponível"
+    },
+    "legend": {
+      "none": "Nenhum",
+      "some": "Alguns",
+      "all": "Todos",
+      "ifNeeded": "Se necessário"
+    }
+  },
+  "timeGrid": {
+    "markAs": "Marcar como:",
+    "available": "Disponível",
+    "ifNeeded": "Se necessário",
+    "dragHint": "Clique ou arraste para selecionar"
+  },
+  "createRoom": {
+    "title": "Agendar reunião",
+    "subtitle": "Configure sua sala de reunião em algumas etapas simples",
+    "step1": {
+      "title": "Informações básicas",
+      "meetingName": "Nome da reunião",
+      "namePlaceholder": "Ex: Reunião semanal da equipe",
+      "yourName": "Seu nome",
+      "yourNamePlaceholder": "Ex: João Silva",
+      "timezone": "Seu fuso horário",
+      "description": "Descrição",
+      "descriptionOptional": "(opcional)",
+      "descPlaceholder": "Sobre esta reunião (opcional)"
+    },
+    "step2": {
+      "title": "Escolher datas",
+      "label": "Selecionar intervalo de datas",
+      "hint": "Clique na data de início e depois na data de fim",
+      "rangeHint": "Escolha as datas de início e fim da reunião (até 14 dias)."
+    },
+    "step3": {
+      "title": "Horários e opções",
+      "slotDuration": "Duração do slot",
+      "oneHour": "1 hora",
+      "thirtyMin": "30 minutos",
+      "dailyWindow": "Janela diária",
+      "from": "De",
+      "to": "Até",
+      "hint": "As horas do dia em que os participantes podem selecionar disponibilidade.",
+      "deadline": "Prazo de resposta",
+      "deadlineOptional": "(opcional)",
+      "deadlineLabel": "Data de prazo",
+      "deadlineHint": "Bloquear alterações de disponibilidade após esta data."
+    },
+    "createButton": "Criar sala de reunião",
+    "creating": "Criando...",
+    "back": "Voltar",
+    "next": "Próximo"
+  },
+  "features": {
+    "title": "Tudo que você precisa para coordenar reuniões globais",
+    "subtitle": "Projetado para equipes distribuídas em fusos horários",
+    "cta": "Experimentar gratuitamente",
+    "list": {
+      "timezone": { "title": "Gerenciamento inteligente de fuso horário", "desc": "Detecta automaticamente o fuso horário de cada participante. Todos veem os horários no seu horário local." },
+      "heatmap": { "title": "Mapa de calor visual de sobreposição", "desc": "Veja instantaneamente quais horários funcionam para mais pessoas." },
+      "drag": { "title": "Seleção por arrastar e soltar", "desc": "Clique e arraste para marcar disponibilidade. Funciona em desktop e celular." },
+      "realtime": { "title": "Colaboração em tempo real", "desc": "Veja os participantes atualizando sua disponibilidade em tempo real." },
+      "noSignup": { "title": "Sem cadastro", "desc": "Basta compartilhar o link. Os participantes entram com apenas seu nome." },
+      "export": { "title": "Exportação de calendário", "desc": "Baixe o arquivo .ics para a reunião confirmada e adicione a qualquer calendário." }
+    }
+  },
+  "howItWorks": {
+    "title": "Como usar o TimeSync",
+    "subtitle": "Coordene sua próxima reunião em 3 etapas simples",
+    "step1": { "title": "Criar sala de reunião", "desc": "Digite o nome da reunião, seu nome e selecione datas candidatas e janela de horário." },
+    "step2": { "title": "Compartilhar com participantes", "desc": "Copie o link único da sala e envie para sua equipe." },
+    "step3": { "title": "Encontrar o melhor horário", "desc": "Cada participante marca sua disponibilidade. O mapa de calor mostra em tempo real a melhor sobreposição." },
+    "cta": "Criar primeira sala"
+  },
+  "notFound": {
+    "title": "Página não encontrada",
+    "desc": "A página que você procura não existe ou foi movida.",
+    "back": "Ir para início"
+  },
+  "errors": {
+    "meetingNameRequired": "Nome da reunião é obrigatório",
+    "yourNameRequired": "Seu nome é obrigatório",
+    "selectOneDate": "Selecione pelo menos uma data",
+    "endAfterStart": "Horário de término deve ser após o início",
+    "unknown": "Ocorreu um erro desconhecido"
+  },
+  "languageSuggest": {
+    "pt": "Mudar para Português?"
+  }
+}

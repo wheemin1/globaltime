@@ -1,0 +1,282 @@
+{
+  "common": {
+    "appName": "TimeSync",
+    "tagline": "Kostenloser globaler Meeting-Planer",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "confirm": "Bestätigen",
+    "close": "Schließen",
+    "back": "Zurück",
+    "next": "Weiter",
+    "create": "Erstellen",
+    "edit": "Bearbeiten",
+    "delete": "Löschen",
+    "copy": "Kopieren",
+    "share": "Teilen",
+    "loading": "Wird geladen...",
+    "saving": "Wird gespeichert...",
+    "creating": "Wird erstellt...",
+    "joining": "Wird beigetreten...",
+    "confirming": "Wird bestätigt...",
+    "copyLink": "Link kopieren",
+    "backToHome": "Zurück zur Startseite",
+    "newMeeting": "Neues Meeting",
+    "features": "Funktionen",
+    "howItWorks": "So funktioniert's",
+    "help": "Hilfe",
+    "privacy": "Datenschutzerklärung",
+    "free": "Kostenlos",
+    "noSignUp": "Keine Anmeldung",
+    "free114cities": "Kostenloser globaler Meeting-Planer · Keine Anmeldung · Über 114 Städte"
+  },
+  "nav": {
+    "features": "Funktionen",
+    "howItWorks": "So funktioniert's",
+    "help": "Hilfe"
+  },
+  "footer": {
+    "tagline": "Kostenloser globaler Meeting-Planer",
+    "copyright": "© {{year}} TimeSync. Kostenloser globaler Meeting-Planer."
+  },
+  "home": {
+    "hero": {
+      "headline": "Die beste Meeting-Zeit",
+      "headlineHighlight": "über Zeitzonen hinweg finden",
+      "subtext": "Kostenloser Meeting-Planer mit Zeitzonenunterstützung.",
+      "description": "Jeder Teilnehmer gibt seine Verfügbarkeit in seiner Zeitzone ein — die Heatmap zeigt die Überschneidungen auf einen Blick, um die beste Zeit zu bestätigen. Kein Konto erforderlich, keine E-Mail.",
+      "checks": {
+        "drag": "Per Drag-and-Drop Verfügbarkeit auswählen",
+        "heatmap": "Heatmap zeigt die besten Überschneidungen",
+        "noAccount": "Kein Konto oder E-Mail erforderlich"
+      }
+    },
+    "stats": {
+      "roomsCreated": "Räume erstellt",
+      "participantsJoined": "Teilnehmer beigetreten"
+    },
+    "steps": {
+      "step1Title": "Raum erstellen",
+      "step1Desc": "Meeting-Namen eingeben und Daten sowie Zeitfenster festlegen.",
+      "step2Title": "Link teilen",
+      "step2Desc": "Teilnehmer können nur mit Namen und Zeitzone beitreten.",
+      "step3Title": "Beste Zeit bestätigen",
+      "step3Desc": "Heatmap prüfen und das beste Zeitfenster bestätigen."
+    },
+    "features": {
+      "sectionTitle": "Meeting-Planer für verschiedene Zeitzonen — für verteilte Teams",
+      "timezone": {
+        "title": "Automatische Zeitzonen-Erkennung",
+        "desc": "Erkennt die Zeitzone automatisch. Jeder Teilnehmer sieht die Verfügbarkeit in seiner lokalen Zeit."
+      },
+      "heatmap": {
+        "title": "Visuelle Heatmap",
+        "desc": "Visualisiert mit Farbcodierung, wann Ihr Team verfügbar ist."
+      },
+      "noSignUp": {
+        "title": "Keine Anmeldung erforderlich",
+        "desc": "Verfügbarkeit per Drag auswählen und Link teilen. Kein Konto, keine E-Mail erforderlich."
+      }
+    },
+    "stepsSection": {
+      "headline": "Meeting über Zeitzonen in 3 Schritten planen"
+    },
+    "seoSection": {
+      "title1": "Globaler Meeting-Planer für internationale Teams",
+      "body1": "Meetings über Zeitzonen zu koordinieren ist schwierig. TimeSync ist ein kostenloser globaler Meeting-Planer, der das Rätselraten eliminiert. Raum erstellen, Link teilen – jeder Teilnehmer gibt seine Verfügbarkeit in seiner lokalen Zeit ein.",
+      "title2": "Wie man Meeting-Zeiten über Zeitzonen hinweg findet",
+      "body2": "Im Gegensatz zu statischen Zeitzonenkonvertern sammelt TimeSync echte Verfügbarkeiten von allen Teilnehmern. Tokio und New York, London und Sydney — alle Kombinationen werden unterstützt.",
+      "title3": "Kostenlose Alternative zu Doodle und When2Meet",
+      "body3": "TimeSync bietet Drag-and-Drop-Verfügbarkeitsauswahl, visuelle Heatmap, Echtzeit-Updates und Unterstützung für über 114 Städte — komplett kostenlos."
+    },
+    "form": {
+      "title": "Neuer Meeting-Raum",
+      "meetingName": "Meeting-Name",
+      "meetingNamePlaceholder": "Wöchentliches Stand-up",
+      "yourName": "Ihr Name",
+      "yourNamePlaceholder": "Max Mustermann",
+      "yourTimezone": "Ihre Zeitzone",
+      "meetingDates": "Meeting-Termine",
+      "selectRange": "Daten auswählen",
+      "dailyWindow": "Tägliches Zeitfenster",
+      "createButton": "Meeting-Raum erstellen und Link erhalten →",
+      "creating": "Wird erstellt..."
+    }
+  },
+  "room": {
+    "shareBanner": {
+      "title": "Teilen Sie diesen Link mit Ihrem Team",
+      "desc": "Kopieren Sie den Link und senden Sie ihn an Teilnehmer, damit sie ihre Verfügbarkeit eingeben können",
+      "copyLink": "Link kopieren"
+    },
+    "deadline": "Antwort bis {{date}}",
+    "selectTitle": "Bitte wählen Sie Ihre Verfügbarkeit",
+    "selectDesc": "Klicken oder ziehen Sie, um verfügbare Zeiten zu markieren",
+    "joinToSave": "Treten Sie dem Raum bei, um Ihre Verfügbarkeit zu speichern.",
+    "joinToSaveSm": "Beitreten zum Speichern.",
+    "saveAvailability": "Verfügbarkeit speichern",
+    "saveViewResults": "Speichern und Ergebnisse anzeigen",
+    "joinRoom": "Raum beitreten",
+    "selectTimes": "Zeiten auswählen",
+    "viewResults": "Ergebnisse anzeigen",
+    "viewHeatmap": "Heatmap anzeigen",
+    "editMyTimes": "Meine Zeiten bearbeiten",
+    "joinDialog": {
+      "title": "{{roomName}} beitreten",
+      "desc": "Geben Sie Ihren Namen und Ihre Zeitzone ein, um Ihre Verfügbarkeit zu markieren.",
+      "yourName": "Ihr Name",
+      "namePlaceholder": "z.B.: Max Mustermann",
+      "timezone": "Ihre Zeitzone",
+      "joinButton": "Beitreten und Zeiten auswählen",
+      "joining": "Wird beigetreten..."
+    },
+    "confirmDialog": {
+      "title": "Diese Meeting-Zeit bestätigen?",
+      "desc": "Die Meeting-Zeit wird für alle Teilnehmer bestätigt. Diese Aktion kann nicht rückgängig gemacht werden.",
+      "confirmButton": "Bestätigen",
+      "confirming": "Wird bestätigt..."
+    },
+    "editRoomDialog": {
+      "title": "Raum bearbeiten",
+      "roomName": "Raumname",
+      "description": "Beschreibung",
+      "descriptionOptional": "(optional)",
+      "descPlaceholder": "Beschreibung oder Tagesordnung hinzufügen...",
+      "saveChanges": "Änderungen speichern",
+      "saving": "Wird gespeichert..."
+    },
+    "toast": {
+      "roomCreated": "Raum erstellt!",
+      "roomCreatedDesc": "Teilen Sie den Link mit Ihrem Team.",
+      "linkCopied": "Link kopiert!",
+      "linkCopiedDesc": "Teilen Sie diesen Link mit Ihrem Team.",
+      "availabilitySaved": "Verfügbarkeit gespeichert!",
+      "meetingConfirmed": "Meeting bestätigt!",
+      "participantRemoved": "Teilnehmer entfernt",
+      "roomUpdated": "Raum aktualisiert!",
+      "error": "Fehler"
+    },
+    "loading": "Raum wird geladen...",
+    "notFound": "Raum nicht gefunden",
+    "notFoundDesc": "Dieser Raum wurde möglicherweise gelöscht oder der Link ist ungültig.",
+    "errorLoading": "Fehler beim Laden des Raums"
+  },
+  "participants": {
+    "title": "Teilnehmer",
+    "noParticipants": "Noch keine Teilnehmer",
+    "team": "Team ({{count}})",
+    "removeParticipant": "Teilnehmer entfernen"
+  },
+  "heatmap": {
+    "heatmapTitle": "Verfügbarkeits-Heatmap",
+    "heatmapSubtitle": "Dunkler = mehr Personen verfügbar · Klick auf eine Zelle für Details",
+    "title": "Beste Verfügbarkeiten",
+    "sortedByOverlap": "Nach Teilnehmer-Überschneidung sortiert",
+    "confirmed": "Bestätigt",
+    "awaitingConfirmation": "Warte auf Bestätigung",
+    "thisTimeConfirmed": "Dieser Termin ist bestätigt",
+    "noneAvailableAtTime": "Niemand ist zu diesem Zeitpunkt definitiv verfügbar.",
+    "confirmButton": "Bestätigen",
+    "noData": "Noch keine Verfügbarkeitsdaten",
+    "noDataDesc": "Fügen Sie Teilnehmer hinzu und bitten Sie sie, ihre Verfügbarkeit auszuwählen.",
+    "bestTimes": "Beste Zeitfenster",
+    "confirmTime": "Diese Zeit bestätigen",
+    "downloadICS": ".ics herunterladen",
+    "confirmedTime": "Bestätigte Meeting-Zeit",
+    "availableLabel": "Verfügbar",
+    "ifNeededLabel": "Falls nötig",
+    "noneLabel": "Nicht verfügbar",
+    "allLabel": "Alle {{count}}",
+    "slotDetail": {
+      "available": "Verfügbar",
+      "ifNeeded": "Falls nötig",
+      "unavailable": "Nicht verfügbar"
+    },
+    "legend": {
+      "none": "Keine",
+      "some": "Einige",
+      "all": "Alle",
+      "ifNeeded": "Falls nötig"
+    }
+  },
+  "timeGrid": {
+    "markAs": "Markieren als:",
+    "available": "Verfügbar",
+    "ifNeeded": "Falls nötig",
+    "dragHint": "Klicken oder ziehen zum Auswählen"
+  },
+  "createRoom": {
+    "title": "Meeting planen",
+    "subtitle": "Richten Sie Ihren Meeting-Raum in einigen einfachen Schritten ein",
+    "step1": {
+      "title": "Grundinformationen",
+      "meetingName": "Meeting-Name",
+      "namePlaceholder": "z.B.: Wöchentliches Team-Meeting",
+      "yourName": "Ihr Name",
+      "yourNamePlaceholder": "z.B.: Max Mustermann",
+      "timezone": "Ihre Zeitzone",
+      "description": "Beschreibung",
+      "descriptionOptional": "(optional)",
+      "descPlaceholder": "Über dieses Meeting (optional)"
+    },
+    "step2": {
+      "title": "Daten auswählen",
+      "label": "Datumsbereich auswählen",
+      "hint": "Klicken Sie auf das Startdatum, dann auf das Enddatum",
+      "rangeHint": "Wählen Sie Start- und Enddatum für das Meeting (bis zu 14 Tage)."
+    },
+    "step3": {
+      "title": "Zeiten und Optionen",
+      "slotDuration": "Zeitfensterlänge",
+      "oneHour": "1 Stunde",
+      "thirtyMin": "30 Minuten",
+      "dailyWindow": "Tägliches Zeitfenster",
+      "from": "Von",
+      "to": "Bis",
+      "hint": "Die Tagesstunden, in denen Teilnehmer ihre Verfügbarkeit auswählen können.",
+      "deadline": "Antwortfrist",
+      "deadlineOptional": "(optional)",
+      "deadlineLabel": "Antwortfristdatum",
+      "deadlineHint": "Änderungen der Verfügbarkeit nach diesem Datum sperren."
+    },
+    "createButton": "Meeting-Raum erstellen",
+    "creating": "Wird erstellt...",
+    "back": "Zurück",
+    "next": "Weiter"
+  },
+  "features": {
+    "title": "Alles, was Sie für globale Meeting-Koordination benötigen",
+    "subtitle": "Entwickelt für verteilte Teams über Zeitzonen",
+    "cta": "Kostenlos ausprobieren",
+    "list": {
+      "timezone": { "title": "Intelligente Zeitzonenverwaltung", "desc": "Erkennt automatisch die Zeitzone jedes Teilnehmers. Alle sehen die Zeitfenster in ihrer lokalen Zeit." },
+      "heatmap": { "title": "Visuelle Überschneidungs-Heatmap", "desc": "Sehen Sie sofort, welche Zeitfenster für die meisten Personen passen." },
+      "drag": { "title": "Drag-and-Drop-Auswahl", "desc": "Klicken und ziehen Sie, um Verfügbarkeit zu markieren. Funktioniert auf Desktop und Mobil." },
+      "realtime": { "title": "Echtzeit-Zusammenarbeit", "desc": "Sehen Sie, wie Teilnehmer ihre Verfügbarkeit in Echtzeit aktualisieren." },
+      "noSignup": { "title": "Keine Anmeldung", "desc": "Einfach Link teilen. Teilnehmer können nur mit ihrem Namen beitreten." },
+      "export": { "title": "Kalender-Export", "desc": "Laden Sie die .ics-Datei für das bestätigte Meeting herunter und fügen Sie sie zu jedem Kalender hinzu." }
+    }
+  },
+  "howItWorks": {
+    "title": "So verwenden Sie TimeSync",
+    "subtitle": "Koordinieren Sie Ihr nächstes Meeting in 3 einfachen Schritten",
+    "step1": { "title": "Meeting-Raum erstellen", "desc": "Meeting-Namen, Ihren Namen eingeben und Kandidatendaten sowie Zeitfenster auswählen." },
+    "step2": { "title": "Mit Teilnehmern teilen", "desc": "Kopieren Sie den einzigartigen Raum-Link und senden Sie ihn an Ihr Team." },
+    "step3": { "title": "Beste Zeit finden", "desc": "Jeder Teilnehmer markiert seine Verfügbarkeit. Die Heatmap zeigt in Echtzeit die beste Überschneidung." },
+    "cta": "Ersten Raum erstellen"
+  },
+  "notFound": {
+    "title": "Seite nicht gefunden",
+    "desc": "Die gesuchte Seite existiert nicht oder wurde verschoben.",
+    "back": "Zur Startseite"
+  },
+  "errors": {
+    "meetingNameRequired": "Meeting-Name ist erforderlich",
+    "yourNameRequired": "Ihr Name ist erforderlich",
+    "selectOneDate": "Bitte wählen Sie mindestens ein Datum",
+    "endAfterStart": "Endzeit muss nach Startzeit liegen",
+    "unknown": "Ein unbekannter Fehler ist aufgetreten"
+  },
+  "languageSuggest": {
+    "de": "Zu Deutsch wechseln?"
+  }
+}

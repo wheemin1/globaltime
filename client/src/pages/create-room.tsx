@@ -19,6 +19,7 @@ import { getUserTimezone } from "@/lib/timezone-utils";
 import { Navbar } from "@/components/layout";
 import { BugReport } from "@/components/bug-report";
 import type { CreateRoomRequest } from "@shared/schema";
+import { useTranslation } from "react-i18next";
 
 function StepLabel({ number, label }: { number: number; label: string }) {
   return (
@@ -34,6 +35,7 @@ function StepLabel({ number, label }: { number: number; label: string }) {
 export default function CreateRoom() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
+  const { t } = useTranslation();
 
   const [roomName, setRoomName] = useState("");
   const [hostName, setHostName] = useState("");
@@ -56,15 +58,15 @@ export default function CreateRoom() {
     },
     onSuccess: (data) => {
       toast({
-        title: "Room created!",
-        description: "Share the link with your team.",
+        title: t('room.toast.roomCreated'),
+        description: t('room.toast.roomCreatedDesc'),
       });
       setLocation(`/room/${data.roomId}?host=${data.hostId}`);
     },
     onError: (error) => {
       toast({
-        title: "Error creating room",
-        description: error.message || "Unknown error occurred",
+        title: t('room.toast.errorCreating'),
+        description: error.message || t('errors.unknown'),
         variant: "destructive",
       });
     },
@@ -74,19 +76,19 @@ export default function CreateRoom() {
     e.preventDefault();
 
     if (!roomName.trim()) {
-      toast({ title: "Meeting name required", variant: "destructive" });
+      toast({ title: t('errors.meetingNameRequired'), variant: "destructive" });
       return;
     }
     if (!hostName.trim()) {
-      toast({ title: "Your name required", variant: "destructive" });
+      toast({ title: t('errors.yourNameRequired'), variant: "destructive" });
       return;
     }
     if (!selectedRange?.from) {
-      toast({ title: "Select at least one date", variant: "destructive" });
+      toast({ title: t('errors.selectOneDate'), variant: "destructive" });
       return;
     }
     if (timeStart >= timeEnd) {
-      toast({ title: "End time must be after start time", variant: "destructive" });
+      toast({ title: t('errors.endAfterStart'), variant: "destructive" });
       return;
     }
 
@@ -120,11 +122,11 @@ export default function CreateRoom() {
         <div className="mb-8">
           <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-4">
             <ArrowLeft className="h-4 w-4" />
-            Back
+            {t('common.back')}
           </Link>
-          <h1 className="text-2xl font-bold text-foreground tracking-tight">Create a Meeting Room</h1>
+          <h1 className="text-2xl font-bold text-foreground tracking-tight">{t('createRoom.title')}</h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Set up a room, share the link — no accounts needed.
+            {t('createRoom.subtitle')}
           </p>
         </div>
 
@@ -132,45 +134,45 @@ export default function CreateRoom() {
           {/* ── Step 1: Meeting details ── */}
           <Card>
             <CardContent className="pt-6">
-              <StepLabel number={1} label="Meeting Details" />
+              <StepLabel number={1} label={t('createRoom.step1.title')} />
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <Label htmlFor="roomName" className="text-sm font-medium">Meeting Name</Label>
+                  <Label htmlFor="roomName" className="text-sm font-medium">{t('createRoom.step1.meetingName')}</Label>
                   <Input
                     id="roomName"
                     value={roomName}
                     onChange={(e) => setRoomName(e.target.value)}
-                    placeholder="Weekly Standup"
+                    placeholder={t('createRoom.step1.namePlaceholder')}
                     required
                     autoFocus
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <Label htmlFor="hostName" className="text-sm font-medium">Your Name</Label>
+                  <Label htmlFor="hostName" className="text-sm font-medium">{t('createRoom.step1.yourName')}</Label>
                   <Input
                     id="hostName"
                     value={hostName}
                     onChange={(e) => setHostName(e.target.value)}
-                    placeholder="e.g. Alex Kim"
+                    placeholder={t('createRoom.step1.yourNamePlaceholder')}
                     required
                   />
                 </div>
               </div>
 
               <div className="mt-4 space-y-1.5">
-                <Label className="text-sm font-medium">Your Timezone</Label>
+                <Label className="text-sm font-medium">{t('createRoom.step1.timezone')}</Label>
                 <TimezoneSelector value={hostTimezone} onChange={setHostTimezone} />
               </div>
 
               <div className="mt-4 space-y-1.5">
                 <Label className="text-sm font-medium">
-                  Description{" "}
-                  <span className="text-muted-foreground font-normal">(optional)</span>
+                  {t('createRoom.step1.description')}{" "}
+                  <span className="text-muted-foreground font-normal">{t('createRoom.step1.descriptionOptional')}</span>
                 </Label>
                 <Textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  placeholder="Agenda, video call link, notes..."
+                  placeholder={t('createRoom.step1.descPlaceholder')}
                   rows={2}
                   className="text-sm"
                   maxLength={500}
@@ -182,9 +184,9 @@ export default function CreateRoom() {
           {/* ── Step 2: Select dates ── */}
           <Card>
             <CardContent className="pt-6">
-              <StepLabel number={2} label="Select Meeting Dates" />
+              <StepLabel number={2} label={t('createRoom.step2.title')} />
               <p className="text-xs text-muted-foreground mb-4">
-                Pick the start and end dates for the meeting (up to 14 days ahead).
+                {t('createRoom.step2.rangeHint')}
               </p>
               <div className="flex justify-center">
                 <Calendar
@@ -208,13 +210,13 @@ export default function CreateRoom() {
           {/* ── Step 3: Time window ── */}
           <Card>
             <CardContent className="pt-6">
-              <StepLabel number={3} label="Daily Time Window" />
+              <StepLabel number={3} label={t('createRoom.step3.title')} />
               <p className="text-xs text-muted-foreground mb-4">
-                The hours of the day participants can select availability within.
+                {t('createRoom.step3.hint')}
               </p>
 
               <div className="mb-4">
-                <Label className="text-sm font-medium mb-2 block">Slot Duration</Label>
+                <Label className="text-sm font-medium mb-2 block">{t('createRoom.step3.slotDuration')}</Label>
                 <div className="flex gap-2">
                   {([60, 30] as const).map((m) => (
                     <button
@@ -227,14 +229,14 @@ export default function CreateRoom() {
                       }`}
                       onClick={() => setSlotMinutes(m)}
                     >
-                      {m === 60 ? "1 hour" : "30 min"}
+                      {m === 60 ? t('createRoom.step3.oneHour') : t('createRoom.step3.thirtyMin')}
                     </button>
                   ))}
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <Label className="text-sm font-medium">Start Hour</Label>
+                  <Label className="text-sm font-medium">{t('createRoom.step3.from')}</Label>
                   <Select
                     value={String(timeStart)}
                     onValueChange={(v) => {
@@ -256,7 +258,7 @@ export default function CreateRoom() {
                   </Select>
                 </div>
                 <div className="space-y-1.5">
-                  <Label className="text-sm font-medium">End Hour</Label>
+                  <Label className="text-sm font-medium">{t('createRoom.step3.to')}</Label>
                   <Select
                     value={String(timeEnd)}
                     onValueChange={(v) => setTimeEnd(parseInt(v))}
@@ -277,8 +279,8 @@ export default function CreateRoom() {
 
               <div className="mt-4 space-y-1.5">
                 <Label className="text-sm font-medium">
-                  Response Deadline{" "}
-                  <span className="text-muted-foreground font-normal">(optional)</span>
+                  {t('createRoom.step3.deadline')}{" "}
+                  <span className="text-muted-foreground font-normal">{t('createRoom.step3.deadlineOptional')}</span>
                 </Label>
                 <Input
                   type="date"
@@ -288,7 +290,7 @@ export default function CreateRoom() {
                   max={format(maxDate, "yyyy-MM-dd")}
                   className="text-sm"
                 />
-                <p className="text-xs text-muted-foreground">Block availability changes after this date.</p>
+                <p className="text-xs text-muted-foreground">{t('createRoom.step3.deadlineHint')}</p>
               </div>
             </CardContent>
           </Card>
@@ -298,7 +300,7 @@ export default function CreateRoom() {
             className="w-full h-11 text-sm font-semibold"
             disabled={createRoomMutation.isPending}
           >
-            {createRoomMutation.isPending ? "Creating..." : "Create Room & Continue →"}
+            {createRoomMutation.isPending ? t('createRoom.creating') : t('createRoom.createButton')}
           </Button>
         </form>
       </div>

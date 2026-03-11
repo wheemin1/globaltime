@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { Clock, Moon, Sun, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "react-i18next";
+import { LanguageSwitcher } from "./language-switcher";
 
 // ─── Theme hook ──────────────────────────────────────────────────────────────
 
@@ -41,16 +43,17 @@ export function ThemeToggle() {
 
 // ─── Navbar ──────────────────────────────────────────────────────────────────
 
-const navLinks = [
-  { href: "/features", label: "Features" },
-  { href: "/how-it-works", label: "How it works" },
-  { href: "/help/share", label: "Help" },
-];
-
 export function Navbar() {
   const { theme, toggle } = useTheme();
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [location] = useLocation();
+
+  const navLinks = [
+    { href: "/features", label: t('nav.features') },
+    { href: "/how-it-works", label: t('nav.howItWorks') },
+    { href: "/help/share", label: t('nav.help') },
+  ];
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
@@ -83,6 +86,7 @@ export function Navbar() {
 
           {/* Right actions */}
           <div className="flex items-center gap-2">
+            <LanguageSwitcher />
             <Button
               variant="ghost"
               size="icon"
@@ -94,7 +98,7 @@ export function Navbar() {
             </Button>
             <Link href="/create-room" className="hidden sm:block">
               <Button size="sm" className="h-8 text-sm font-medium">
-                New Meeting
+                {t('common.newMeeting')}
               </Button>
             </Link>
             <Button
@@ -123,7 +127,7 @@ export function Navbar() {
             ))}
             <Link href="/create-room" onClick={() => setOpen(false)}>
               <Button size="sm" className="w-full mt-2">
-                New Meeting
+                {t('common.newMeeting')}
               </Button>
             </Link>
           </div>
@@ -136,23 +140,27 @@ export function Navbar() {
 // ─── Footer ──────────────────────────────────────────────────────────────────
 
 export function Footer() {
+  const { t } = useTranslation();
   return (
     <footer className="border-t border-border mt-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
           <div className="flex items-center gap-2">
             <Clock className="h-4 w-4" />
-            <span>TimeSync — Free global meeting scheduler</span>
+            <span>TimeSync — {t('footer.tagline')}</span>
           </div>
           <div className="flex items-center gap-5">
             <Link href="/features" className="hover:text-foreground transition-colors">
-              Features
+              {t('nav.features')}
             </Link>
             <Link href="/how-it-works" className="hover:text-foreground transition-colors">
-              How it works
+              {t('nav.howItWorks')}
             </Link>
             <Link href="/help/share" className="hover:text-foreground transition-colors">
-              Help
+              {t('nav.help')}
+            </Link>
+            <Link href="/privacy" className="hover:text-foreground transition-colors">
+              {t('common.privacy')}
             </Link>
           </div>
         </div>

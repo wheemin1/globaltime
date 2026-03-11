@@ -3,6 +3,7 @@ import { Link as LinkIcon, Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { Layout } from "@/components/layout";
+import { useTranslation } from "react-i18next";
 
 const sharingMethods = [
   {
@@ -70,6 +71,7 @@ const faq = [
 ];
 
 export default function HelpShare() {
+  const { t } = useTranslation();
   return (
     <Layout>
       <SEO {...seoConfigs.helpShare} />
@@ -78,10 +80,10 @@ export default function HelpShare() {
       <section className="pt-16 pb-12 px-4 sm:px-6 lg:px-8 text-center">
         <div className="max-w-2xl mx-auto">
           <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground mb-4">
-            Sharing guide
+            {t('helpShare.title')}
           </h1>
           <p className="text-base text-muted-foreground">
-            How to share meeting rooms and coordinate your global team effectively.
+            {t('helpShare.subtitle')}
           </p>
         </div>
       </section>
@@ -150,16 +152,16 @@ export default function HelpShare() {
       {/* CTA */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 border-t border-border mt-8">
         <div className="max-w-xl mx-auto text-center space-y-5">
-          <h2 className="text-2xl font-bold text-foreground">Ready to coordinate?</h2>
+          <h2 className="text-2xl font-bold text-foreground">{t('helpShare.cta.title', 'Ready to coordinate?')}</h2>
           <p className="text-muted-foreground text-sm">
-            Create a free meeting room and share it with your team in seconds.
+            {t('helpShare.cta.desc', 'Create a free meeting room and share it with your team in seconds.')}
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link href="/create-room">
-              <Button size="lg" className="font-semibold">Create Meeting Room</Button>
+              <Button size="lg" className="font-semibold">{t('common.newMeeting')}</Button>
             </Link>
             <Link href="/how-it-works">
-              <Button size="lg" variant="outline">How It Works</Button>
+              <Button size="lg" variant="outline">{t('common.howItWorks')}</Button>
             </Link>
           </div>
         </div>

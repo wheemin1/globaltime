@@ -25,12 +25,14 @@ import type { RoomWithParticipants, JoinRoomRequest } from "@shared/schema";
 import { SEO, seoConfigs } from "@/components/SEO";
 import { BugReport } from "@/components/bug-report";
 import { Textarea } from "@/components/ui/textarea";
+import { useTranslation } from "react-i18next";
 
 export default function Room() {
   const params = useParams<{ roomId: string }>();
   const search = useSearch();
   const { toast } = useToast();
   const isMobile = useIsMobile();
+  const { t } = useTranslation();
   
   // Constants derived from params - always computed
   const roomId = parseInt(params.roomId || "0") || 0;
@@ -110,12 +112,12 @@ export default function Room() {
       queryClient.invalidateQueries({ queryKey: ["/api/rooms", roomId] });
       toast({
         title: "Joined successfully!",
-        description: "You can now select your available times.",
+        description: t('room.selectTitle'),
       });
     },
     onError: (error) => {
       toast({
-        title: "Error joining room",
+        title: t('room.toast.error'),
         description: error.message,
         variant: "destructive",
       });
@@ -135,15 +137,13 @@ export default function Room() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/rooms", roomId] });
       toast({
-        title: "Availability updated!",
-        description: "Your changes have been saved.",
+        title: t('room.toast.availabilitySaved'),
       });
       if (isMobile) {
         setCurrentView("results");
       }
     },
     onError: (error: Error) => {
-      // If participant no longer exists on server (e.g. server restart), clear localStorage and prompt re-join
       if (error.message.includes("404") || error.message.includes("not found")) {
         if (typeof window !== 'undefined') {
           localStorage.removeItem(`room_${roomId}_participantId`);
@@ -157,7 +157,7 @@ export default function Room() {
         });
       } else {
         toast({
-          title: "Error updating availability",
+          title: t('room.toast.error'),
           description: error.message,
           variant: "destructive",
         });
@@ -176,13 +176,12 @@ export default function Room() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/rooms", roomId] });
       toast({
-        title: "Time confirmed!",
-        description: "The meeting time has been confirmed and locked.",
+        title: t('room.toast.meetingConfirmed'),
       });
     },
     onError: (error) => {
       toast({
-        title: "Error confirming time",
+        title: t('room.toast.error'),
         description: error.message,
         variant: "destructive",
       });
@@ -247,8 +246,8 @@ export default function Room() {
   const handleCopyUrl = () => {
     navigator.clipboard.writeText(window.location.href.split("?")[0]);
     toast({
-      title: "URL copied!",
-      description: "Share this link with your team members.",
+      title: t('room.toast.linkCopied'),
+      description: t('room.toast.linkCopiedDesc'),
     });
   };
 
@@ -282,10 +281,10 @@ export default function Room() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/rooms", roomId] });
       setShowEditRoomDialog(false);
-      toast({ title: "Room updated!" });
+      toast({ title: t('room.toast.roomUpdated') });
     },
     onError: (error: Error) => {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
+      toast({ title: t('room.toast.error'), description: error.message, variant: "destructive" });
     },
   });
 
@@ -301,10 +300,10 @@ export default function Room() {
         setCurrentParticipantId(null);
         if (typeof window !== 'undefined') localStorage.removeItem(`room_${roomId}_participantId`);
       }
-      toast({ title: "Participant removed" });
+      toast({ title: t('room.toast.participantRemoved') });
     },
     onError: (error: Error) => {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
+      toast({ title: t('room.toast.error'), description: error.message, variant: "destructive" });
     },
   });
 
@@ -338,13 +337,13 @@ export default function Room() {
             <Clock className="h-6 w-6 text-destructive" />
           </div>
           <h2 className="text-lg font-semibold">
-            {error ? "Failed to load room" : "Room not found"}
+            {error ? t('room.errorLoading') : t('room.notFound')}
           </h2>
           <p className="text-sm text-muted-foreground">
-            The room may have been deleted or the link is invalid.
+            {t('room.notFoundDesc')}
           </p>
           <Button asChild>
-            <Link href="/">Go Home</Link>
+            <Link href="/">{t('common.backToHome')}</Link>
           </Button>
         </div>
       </div>
@@ -411,7 +410,7 @@ export default function Room() {
               )}
               {!currentParticipantId && !isHost && (
                 <Button size="sm" onClick={() => setShowJoinDialog(true)}>
-                  Join Room
+                  {t('room.joinRoom')}
                 </Button>
               )}
               <ThemeToggle />
@@ -440,13 +439,13 @@ export default function Room() {
               className={currentView === "select" ? "active" : ""}
               onClick={() => setCurrentView("select")}
             >
-              Select Times
+              {t('room.selectTimes')}
             </button>
             <button
               className={currentView === "results" ? "active" : ""}
               onClick={() => setCurrentView("results")}
             >
-              View Results
+              {t('room.viewResults')}
             </button>
           </div>
         </div>
@@ -457,12 +456,12 @@ export default function Room() {
         {isHost && room.participants.length <= 1 && (
           <div className="flex items-center justify-between gap-4 rounded-lg border border-primary/20 bg-primary/5 px-4 py-3 mb-6">
             <div>
-              <p className="text-sm font-medium">Share this room with your team</p>
-              <p className="text-xs text-muted-foreground mt-0.5">Copy the link and send it to participants so they can add their availability</p>
+              <p className="text-sm font-medium">{t('room.shareBanner.title')}</p>
+              <p className="text-xs text-muted-foreground mt-0.5">{t('room.shareBanner.desc')}</p>
             </div>
             <Button size="sm" variant="outline" onClick={handleCopyUrl} className="shrink-0">
               <Copy className="h-3.5 w-3.5 mr-1.5" />
-              Copy Link
+              {t('room.shareBanner.copyLink')}
             </Button>
           </div>
         )}
@@ -476,7 +475,7 @@ export default function Room() {
             {room.deadline && (
               <p className="text-xs text-muted-foreground flex items-center gap-1.5">
                 <AlertCircle className="h-3.5 w-3.5" />
-                Respond by {format(new Date(room.deadline), "MMM d, yyyy")}
+                {t('room.deadline', { date: format(new Date(room.deadline), "MMM d, yyyy") })}
               </p>
             )}
           </div>
@@ -486,8 +485,8 @@ export default function Room() {
             {currentView === "select" ? (
               <Card>
                 <CardHeader className="pb-3">
-                  <CardTitle className="text-base font-semibold">Select Your Available Times</CardTitle>
-                  <p className="text-xs text-muted-foreground">Click or drag to mark your free hours</p>
+                  <CardTitle className="text-base font-semibold">{t('room.selectTitle')}</CardTitle>
+                  <p className="text-xs text-muted-foreground">{t('room.selectDesc')}</p>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <TimeGrid
@@ -499,7 +498,7 @@ export default function Room() {
                   />
                   {!currentParticipantId && (
                     <p className="text-xs text-center text-muted-foreground">
-                      Join the room to save your availability.
+                      {t('room.joinToSave')}
                     </p>
                   )}
                   <Button
@@ -507,7 +506,7 @@ export default function Room() {
                     className="w-full"
                     disabled={updateAvailabilityMutation.isPending || !currentParticipantId}
                   >
-                    {updateAvailabilityMutation.isPending ? "Saving..." : "Save & View Results"}
+                    {updateAvailabilityMutation.isPending ? t('common.saving') : t('room.saveViewResults')}
                   </Button>
                   <ParticipantPanel
                     participants={room.participants}
@@ -547,8 +546,8 @@ export default function Room() {
           /* Desktop Layout */
           <Tabs value={currentView} onValueChange={(v) => setCurrentView(v as "select" | "results")}>
             <TabsList className="mb-6">
-              <TabsTrigger value="select">Select Times</TabsTrigger>
-              <TabsTrigger value="results">View Results</TabsTrigger>
+              <TabsTrigger value="select">{t('room.selectTimes')}</TabsTrigger>
+              <TabsTrigger value="results">{t('room.viewResults')}</TabsTrigger>
             </TabsList>
 
             <TabsContent value="select" className="mt-0">
@@ -556,8 +555,8 @@ export default function Room() {
                 <div className="lg:col-span-3">
                   <Card>
                     <CardHeader className="pb-3">
-                      <CardTitle className="text-base font-semibold">Select Your Available Times</CardTitle>
-                      <p className="text-xs text-muted-foreground">Click or drag to mark your free hours</p>
+                      <CardTitle className="text-base font-semibold">{t('room.selectTitle')}</CardTitle>
+                      <p className="text-xs text-muted-foreground">{t('room.selectDesc')}</p>
                     </CardHeader>
                     <CardContent className="space-y-4">
                       <TimeGrid
@@ -569,13 +568,13 @@ export default function Room() {
                       />
                       <div className="flex justify-end items-center gap-3">
                         {!currentParticipantId && (
-                          <p className="text-xs text-muted-foreground">Join the room to save.</p>
+                          <p className="text-xs text-muted-foreground">{t('room.joinToSaveSm')}</p>
                         )}
                         <Button
                           onClick={handleSaveAvailability}
                           disabled={updateAvailabilityMutation.isPending || !currentParticipantId}
                         >
-                          {updateAvailabilityMutation.isPending ? "Saving..." : "Save Availability"}
+                          {updateAvailabilityMutation.isPending ? t('common.saving') : t('room.saveAvailability')}
                         </Button>
                       </div>
                     </CardContent>
@@ -629,32 +628,32 @@ export default function Room() {
       <Dialog open={showJoinDialog} onOpenChange={setShowJoinDialog}>
         <DialogContent className="max-w-sm">
           <DialogHeader>
-            <DialogTitle className="text-base font-semibold">Join {room.name}</DialogTitle>
+            <DialogTitle className="text-base font-semibold">{t('room.joinDialog.title', { roomName: room.name })}</DialogTitle>
             <DialogDescription className="text-sm text-muted-foreground">
-              Enter your details to mark your availability.
+              {t('room.joinDialog.desc')}
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={handleJoinRoom} className="space-y-4 pt-1">
             <div className="space-y-1.5">
-              <Label htmlFor="name" className="text-sm font-medium">Your Name</Label>
+              <Label htmlFor="name" className="text-sm font-medium">{t('room.joinDialog.yourName')}</Label>
               <Input
                 id="name"
                 value={participantName}
                 onChange={(e) => setParticipantName(e.target.value)}
-                placeholder="e.g. Alex Kim"
+                placeholder={t('room.joinDialog.namePlaceholder')}
                 required
                 autoFocus
               />
             </div>
             <div className="space-y-1.5">
-              <Label className="text-sm font-medium">Your Timezone</Label>
+              <Label className="text-sm font-medium">{t('room.joinDialog.timezone')}</Label>
               <TimezoneSelector
                 value={participantTimezone}
                 onChange={setParticipantTimezone}
               />
             </div>
             <Button type="submit" className="w-full" disabled={joinRoomMutation.isPending}>
-              {joinRoomMutation.isPending ? "Joining..." : "Join & Select Times"}
+              {joinRoomMutation.isPending ? t('common.joining') : t('room.joinDialog.joinButton')}
             </Button>
           </form>
         </DialogContent>
@@ -666,36 +665,36 @@ export default function Room() {
       <Dialog open={showEditRoomDialog} onOpenChange={setShowEditRoomDialog}>
         <DialogContent className="max-w-sm">
           <DialogHeader>
-            <DialogTitle className="text-base font-semibold">Edit Room</DialogTitle>
+            <DialogTitle className="text-base font-semibold">{t('room.editRoomDialog.title')}</DialogTitle>
           </DialogHeader>
           <div className="space-y-4 pt-1">
             <div className="space-y-1.5">
-              <Label className="text-sm font-medium">Room Name</Label>
+              <Label className="text-sm font-medium">{t('room.editRoomDialog.roomName')}</Label>
               <Input
                 value={editRoomName}
                 onChange={(e) => setEditRoomName(e.target.value)}
-                placeholder="Room name"
+                placeholder={t('room.editRoomDialog.roomName')}
               />
             </div>
             <div className="space-y-1.5">
-              <Label className="text-sm font-medium">Description <span className="text-muted-foreground font-normal">(optional)</span></Label>
+              <Label className="text-sm font-medium">{t('room.editRoomDialog.description')} <span className="text-muted-foreground font-normal">{t('room.editRoomDialog.descriptionOptional')}</span></Label>
               <Textarea
                 value={editRoomDescription}
                 onChange={(e) => setEditRoomDescription(e.target.value)}
-                placeholder="Add a description or agenda..."
+                placeholder={t('room.editRoomDialog.descPlaceholder')}
                 rows={3}
                 maxLength={500}
               />
             </div>
           </div>
           <DialogFooter className="flex gap-2 pt-2">
-            <Button variant="outline" className="flex-1" onClick={() => setShowEditRoomDialog(false)}>Cancel</Button>
+            <Button variant="outline" className="flex-1" onClick={() => setShowEditRoomDialog(false)}>{t('common.cancel')}</Button>
             <Button
               className="flex-1"
               onClick={() => updateRoomMutation.mutate({ name: editRoomName, description: editRoomDescription })}
               disabled={updateRoomMutation.isPending || !editRoomName.trim()}
             >
-              {updateRoomMutation.isPending ? "Saving..." : "Save Changes"}
+              {updateRoomMutation.isPending ? t('common.saving') : t('room.editRoomDialog.saveChanges')}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -705,17 +704,17 @@ export default function Room() {
       <Dialog open={showConfirmDialog} onOpenChange={setShowConfirmDialog}>
         <DialogContent className="max-w-sm">
           <DialogHeader>
-            <DialogTitle className="text-base font-semibold">Confirm this meeting time?</DialogTitle>
+            <DialogTitle className="text-base font-semibold">{t('room.confirmDialog.title')}</DialogTitle>
             <DialogDescription className="text-sm text-muted-foreground">
-              This will lock the meeting time for all participants. This action cannot be undone.
+              {t('room.confirmDialog.desc')}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="flex gap-2 pt-2">
             <Button variant="outline" className="flex-1" onClick={() => setShowConfirmDialog(false)}>
-              Cancel
+              {t('common.cancel')}
             </Button>
             <Button className="flex-1" onClick={handleConfirmSlotConfirmed} disabled={confirmTimeMutation.isPending}>
-              {confirmTimeMutation.isPending ? "Confirming..." : "Confirm"}
+              {confirmTimeMutation.isPending ? t('common.confirming') : t('room.confirmDialog.confirmButton')}
             </Button>
           </DialogFooter>
         </DialogContent>

@@ -5,6 +5,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/co
 import { Users, CheckCircle2, X } from "lucide-react";
 import type { Participant } from "@shared/schema";
 import { getCommonTimezones } from "@/lib/timezone-utils";
+import { useTranslation } from "react-i18next";
 
 const _tzList = getCommonTimezones();
 function getFriendlyTimezone(tzValue: string): string {
@@ -55,11 +56,12 @@ function ParticipantList({
   currentParticipantId,
   onDeleteParticipant,
 }: Pick<ParticipantPanelProps, "participants" | "selectedParticipant" | "onParticipantSelect" | "isHost" | "currentParticipantId" | "onDeleteParticipant">) {
+  const { t } = useTranslation();
   return (
     <div className="space-y-2">
       {participants.length === 0 && (
         <p className="text-sm text-muted-foreground text-center py-4">
-          No participants yet
+          {t('participants.noParticipants')}
         </p>
       )}
       {participants.map((participant, index) => {
@@ -104,7 +106,7 @@ function ParticipantList({
                   type="button"
                   className="text-muted-foreground hover:text-destructive transition-colors"
                   onClick={(e) => { e.stopPropagation(); onDeleteParticipant?.(participant.id); }}
-                  title="Remove participant"
+                  title={t('participants.removeParticipant')}
                 >
                   <X className="h-3.5 w-3.5" />
                 </button>
@@ -129,20 +131,21 @@ export function ParticipantPanel({
   currentParticipantId = null,
   onDeleteParticipant,
 }: ParticipantPanelProps) {
+  const { t } = useTranslation();
   if (isMobile) {
     return (
       <Sheet>
         <SheetTrigger asChild>
           <Button variant="outline" size="sm" className="w-full mt-4">
             <Users className="h-4 w-4 mr-2" />
-            Team ({participants.length})
+            {t('participants.team', { count: participants.length })}
           </Button>
         </SheetTrigger>
         <SheetContent side="bottom" className="h-[70vh] rounded-t-2xl">
           <SheetHeader className="pb-4">
             <SheetTitle className="flex items-center gap-2">
               <Users className="h-4 w-4" />
-              Participants
+              {t('participants.title')}
               <Badge variant="secondary" className="ml-1">
                 {participants.length}
               </Badge>
@@ -169,7 +172,7 @@ export function ParticipantPanel({
         <CardTitle className="text-sm font-semibold flex items-center justify-between">
           <span className="flex items-center gap-2">
             <Users className="h-4 w-4" />
-            Participants
+            {t('participants.title')}
           </span>
           <Badge variant="secondary" className="font-normal">
             {participants.length}
@@ -190,7 +193,7 @@ export function ParticipantPanel({
         {!isResultsMode && onViewResults && participants.length > 0 && (
           <div className="pt-3 border-t border-border">
             <Button onClick={onViewResults} className="w-full" size="sm">
-              View Heatmap
+              {t('room.viewHeatmap')}
             </Button>
           </div>
         )}
@@ -198,7 +201,7 @@ export function ParticipantPanel({
         {isResultsMode && onEditTimes && (
           <div className="pt-3 border-t border-border">
             <Button onClick={onEditTimes} variant="outline" className="w-full" size="sm">
-              Edit My Times
+              {t('room.editMyTimes')}
             </Button>
           </div>
         )}

@@ -1,0 +1,282 @@
+{
+  "common": {
+    "appName": "TimeSync",
+    "tagline": "무료 글로벌 회의 스케줄러",
+    "save": "저장",
+    "cancel": "취소",
+    "confirm": "확인",
+    "close": "닫기",
+    "back": "뒤로",
+    "next": "다음",
+    "create": "만들기",
+    "edit": "편집",
+    "delete": "삭제",
+    "copy": "복사",
+    "share": "공유",
+    "loading": "로딩 중...",
+    "saving": "저장 중...",
+    "creating": "만드는 중...",
+    "joining": "참가 중...",
+    "confirming": "확정 중...",
+    "copyLink": "링크 복사",
+    "backToHome": "홈으로 돌아가기",
+    "newMeeting": "새 회의",
+    "features": "기능",
+    "howItWorks": "사용 방법",
+    "help": "도움말",
+    "privacy": "개인정보 처리방침",
+    "free": "무료",
+    "noSignUp": "가입 불필요",
+    "free114cities": "무료 글로벌 회의 스케줄러 · 가입 불필요 · 114개 도시 이상"
+  },
+  "nav": {
+    "features": "기능",
+    "howItWorks": "사용 방법",
+    "help": "도움말"
+  },
+  "footer": {
+    "tagline": "무료 글로벌 회의 스케줄러",
+    "copyright": "© {{year}} TimeSync. 무료 글로벌 회의 스케줄러."
+  },
+  "home": {
+    "hero": {
+      "headline": "시간대를 넘어",
+      "headlineHighlight": "최적의 회의 시간을 찾으세요",
+      "subtext": "시간대를 고려한 무료 회의 스케줄러.",
+      "description": "각 참가자가 자신의 시간대로 가능한 시간을 입력하면 — 히트맵으로 겹치는 시간이 한눈에 보여 최적의 시간을 확정할 수 있습니다. 계정 불필요, 이메일 불필요.",
+      "checks": {
+        "drag": "드래그로 가능한 시간 선택",
+        "heatmap": "히트맵으로 최적 겹침 시간 표시",
+        "noAccount": "계정도 이메일도 불필요"
+      }
+    },
+    "stats": {
+      "roomsCreated": "개의 방이 생성되었습니다",
+      "participantsJoined": "명이 참가했습니다"
+    },
+    "steps": {
+      "step1Title": "방 만들기",
+      "step1Desc": "회의 이름을 입력하고 날짜와 시간대를 설정합니다.",
+      "step2Title": "링크 공유",
+      "step2Desc": "참가자는 이름과 시간대만으로 참가할 수 있습니다.",
+      "step3Title": "최적 시간 확정",
+      "step3Desc": "히트맵을 확인하고 최적의 시간대를 확정합니다."
+    },
+    "features": {
+      "sectionTitle": "다른 시간대 회의 스케줄러 — 분산 팀을 위한",
+      "timezone": {
+        "title": "시간대 자동 감지",
+        "desc": "시간대를 자동으로 감지합니다. 각 참가자는 자신의 현지 시간으로 가능한 시간을 확인할 수 있습니다."
+      },
+      "heatmap": {
+        "title": "시각적 히트맵",
+        "desc": "팀이 언제 가능한지 색상 코드로 시각화합니다."
+      },
+      "noSignUp": {
+        "title": "가입 불필요",
+        "desc": "시간대를 드래그하여 선택하고 링크를 공유하기만 하면 됩니다. 계정 불필요, 이메일 불필요."
+      }
+    },
+    "stepsSection": {
+      "headline": "3단계로 시간대를 넘는 회의 일정 잡기"
+    },
+    "seoSection": {
+      "title1": "해외 팀을 위한 글로벌 회의 스케줄러",
+      "body1": "시간대를 넘나드는 회의 조율은 어렵습니다. TimeSync는 무료 글로벌 회의 스케줄러로 추측을 없애줍니다. 방을 만들고 링크를 공유하면 각 참가자가 자신의 현지 시간으로 가능한 시간을 입력할 수 있습니다.",
+      "title2": "시간대를 넘어 회의 시간 찾는 법",
+      "body2": "정적인 시간대 변환기와 달리 TimeSync는 모든 참가자로부터 실제 가능한 시간을 수집합니다. 도쿄와 뉴욕, 런던과 시드니 등 어떤 조합도 지원합니다.",
+      "title3": "Doodle과 When2Meet의 무료 대안",
+      "body3": "TimeSync는 드래그&드롭 가능 시간 선택, 시각적 히트맵, 실시간 업데이트, 114개 이상의 도시 지원을 완전 무료로 제공합니다."
+    },
+    "form": {
+      "title": "새 회의실",
+      "meetingName": "회의 이름",
+      "meetingNamePlaceholder": "주간 스탠드업",
+      "yourName": "내 이름",
+      "yourNamePlaceholder": "홍길동",
+      "yourTimezone": "내 시간대",
+      "meetingDates": "회의 날짜",
+      "selectRange": "날짜 선택",
+      "dailyWindow": "하루 시간대",
+      "createButton": "회의실 만들고 링크 받기 →",
+      "creating": "만드는 중..."
+    }
+  },
+  "room": {
+    "shareBanner": {
+      "title": "이 링크를 팀과 공유하세요",
+      "desc": "링크를 복사해 참가자에게 보내면 가능한 시간을 입력할 수 있습니다",
+      "copyLink": "링크 복사"
+    },
+    "deadline": "{{date}}까지 응답",
+    "selectTitle": "가능한 시간을 선택해 주세요",
+    "selectDesc": "클릭 또는 드래그하여 가능한 시간을 표시합니다",
+    "joinToSave": "가능한 시간을 저장하려면 방에 참가하세요.",
+    "joinToSaveSm": "저장하려면 참가하세요.",
+    "saveAvailability": "가능한 시간 저장",
+    "saveViewResults": "저장 후 결과 보기",
+    "joinRoom": "방 참가",
+    "selectTimes": "시간 선택",
+    "viewResults": "결과 보기",
+    "viewHeatmap": "히트맵 보기",
+    "editMyTimes": "내 시간 편집",
+    "joinDialog": {
+      "title": "{{roomName}}에 참가",
+      "desc": "이름과 시간대를 입력하고 가능한 시간을 표시하세요.",
+      "yourName": "내 이름",
+      "namePlaceholder": "예: 홍길동",
+      "timezone": "내 시간대",
+      "joinButton": "참가하고 시간 선택",
+      "joining": "참가 중..."
+    },
+    "confirmDialog": {
+      "title": "이 회의 시간을 확정하시겠습니까?",
+      "desc": "모든 참가자의 회의 시간이 확정됩니다. 이 작업은 되돌릴 수 없습니다.",
+      "confirmButton": "확정",
+      "confirming": "확정 중..."
+    },
+    "editRoomDialog": {
+      "title": "방 편집",
+      "roomName": "방 이름",
+      "description": "설명",
+      "descriptionOptional": "(선택)",
+      "descPlaceholder": "설명이나 안건 추가...",
+      "saveChanges": "변경 사항 저장",
+      "saving": "저장 중..."
+    },
+    "toast": {
+      "roomCreated": "방이 생성되었습니다!",
+      "roomCreatedDesc": "팀과 링크를 공유하세요.",
+      "linkCopied": "링크를 복사했습니다!",
+      "linkCopiedDesc": "이 링크를 팀과 공유하세요.",
+      "availabilitySaved": "가능한 시간을 저장했습니다!",
+      "meetingConfirmed": "회의 시간을 확정했습니다!",
+      "participantRemoved": "참가자를 삭제했습니다",
+      "roomUpdated": "방을 업데이트했습니다!",
+      "error": "오류"
+    },
+    "loading": "방 로딩 중...",
+    "notFound": "방을 찾을 수 없습니다",
+    "notFoundDesc": "이 방은 삭제되었거나 링크가 유효하지 않을 수 있습니다.",
+    "errorLoading": "방 로딩 오류"
+  },
+  "participants": {
+    "title": "참가자",
+    "noParticipants": "아직 참가자가 없습니다",
+    "team": "팀 ({{count}})",
+    "removeParticipant": "참가자 삭제"
+  },
+  "heatmap": {
+    "heatmapTitle": "가용성 히트맵",
+    "heatmapSubtitle": "더 어두울수록 더 많은 사람이 가능 · 세부 정보를 보려면 셀 클릭",
+    "title": "최적의 가능한 시간",
+    "sortedByOverlap": "참가자 격침 순으로 정렬",
+    "confirmed": "확정됨",
+    "awaitingConfirmation": "확인 대기 중",
+    "thisTimeConfirmed": "이 시간이 확정되었습니다",
+    "noneAvailableAtTime": "이 시간에 확실히 참석 가능한 사람이 없습니다.",
+    "confirmButton": "확인",
+    "noData": "아직 가능한 시간 데이터가 없습니다",
+    "noDataDesc": "참가자를 추가하고 가능한 시간을 선택하도록 하세요.",
+    "bestTimes": "최적의 시간대",
+    "confirmTime": "이 시간 확정",
+    "downloadICS": ".ics 다운로드",
+    "confirmedTime": "확정된 회의 시간",
+    "availableLabel": "참가 가능",
+    "ifNeededLabel": "필요하다면",
+    "noneLabel": "불가",
+    "allLabel": "전원 {{count}}",
+    "slotDetail": {
+      "available": "가능",
+      "ifNeeded": "필요시",
+      "unavailable": "불가"
+    },
+    "legend": {
+      "none": "없음",
+      "some": "일부",
+      "all": "전원",
+      "ifNeeded": "필요하다면"
+    }
+  },
+  "timeGrid": {
+    "markAs": "표시:",
+    "available": "참가 가능",
+    "ifNeeded": "필요하다면",
+    "dragHint": "클릭하거나 드래그하여 선택"
+  },
+  "createRoom": {
+    "title": "회의 일정 잡기",
+    "subtitle": "몇 가지 간단한 단계로 회의실을 설정합니다",
+    "step1": {
+      "title": "기본 정보",
+      "meetingName": "회의 이름",
+      "namePlaceholder": "예: 주간 팀 회의",
+      "yourName": "내 이름",
+      "yourNamePlaceholder": "예: 홍길동",
+      "timezone": "내 시간대",
+      "description": "설명",
+      "descriptionOptional": "(선택)",
+      "descPlaceholder": "이 회의에 대해 (선택)"
+    },
+    "step2": {
+      "title": "날짜 선택",
+      "label": "날짜 범위 선택",
+      "hint": "시작 날짜를 클릭한 다음 종료 날짜 클릭",
+      "rangeHint": "회의 시작일과 종료일을 선택하세요 (14일 이내)."
+    },
+    "step3": {
+      "title": "시간 및 옵션",
+      "slotDuration": "슬롯 시간",
+      "oneHour": "1시간",
+      "thirtyMin": "30분",
+      "dailyWindow": "하루 시간대",
+      "from": "시작",
+      "to": "종료",
+      "hint": "참가자가 가용성을 선택할 수 있는 하루 중 시간대입니다.",
+      "deadline": "응답 기한",
+      "deadlineOptional": "(선택)",
+      "deadlineLabel": "응답 기한일",
+      "deadlineHint": "이 날짜 이후에는 가용성 변경을 차단합니다."
+    },
+    "createButton": "회의실 만들기",
+    "creating": "만드는 중...",
+    "back": "뒤로",
+    "next": "다음"
+  },
+  "features": {
+    "title": "글로벌 회의 조율에 필요한 모든 것",
+    "subtitle": "시간대를 넘는 분산 팀을 위해 설계",
+    "cta": "무료로 시작하기",
+    "list": {
+      "timezone": { "title": "스마트 시간대 처리", "desc": "각 참가자의 시간대를 자동으로 감지합니다. 모두가 자신의 현지 시간으로 확인할 수 있습니다." },
+      "heatmap": { "title": "시각적 겹침 히트맵", "desc": "어느 시간대가 가장 많은 사람에게 맞는지 즉시 확인할 수 있습니다." },
+      "drag": { "title": "드래그&드롭 선택", "desc": "클릭&드래그로 가능한 시간을 표시합니다. 데스크탑과 모바일에서 작동합니다." },
+      "realtime": { "title": "실시간 협업", "desc": "참가자들이 실시간으로 가능한 시간을 업데이트하는 것을 확인할 수 있습니다." },
+      "noSignup": { "title": "가입 불필요", "desc": "링크를 공유하기만 하면 됩니다. 참가자는 이름만으로 참가할 수 있습니다." },
+      "export": { "title": "캘린더 내보내기", "desc": "확정된 회의의 .ics 파일을 다운로드하여 원하는 캘린더에 추가합니다." }
+    }
+  },
+  "howItWorks": {
+    "title": "TimeSync 사용 방법",
+    "subtitle": "3가지 간단한 단계로 다음 회의 조율하기",
+    "step1": { "title": "회의실 만들기", "desc": "회의 이름, 내 이름을 입력하고 후보 날짜와 시간대를 선택합니다." },
+    "step2": { "title": "참가자와 공유", "desc": "고유한 방 링크를 복사하여 팀에게 보냅니다." },
+    "step3": { "title": "최적의 시간 찾기", "desc": "각 참가자가 가능한 시간을 표시합니다. 히트맵이 실시간으로 최적의 겹침을 보여줍니다." },
+    "cta": "첫 번째 방 만들기"
+  },
+  "notFound": {
+    "title": "페이지를 찾을 수 없습니다",
+    "desc": "찾으시는 페이지가 없거나 이동되었습니다.",
+    "back": "홈으로"
+  },
+  "errors": {
+    "meetingNameRequired": "회의 이름이 필요합니다",
+    "yourNameRequired": "내 이름이 필요합니다",
+    "selectOneDate": "날짜를 하나 이상 선택해 주세요",
+    "endAfterStart": "종료 시간은 시작 시간 이후여야 합니다",
+    "unknown": "알 수 없는 오류가 발생했습니다"
+  },
+  "languageSuggest": {
+    "ko": "한국어로 전환하시겠습니까?"
+  }
+}

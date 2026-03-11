@@ -1,0 +1,282 @@
+{
+  "common": {
+    "appName": "TimeSync",
+    "tagline": "無料のグローバル会議スケジューラー",
+    "save": "保存",
+    "cancel": "キャンセル",
+    "confirm": "確認",
+    "close": "閉じる",
+    "back": "戻る",
+    "next": "次へ",
+    "create": "作成",
+    "edit": "編集",
+    "delete": "削除",
+    "copy": "コピー",
+    "share": "共有",
+    "loading": "読み込み中...",
+    "saving": "保存中...",
+    "creating": "作成中...",
+    "joining": "参加中...",
+    "confirming": "確認中...",
+    "copyLink": "リンクをコピー",
+    "backToHome": "ホームに戻る",
+    "newMeeting": "新しい会議",
+    "features": "機能",
+    "howItWorks": "使い方",
+    "help": "ヘルプ",
+    "privacy": "プライバシーポリシー",
+    "free": "無料",
+    "noSignUp": "登録不要",
+    "free114cities": "無料のグローバル会議スケジューラー · 登録不要 · 114都市以上"
+  },
+  "nav": {
+    "features": "機能",
+    "howItWorks": "使い方",
+    "help": "ヘルプ"
+  },
+  "footer": {
+    "tagline": "無料のグローバル会議スケジューラー",
+    "copyright": "© {{year}} TimeSync. 無料のグローバル会議スケジューラー。"
+  },
+  "home": {
+    "hero": {
+      "headline": "時差を超えた",
+      "headlineHighlight": "最適な会議時間を見つける",
+      "subtext": "タイムゾーン対応の無料会議スケジューラー。",
+      "description": "各参加者が自分のタイムゾーンで空き時間を入力 — ヒートマップで重複時間が一目でわかり、最適な時間を確定できます。アカウント不要、メール不要。",
+      "checks": {
+        "drag": "ドラッグで空き時間を選択",
+        "heatmap": "ヒートマップで最適な重複時間を表示",
+        "noAccount": "アカウントもメールも不要"
+      }
+    },
+    "stats": {
+      "roomsCreated": "部屋が作成されました",
+      "participantsJoined": "参加者が参加しました"
+    },
+    "steps": {
+      "step1Title": "部屋を作成",
+      "step1Desc": "会議名を入力し、日程と時間帯を設定します。",
+      "step2Title": "リンクを共有",
+      "step2Desc": "参加者は名前とタイムゾーンだけで参加できます。",
+      "step3Title": "最適な時間を確定",
+      "step3Desc": "ヒートマップを確認して最適な時間帯を確定します。"
+    },
+    "features": {
+      "sectionTitle": "異なるタイムゾーンの会議スケジューラー — 分散チーム向け",
+      "timezone": {
+        "title": "タイムゾーン自動検出",
+        "desc": "タイムゾーンを自動検出。各参加者は自分の現地時間で空き時間を確認できます。"
+      },
+      "heatmap": {
+        "title": "ビジュアルヒートマップ",
+        "desc": "チームがいつ空いているかをカラーコードで視覚化します。"
+      },
+      "noSignUp": {
+        "title": "登録不要",
+        "desc": "時間帯をドラッグして選択し、リンクを共有するだけ。アカウント不要、メール不要。"
+      }
+    },
+    "stepsSection": {
+      "headline": "3ステップでタイムゾーンをまたいだ会議をスケジュール"
+    },
+    "seoSection": {
+      "title1": "海外チーム向けグローバル会議スケジューラー",
+      "body1": "タイムゾーンをまたいだ会議の調整は難しいです。TimeSyncは無料のグローバル会議スケジューラーで、推測を排除します。部屋を作成し、リンクを共有するだけで、各参加者が自分の現地時間で空き時間を入力できます。",
+      "title2": "タイムゾーンをまたいだ会議時間の見つけ方",
+      "body2": "静的なタイムゾーンコンバーターとは異なり、TimeSyncはすべての参加者から実際の空き時間を収集します。東京とニューヨーク、ロンドンとシドニーなど、どの組み合わせでも対応します。",
+      "title3": "DoodleやWhen2Meetの無料代替ツール",
+      "body3": "TimeSyncはドラッグ&ドロップの空き時間選択、ビジュアルヒートマップ、リアルタイム更新、114都市以上のサポートを完全無料で提供します。"
+    },
+    "form": {
+      "title": "新しい会議室",
+      "meetingName": "会議名",
+      "meetingNamePlaceholder": "週次スタンドアップ",
+      "yourName": "あなたの名前",
+      "yourNamePlaceholder": "山田 太郎",
+      "yourTimezone": "あなたのタイムゾーン",
+      "meetingDates": "会議の日程",
+      "selectRange": "日程を選択",
+      "dailyWindow": "1日の時間帯",
+      "createButton": "会議室を作成してリンクを取得 →",
+      "creating": "作成中..."
+    }
+  },
+  "room": {
+    "shareBanner": {
+      "title": "このリンクをチームと共有しましょう",
+      "desc": "リンクをコピーして参加者に送ると、空き時間を入力できます",
+      "copyLink": "リンクをコピー"
+    },
+    "deadline": "{{date}}までに回答",
+    "selectTitle": "空き時間を選択してください",
+    "selectDesc": "クリックまたはドラッグして空き時間をマークします",
+    "joinToSave": "空き時間を保存するには部屋に参加してください。",
+    "joinToSaveSm": "保存するには参加してください。",
+    "saveAvailability": "空き時間を保存",
+    "saveViewResults": "保存して結果を確認",
+    "joinRoom": "部屋に参加",
+    "selectTimes": "時間を選択",
+    "viewResults": "結果を確認",
+    "viewHeatmap": "ヒートマップを確認",
+    "editMyTimes": "自分の時間を編集",
+    "joinDialog": {
+      "title": "{{roomName}}に参加",
+      "desc": "名前とタイムゾーンを入力して空き時間をマークしましょう。",
+      "yourName": "あなたの名前",
+      "namePlaceholder": "例: 山田 太郎",
+      "timezone": "あなたのタイムゾーン",
+      "joinButton": "参加して時間を選択",
+      "joining": "参加中..."
+    },
+    "confirmDialog": {
+      "title": "この会議時間を確定しますか？",
+      "desc": "すべての参加者の会議時間が確定されます。この操作は元に戻せません。",
+      "confirmButton": "確定",
+      "confirming": "確定中..."
+    },
+    "editRoomDialog": {
+      "title": "部屋を編集",
+      "roomName": "部屋名",
+      "description": "説明",
+      "descriptionOptional": "（任意）",
+      "descPlaceholder": "説明やアジェンダを追加...",
+      "saveChanges": "変更を保存",
+      "saving": "保存中..."
+    },
+    "toast": {
+      "roomCreated": "部屋を作成しました！",
+      "roomCreatedDesc": "チームにリンクを共有してください。",
+      "linkCopied": "リンクをコピーしました！",
+      "linkCopiedDesc": "このリンクをチームと共有してください。",
+      "availabilitySaved": "空き時間を保存しました！",
+      "meetingConfirmed": "会議時間を確定しました！",
+      "participantRemoved": "参加者を削除しました",
+      "roomUpdated": "部屋を更新しました！",
+      "error": "エラー"
+    },
+    "loading": "部屋を読み込み中...",
+    "notFound": "部屋が見つかりません",
+    "notFoundDesc": "この部屋は削除されたか、リンクが無効である可能性があります。",
+    "errorLoading": "部屋の読み込みエラー"
+  },
+  "participants": {
+    "title": "参加者",
+    "noParticipants": "まだ参加者がいません",
+    "team": "チーム ({{count}})",
+    "removeParticipant": "参加者を削除"
+  },
+  "heatmap": {
+    "heatmapTitle": "空き時間ヒートマップ",
+    "heatmapSubtitle": "濣い色 = より多くの人が空いている · セルをクリックして詳細を確認",
+    "title": "最適な空き時間",
+    "sortedByOverlap": "参加者の重複順に並び替え",
+    "confirmed": "確定済み",
+    "awaitingConfirmation": "確認待ち",
+    "thisTimeConfirmed": "この時間は確定済みです",
+    "noneAvailableAtTime": "この時間に確实に空いている人はいません。",
+    "confirmButton": "確定",
+    "noData": "まだ空き時間データがありません",
+    "noDataDesc": "参加者を追加して、空き時間を選択してもらいましょう。",
+    "bestTimes": "最適な時間帯",
+    "confirmTime": "この時間を確定",
+    "downloadICS": ".icsをダウンロード",
+    "confirmedTime": "確定した会議時間",
+    "availableLabel": "参加可能",
+    "ifNeededLabel": "必要であれば",
+    "noneLabel": "なし",
+    "allLabel": "全員 {{count}}",
+    "slotDetail": {
+      "available": "参加可能",
+      "ifNeeded": "必要であれば",
+      "unavailable": "参加不可"
+    },
+    "legend": {
+      "none": "なし",
+      "some": "一部",
+      "all": "全員",
+      "ifNeeded": "必要であれば"
+    }
+  },
+  "timeGrid": {
+    "markAs": "マーク:",
+    "available": "参加可能",
+    "ifNeeded": "必要であれば",
+    "dragHint": "クリックまたはドラッグして選択"
+  },
+  "createRoom": {
+    "title": "会議をスケジュール",
+    "subtitle": "いくつかの簡単なステップで会議室を設定します",
+    "step1": {
+      "title": "基本情報",
+      "meetingName": "会議名",
+      "namePlaceholder": "例: 週次チームミーティング",
+      "yourName": "あなたの名前",
+      "yourNamePlaceholder": "例: 山田 太郎",
+      "timezone": "あなたのタイムゾーン",
+      "description": "説明",
+      "descriptionOptional": "（任意）",
+      "descPlaceholder": "この会議について（任意）"
+    },
+    "step2": {
+      "title": "日程を選択",
+      "label": "日付範囲を選択",
+      "hint": "開始日をクリックして終了日をクリック",
+      "rangeHint": "会議の開始日と終了日を選択してください（14日以内）。"
+    },
+    "step3": {
+      "title": "時間とオプション",
+      "slotDuration": "スロット時間",
+      "oneHour": "1時間",
+      "thirtyMin": "30分",
+      "dailyWindow": "1日の時間帯",
+      "from": "開始",
+      "to": "終了",
+      "hint": "参加者が空き時間を選択できる1日の時間帯です。",
+      "deadline": "回答期限",
+      "deadlineOptional": "（任意）",
+      "deadlineLabel": "回答期限日",
+      "deadlineHint": "この日付以降は空き時間の変更をブロックします。"
+    },
+    "createButton": "会議室を作成",
+    "creating": "作成中...",
+    "back": "戻る",
+    "next": "次へ"
+  },
+  "features": {
+    "title": "グローバル会議を調整するために必要なすべて",
+    "subtitle": "タイムゾーンをまたぐ分散チーム向けに設計",
+    "cta": "無料で試す",
+    "list": {
+      "timezone": { "title": "スマートなタイムゾーン処理", "desc": "各参加者のタイムゾーンを自動検出。全員が自分の現地時間で確認できます。" },
+      "heatmap": { "title": "ビジュアルオーバーラップヒートマップ", "desc": "どの時間帯が最も多くの人に合うかを即座に確認できます。" },
+      "drag": { "title": "ドラッグ&ドロップ選択", "desc": "クリック&ドラッグで空き時間をマーク。デスクトップとモバイルで動作。" },
+      "realtime": { "title": "リアルタイムコラボレーション", "desc": "参加者がリアルタイムで空き時間を更新するのを確認できます。" },
+      "noSignup": { "title": "登録不要", "desc": "リンクを共有するだけ。参加者は名前だけで参加できます。" },
+      "export": { "title": "カレンダーエクスポート", "desc": "確定した会議の.icsファイルをダウンロードして任意のカレンダーに追加。" }
+    }
+  },
+  "howItWorks": {
+    "title": "TimeSyncの使い方",
+    "subtitle": "3つの簡単なステップで次の会議を調整",
+    "step1": { "title": "会議室を作成", "desc": "会議名、あなたの名前を入力し、候補日と時間帯を選択します。" },
+    "step2": { "title": "参加者と共有", "desc": "ユニークな部屋のリンクをコピーしてチームに送ります。" },
+    "step3": { "title": "最適な時間を見つける", "desc": "各参加者が空き時間をマーク。ヒートマップがリアルタイムで最適な重複を表示します。" },
+    "cta": "最初の部屋を作成"
+  },
+  "notFound": {
+    "title": "ページが見つかりません",
+    "desc": "お探しのページは存在しないか、移動されました。",
+    "back": "ホームへ"
+  },
+  "errors": {
+    "meetingNameRequired": "会議名が必要です",
+    "yourNameRequired": "あなたの名前が必要です",
+    "selectOneDate": "少なくとも1つの日付を選択してください",
+    "endAfterStart": "終了時間は開始時間より後である必要があります",
+    "unknown": "不明なエラーが発生しました"
+  },
+  "languageSuggest": {
+    "ja": "日本語に切り替えますか？"
+  }
+}
