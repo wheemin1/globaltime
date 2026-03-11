@@ -26,15 +26,22 @@ app.use((req, res, next) => {
 app.post("/api/rooms", async (req, res) => {
   try {
     console.log("Creating room with data:", req.body);
-    const { hostName, hostTimezone, ...roomData } = createRoomSchema.parse(req.body);
+    const { hostName, hostTimezone, deadline: deadlineStr, ...roomData } = createRoomSchema.parse(req.body);
     
     // Generate unique host ID
     const hostId = nanoid();
     
     // Create room
     const room = await storage.createRoom({
-      ...roomData,
+      name: roomData.name,
+      startDate: roomData.startDate,
+      endDate: roomData.endDate,
+      timeStart: roomData.timeStart,
+      timeEnd: roomData.timeEnd,
+      description: roomData.description,
+      slotMinutes: roomData.slotMinutes,
       hostId,
+      deadline: deadlineStr ? new Date(deadlineStr) : undefined,
     });
 
     // Calculate slots for the room

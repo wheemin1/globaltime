@@ -1,6 +1,6 @@
 import { db } from "./db";
 import { rooms, participants } from "@shared/schema";
-import { eq, and, count } from "drizzle-orm";
+import { eq, and, sql } from "drizzle-orm";
 import type { Room, Participant } from "@shared/schema";
 
 export const storage = {
@@ -127,8 +127,8 @@ export const storage = {
   },
 
   async getStats(): Promise<{ totalRooms: number; totalParticipants: number }> {
-    const [roomResult] = await db.select({ count: count() }).from(rooms);
-    const [participantResult] = await db.select({ count: count() }).from(participants);
+    const [roomResult] = await db.select({ count: sql<number>`count(*)` }).from(rooms);
+    const [participantResult] = await db.select({ count: sql<number>`count(*)` }).from(participants);
     return {
       totalRooms: Number(roomResult.count),
       totalParticipants: Number(participantResult.count),
