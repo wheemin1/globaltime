@@ -9,8 +9,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Clock, Copy, Globe, ChevronRight, Pencil, AlertCircle } from "lucide-react";
+import { Clock, Copy, Globe, ChevronRight, Pencil, AlertCircle, Mail, QrCode } from "lucide-react";
 import { TimeGrid } from "@/components/time-grid";
 import { ParticipantPanel } from "@/components/participant-panel";
 import { HeatmapResults } from "@/components/heatmap-results";
@@ -26,6 +27,7 @@ import { SEO, seoConfigs } from "@/components/SEO";
 import { BugReport } from "@/components/bug-report";
 import { Textarea } from "@/components/ui/textarea";
 import { useTranslation } from "react-i18next";
+import QRCode from "react-qr-code";
 
 export default function Room() {
   const params = useParams<{ roomId: string }>();
@@ -57,6 +59,32 @@ export default function Room() {
   const [participantTimezone, setParticipantTimezone] = useState(getUserTimezone());
   const [viewingTimezone, setViewingTimezone] = useState(getUserTimezone());
   const [selectedParticipant, setSelectedParticipant] = useState<number | null>(null);
+  const [use12h, setUse12hState] = useState<boolean>(() =>
+    typeof window !== 'undefined' && localStorage.getItem('timeFormat') === '12h'
+  );
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const [showUnsavedDialog, setShowUnsavedDialog] = useState(false);
+  const [pendingViewChange, setPendingViewChange] = useState<"select" | "results" | null>(null);
+  const [showQrDialog, setShowQrDialog] = useState(false);
+
+  const setUse12h = (v: boolean) => {
+    localStorage.setItem('timeFormat', v ? '12h' : '24h');
+    setUse12hState(v);
+  };
+
+  const handleSlotsChange = (slots: number[]) => {
+    setSelectedAvailability(slots);
+    if (currentParticipantId) setHasUnsavedChanges(true);
+  };
+
+  const handleViewChange = (v: "select" | "results") => {
+    if (hasUnsavedChanges && currentView === "select") {
+      setPendingViewChange(v);
+      setShowUnsavedDialog(true);
+    } else {
+      setCurrentView(v);
+    }
+  };
 
   // Query hook - always called
   const { data: room, isLoading, error } = useQuery<RoomWithParticipants>({
@@ -139,6 +167,7 @@ export default function Room() {
       toast({
         title: t('room.toast.availabilitySaved'),
       });
+      setHasUnsavedChanges(false);
       if (isMobile) {
         setCurrentView("results");
       }
@@ -185,6 +214,20 @@ export default function Room() {
         description: error.message,
         variant: "destructive",
       });
+    },
+  });
+
+  const unconfirmTimeMutation = useMutation({
+    mutationFn: async () => {
+      const response = await apiRequest("POST", `/api/rooms/${roomId}/unconfirm`, { hostId });
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/rooms", roomId] });
+      toast({ title: t('room.toast.meetingUnconfirmed') });
+    },
+    onError: (error: Error) => {
+      toast({ title: t('room.toast.error'), description: error.message, variant: "destructive" });
     },
   });
 
@@ -262,6 +305,10 @@ export default function Room() {
     }
     setConfirmSlotIndex(slotIndex);
     setShowConfirmDialog(true);
+  };
+
+  const handleUnconfirm = () => {
+    if (isHost) unconfirmTimeMutation.mutate();
   };
 
   const handleConfirmSlotConfirmed = () => {
@@ -354,6 +401,13 @@ export default function Room() {
     ? room.participants.find(p => p.id === currentParticipantId)
     : null;
 
+  const respondedCount = room.participants.filter(
+    p => p.availability.includes('1') || p.availability.includes('2')
+  ).length;
+
+  const shareUrl = typeof window !== 'undefined' ? window.location.href.split("?")[0] : '';
+  const shareText = `${room.name} — ${t('room.shareBanner.shareText')} ${shareUrl}`;
+
   return (
     <div className="min-h-screen bg-background">
       <SEO {...seoConfigs.room} />
@@ -372,6 +426,11 @@ export default function Room() {
               </Link>
               <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0" />
               <span className="text-sm font-medium text-foreground truncate">{room.name}</span>
+              {room.participants.length > 0 && (
+                <Badge variant="secondary" className="text-xs shrink-0 hidden sm:flex">
+                  {respondedCount}/{room.participants.length} {t('room.responded')}
+                </Badge>
+              )}
             </div>
 
             {/* Right controls */}
@@ -393,6 +452,15 @@ export default function Room() {
               >
                 <Copy className="h-4 w-4" />
               </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 text-muted-foreground hover:text-foreground"
+                onClick={() => setShowQrDialog(true)}
+                title={t('room.qrCode')}
+              >
+                <QrCode className="h-4 w-4" />
+              </Button>
               {isHost && (
                 <Button
                   variant="ghost"
@@ -413,6 +481,15 @@ export default function Room() {
                   {t('room.joinRoom')}
                 </Button>
               )}
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-8 px-2 text-xs font-mono text-muted-foreground hover:text-foreground"
+                onClick={() => setUse12h(!use12h)}
+                title={use12h ? t('room.switch24h') : t('room.switch12h')}
+              >
+                {use12h ? '12h' : '24h'}
+              </Button>
               <ThemeToggle />
             </div>
           </div>
@@ -437,13 +514,13 @@ export default function Room() {
           <div className="view-toggle">
             <button
               className={currentView === "select" ? "active" : ""}
-              onClick={() => setCurrentView("select")}
+              onClick={() => handleViewChange("select")}
             >
               {t('room.selectTimes')}
             </button>
             <button
               className={currentView === "results" ? "active" : ""}
-              onClick={() => setCurrentView("results")}
+              onClick={() => handleViewChange("results")}
             >
               {t('room.viewResults')}
             </button>
@@ -454,15 +531,39 @@ export default function Room() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {/* Share link banner — shown to host when no other participants have joined yet */}
         {isHost && room.participants.length <= 1 && (
-          <div className="flex items-center justify-between gap-4 rounded-lg border border-primary/20 bg-primary/5 px-4 py-3 mb-6">
-            <div>
-              <p className="text-sm font-medium">{t('room.shareBanner.title')}</p>
-              <p className="text-xs text-muted-foreground mt-0.5">{t('room.shareBanner.desc')}</p>
+          <div className="rounded-lg border border-primary/20 bg-primary/5 px-4 py-3 mb-6">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="text-sm font-medium">{t('room.shareBanner.title')}</p>
+                <p className="text-xs text-muted-foreground mt-0.5">{t('room.shareBanner.desc')}</p>
+              </div>
             </div>
-            <Button size="sm" variant="outline" onClick={handleCopyUrl} className="shrink-0">
-              <Copy className="h-3.5 w-3.5 mr-1.5" />
-              {t('room.shareBanner.copyLink')}
-            </Button>
+            <div className="flex items-center gap-2 mt-2 flex-wrap">
+              <Button size="sm" variant="outline" onClick={handleCopyUrl} className="shrink-0">
+                <Copy className="h-3.5 w-3.5 mr-1.5" />
+                {t('room.shareBanner.copyLink')}
+              </Button>
+              <Button
+                size="sm"
+                variant="outline"
+                className="shrink-0"
+                onClick={() => window.open(`https://wa.me/?text=${encodeURIComponent(shareText)}`, '_blank')}
+              >
+                {t('room.shareBanner.whatsapp')}
+              </Button>
+              <Button
+                size="sm"
+                variant="outline"
+                className="shrink-0"
+                onClick={() => {
+                  const url = `mailto:?subject=${encodeURIComponent(room.name)}&body=${encodeURIComponent(shareText)}`;
+                  window.location.href = url;
+                }}
+              >
+                <Mail className="h-3.5 w-3.5 mr-1.5" />
+                {t('room.shareBanner.email')}
+              </Button>
+            </div>
           </div>
         )}
 
@@ -492,9 +593,10 @@ export default function Room() {
                   <TimeGrid
                     room={room}
                     selectedSlots={selectedAvailability}
-                    onSlotsChange={setSelectedAvailability}
+                    onSlotsChange={handleSlotsChange}
                     viewingTimezone={viewingTimezone}
                     isEditMode={true}
+                    use12h={use12h}
                   />
                   {!currentParticipantId && (
                     <p className="text-xs text-center text-muted-foreground">
@@ -527,8 +629,10 @@ export default function Room() {
                   selectedParticipant={selectedParticipant}
                   onParticipantSelect={setSelectedParticipant}
                   onConfirmSlot={handleConfirmSlot}
+                  onUnconfirm={handleUnconfirm}
                   onEditTimes={() => setCurrentView("select")}
                   isHost={isHost}
+                  use12h={use12h}
                 />
                 <ParticipantPanel
                   participants={room.participants}
@@ -544,7 +648,7 @@ export default function Room() {
           </div>
         ) : (
           /* Desktop Layout */
-          <Tabs value={currentView} onValueChange={(v) => setCurrentView(v as "select" | "results")}>
+          <Tabs value={currentView} onValueChange={(v) => handleViewChange(v as "select" | "results")}>
             <TabsList className="mb-6">
               <TabsTrigger value="select">{t('room.selectTimes')}</TabsTrigger>
               <TabsTrigger value="results">{t('room.viewResults')}</TabsTrigger>
@@ -562,9 +666,10 @@ export default function Room() {
                       <TimeGrid
                         room={room}
                         selectedSlots={selectedAvailability}
-                        onSlotsChange={setSelectedAvailability}
+                        onSlotsChange={handleSlotsChange}
                         viewingTimezone={viewingTimezone}
                         isEditMode={true}
+                        use12h={use12h}
                       />
                       <div className="flex justify-end items-center gap-3">
                         {!currentParticipantId && (
@@ -585,7 +690,7 @@ export default function Room() {
                     participants={room.participants}
                     selectedParticipant={selectedParticipant}
                     onParticipantSelect={setSelectedParticipant}
-                    onViewResults={() => setCurrentView("results")}
+                    onViewResults={() => handleViewChange("results")}
                     isHost={isHost}
                     currentParticipantId={currentParticipantId}
                     onDeleteParticipant={(id) => deleteParticipantMutation.mutate(id)}
@@ -603,8 +708,10 @@ export default function Room() {
                     selectedParticipant={selectedParticipant}
                     onParticipantSelect={setSelectedParticipant}
                     onConfirmSlot={handleConfirmSlot}
+                    onUnconfirm={handleUnconfirm}
                     onEditTimes={() => setCurrentView("select")}
                     isHost={isHost}
+                    use12h={use12h}
                   />
                 </div>
                 <div className="lg:col-span-1">
@@ -660,6 +767,54 @@ export default function Room() {
       </Dialog>
 
       <BugReport position="bottom" />
+
+      {/* Unsaved Changes Dialog */}
+      <Dialog open={showUnsavedDialog} onOpenChange={setShowUnsavedDialog}>
+        <DialogContent className="max-w-sm">
+          <DialogHeader>
+            <DialogTitle className="text-base font-semibold">{t('room.unsavedDialog.title')}</DialogTitle>
+            <DialogDescription className="text-sm text-muted-foreground">
+              {t('room.unsavedDialog.desc')}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="flex gap-2 pt-2">
+            <Button variant="outline" className="flex-1" onClick={() => setShowUnsavedDialog(false)}>
+              {t('room.unsavedDialog.stay')}
+            </Button>
+            <Button
+              variant="destructive"
+              className="flex-1"
+              onClick={() => {
+                setShowUnsavedDialog(false);
+                setHasUnsavedChanges(false);
+                if (pendingViewChange) {
+                  setCurrentView(pendingViewChange);
+                  setPendingViewChange(null);
+                }
+              }}
+            >
+              {t('room.unsavedDialog.discard')}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* QR Code Dialog */}
+      <Dialog open={showQrDialog} onOpenChange={setShowQrDialog}>
+        <DialogContent className="max-w-xs">
+          <DialogHeader>
+            <DialogTitle className="text-base font-semibold">{t('room.qrCode')}</DialogTitle>
+            <DialogDescription className="text-sm text-muted-foreground">
+              {t('room.qrCodeDesc')}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex justify-center py-4">
+            <div className="p-3 bg-white rounded-lg">
+              <QRCode value={shareUrl} size={200} />
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {/* Edit Room Dialog */}
       <Dialog open={showEditRoomDialog} onOpenChange={setShowEditRoomDialog}>

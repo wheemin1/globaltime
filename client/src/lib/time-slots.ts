@@ -28,16 +28,16 @@ export function convertSlotToLocalTime(
   const utcTime = new Date(targetDay);
   utcTime.setUTCHours(hours, minutes, 0, 0);
 
-  const offset = getTimezoneOffset(timezone);
+  const offset = getTimezoneOffset(timezone, utcTime);
   return addHours(utcTime, offset);
 }
 
-export function formatTimeForDisplay(date: Date): string {
-  return format(date, "HH:mm");
+export function formatTimeForDisplay(date: Date, use12h = false): string {
+  return format(date, use12h ? "h:mm a" : "HH:mm");
 }
 
-export function formatDateTimeForDisplay(date: Date): string {
-  return format(date, "EEEE, MMM d 'at' HH:mm");
+export function formatDateTimeForDisplay(date: Date, use12h = false): string {
+  return format(date, use12h ? "EEEE, MMM d 'at' h:mm a" : "EEEE, MMM d 'at' HH:mm");
 }
 
 export interface BestSlot {

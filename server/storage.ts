@@ -91,6 +91,15 @@ export const storage = {
     return updated ?? null;
   },
 
+  async unconfirmRoom(roomId: number): Promise<Room | null> {
+    const [updated] = await db
+      .update(rooms)
+      .set({ isConfirmed: false, confirmedSlot: null })
+      .where(eq(rooms.id, roomId))
+      .returning();
+    return updated ?? null;
+  },
+
   async confirmMeetingTime(roomId: number, slotIndex: number): Promise<any> {
     const room = await this.updateRoomConfirmation(roomId, slotIndex);
     if (!room) return null;

@@ -108,7 +108,21 @@
     "shareBanner": {
       "title": "Share this room with your team",
       "desc": "Copy the link and send it to participants so they can add their availability",
-      "copyLink": "Copy Link"
+      "copyLink": "Copy Link",
+      "whatsapp": "WhatsApp",
+      "email": "Email",
+      "shareText": "Join my meeting availability poll:"
+    },
+    "responded": "responded",
+    "qrCode": "QR Code",
+    "qrCodeDesc": "Scan to open this room on mobile",
+    "switch12h": "Switch to 12-hour format",
+    "switch24h": "Switch to 24-hour format",
+    "unsavedDialog": {
+      "title": "Unsaved changes",
+      "desc": "You have unsaved availability. Switch view and discard changes?",
+      "stay": "Stay & Save",
+      "discard": "Discard & Switch"
     },
     "deadline": "Respond by {{date}}",
     "selectTitle": "Select Your Available Times",
@@ -153,6 +167,7 @@
       "linkCopiedDesc": "Share this link with your team.",
       "availabilitySaved": "Availability saved!",
       "meetingConfirmed": "Meeting time confirmed!",
+      "meetingUnconfirmed": "Meeting time unconfirmed.",
       "participantRemoved": "Participant removed",
       "roomUpdated": "Room updated!",
       "errorCreating": "Error creating room",
@@ -180,6 +195,7 @@
     "sortedByOverlap": "Sorted by participant overlap",
     "confirmed": "Confirmed",
     "awaitingConfirmation": "Awaiting confirmation",
+    "unconfirm": "Unconfirm",
     "thisTimeConfirmed": "This time is confirmed",
     "noneAvailableAtTime": "No one definitely available at this time.",
     "confirmButton": "Confirm",
@@ -209,7 +225,8 @@
     "markAs": "Mark as:",
     "available": "Available",
     "ifNeeded": "If Needed",
-    "dragHint": "Click or drag to select"
+    "dragHint": "Click or drag to select",
+    "clearAll": "Clear All"
   },
   "createRoom": {
     "title": "Schedule a Meeting",

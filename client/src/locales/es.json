@@ -106,7 +106,21 @@
     "shareBanner": {
       "title": "Comparte esta sala con tu equipo",
       "desc": "Copia el enlace y envíalo a los participantes para que puedan añadir su disponibilidad",
-      "copyLink": "Copiar enlace"
+      "copyLink": "Copiar enlace",
+      "whatsapp": "WhatsApp",
+      "email": "Correo",
+      "shareText": "Únete a mi encuesta de disponibilidad:"
+    },
+    "responded": "respondió",
+    "qrCode": "Código QR",
+    "qrCodeDesc": "Escanea para abrir esta sala en móvil",
+    "switch12h": "Cambiar a formato de 12 horas",
+    "switch24h": "Cambiar a formato de 24 horas",
+    "unsavedDialog": {
+      "title": "Cambios sin guardar",
+      "desc": "Tienes disponibilidad sin guardar. ¿Cambiar de vista y descartar los cambios?",
+      "stay": "Quedarse y guardar",
+      "discard": "Descartar y cambiar"
     },
     "deadline": "Responder antes del {{date}}",
     "selectTitle": "Selecciona tus horarios disponibles",
@@ -151,6 +165,7 @@
       "linkCopiedDesc": "Comparte este enlace con tu equipo.",
       "availabilitySaved": "¡Disponibilidad guardada!",
       "meetingConfirmed": "¡Horario de reunión confirmado!",
+      "meetingUnconfirmed": "Hora de reunión sin confirmar.",
       "participantRemoved": "Participante eliminado",
       "roomUpdated": "¡Sala actualizada!",
       "error": "Error"
@@ -173,6 +188,7 @@
     "sortedByOverlap": "Ordenado por superposición de participantes",
     "confirmed": "Confirmado",
     "awaitingConfirmation": "Esperando confirmación",
+    "unconfirm": "Desconfirmar",
     "thisTimeConfirmed": "Este horario está confirmado",
     "noneAvailableAtTime": "Nadie definitivamente disponible en este horario.",
     "confirmButton": "Confirmar",
@@ -202,7 +218,8 @@
     "markAs": "Marcar como:",
     "available": "Disponible",
     "ifNeeded": "Si es necesario",
-    "dragHint": "Haz clic o arrastra para seleccionar"
+    "dragHint": "Haz clic o arrastra para seleccionar",
+    "clearAll": "Limpiar todo"
   },
   "createRoom": {
     "title": "Programar una reunión",

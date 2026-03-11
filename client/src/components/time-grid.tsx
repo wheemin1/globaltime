@@ -15,6 +15,7 @@ interface TimeGridProps {
   softHeatmapData?: number[];
   onSlotClick?: (slotIndex: number) => void;
   selectedParticipant?: number | null;
+  use12h?: boolean;
 }
 
 export function TimeGrid({
@@ -27,8 +28,10 @@ export function TimeGrid({
   softHeatmapData,
   onSlotClick,
   selectedParticipant,
+  use12h = false,
 }: TimeGridProps) {
   const gridRef = useRef<HTMLDivElement>(null);
+  const touchStartPos = useRef<{ x: number; y: number; determined: boolean; isHorizontal: boolean } | null>(null);
   const { t } = useTranslation();
   const [isDragging, setIsDragging] = useState(false);
   const [dragValue, setDragValue] = useState<number>(0);
@@ -57,7 +60,14 @@ export function TimeGrid({
 
   const slotToTimeStr = (slotIdx: number): string => {
     const totalMin = room.timeStart * 60 + slotIdx * slotMinutes;
-    return `${Math.floor(totalMin / 60).toString().padStart(2, "0")}:${(totalMin % 60).toString().padStart(2, "0")}`;
+    const hours = Math.floor(totalMin / 60);
+    const mins = totalMin % 60;
+    if (use12h) {
+      const period = hours >= 12 ? 'PM' : 'AM';
+      const h12 = hours % 12 || 12;
+      return mins === 0 ? `${h12}${period}` : `${h12}:${mins.toString().padStart(2, '0')}${period}`;
+    }
+    return `${hours.toString().padStart(2, "0")}:${mins.toString().padStart(2, "0")}`;
   };
 
   const getSlotIndex = (dayIndex: number, slotIdx: number) => {
@@ -98,7 +108,12 @@ export function TimeGrid({
       onSlotClick?.(slotIndex);
       return;
     }
-    e.preventDefault();
+    touchStartPos.current = {
+      x: e.touches[0].clientX,
+      y: e.touches[0].clientY,
+      determined: false,
+      isHorizontal: false,
+    };
     setIsDragging(true);
     const target = dragMode === "available" ? 1 : 2;
     const current = selectedSlots[slotIndex] ?? 0;
@@ -111,8 +126,17 @@ export function TimeGrid({
 
   const handleTouchMove = useCallback((e: React.TouchEvent) => {
     if (!isDragging || !isEditMode) return;
-    e.preventDefault();
     const touch = e.touches[0];
+    const pos = touchStartPos.current;
+    if (pos && !pos.determined) {
+      const dx = Math.abs(touch.clientX - pos.x);
+      const dy = Math.abs(touch.clientY - pos.y);
+      if (dx < 5 && dy < 5) return;
+      pos.determined = true;
+      pos.isHorizontal = dx >= dy;
+    }
+    if (pos && !pos.isHorizontal) return; // let vertical scroll pass through
+    e.preventDefault();
     const element = document.elementFromPoint(touch.clientX, touch.clientY);
     if (element) {
       const slotAttr = element.getAttribute("data-slot");
@@ -179,13 +203,13 @@ export function TimeGrid({
         p => p.availability[slotIndex] === "2"
       );
       
-      let tooltip = `${formatTimeForDisplay(localTime)} - ${count} available`;
+    let tooltip = `${formatTimeForDisplay(localTime, use12h)} - ${count} available`;
       if (availableParticipants.length > 0) tooltip += `: ${availableParticipants.map(p => p.name).join(", ")}`;
       if (softCount > 0) tooltip += ` · ${softCount} if needed: ${ifNeededParticipants.map(p => p.name).join(", ")}`;
       return tooltip;
     }
     
-    return formatTimeForDisplay(localTime);
+    return formatTimeForDisplay(localTime, use12h);
   };
 
   return (
@@ -215,6 +239,13 @@ export function TimeGrid({
               onClick={() => setDragMode("if-needed")}
             >
               ~ {t('timeGrid.ifNeeded')}
+            </button>
+            <button
+              type="button"
+              className="ml-1 px-2.5 py-1 rounded text-xs font-medium border border-border text-muted-foreground hover:bg-accent transition-colors"
+              onClick={() => onSlotsChange(new Array(selectedSlots.length).fill(0))}
+            >
+              {t('timeGrid.clearAll')}
             </button>
           </div>
         </div>

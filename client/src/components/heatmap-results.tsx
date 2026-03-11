@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { TimeGrid } from "./time-grid";
-import { Check, Pencil, CalendarDays, CheckCircle2 } from "lucide-react";
+import { Check, Pencil, CalendarDays, CheckCircle2, X } from "lucide-react";
 import { convertSlotToLocalTime, formatTimeForDisplay, generateBestSlots } from "@/lib/time-slots";
 import { format, parseISO, eachDayOfInterval, addDays } from "date-fns";
 import type { RoomWithParticipants } from "@shared/schema";
@@ -17,8 +17,10 @@ interface HeatmapResultsProps {
   selectedParticipant: number | null;
   onParticipantSelect: (participantId: number | null) => void;
   onConfirmSlot: (slotIndex: number) => void;
+  onUnconfirm?: () => void;
   onEditTimes?: () => void;
   isHost: boolean;
+  use12h?: boolean;
 }
 
 export function HeatmapResults({
@@ -27,8 +29,10 @@ export function HeatmapResults({
   selectedParticipant,
   onParticipantSelect,
   onConfirmSlot,
+  onUnconfirm,
   onEditTimes,
   isHost,
+  use12h = false,
 }: HeatmapResultsProps) {
   const [selectedSlotIndex, setSelectedSlotIndex] = useState<number | null>(null);
   const [showSlotModal, setShowSlotModal] = useState(false);
@@ -82,6 +86,9 @@ export function HeatmapResults({
   const getIfNeededParticipants = (slotIndex: number) =>
     room.participants.filter((p) => p.availability[slotIndex] === "2");
 
+  const getUnavailableParticipants = (slotIndex: number) =>
+    room.participants.filter((p) => p.availability[slotIndex] === "0");
+
   const slotMinutes = room.slotMinutes ?? 60;
   const slotsPerDay = 24 * Math.round(60 / slotMinutes);
 
@@ -90,9 +97,9 @@ export function HeatmapResults({
     const slotWithinDay = slotIndex % slotsPerDay;
     const localTime = convertSlotToLocalTime(dayIndex, slotWithinDay, viewingTimezone, room.startDate, room.timeStart, slotMinutes);
     const day = actualDays[dayIndex];
-    if (!day) return formatTimeForDisplay(localTime);
-    return `${format(day, "EEE, MMM d")} · ${formatTimeForDisplay(localTime)}`;
-  };
+    if (!day) return formatTimeForDisplay(localTime, use12h);
+    return `${format(day, "EEE, MMM d")} · ${formatTimeForDisplay(localTime, use12h)}`;
+  }
 
   const totalParticipants = room.participants.length;
 
@@ -124,6 +131,17 @@ export function HeatmapResults({
                   {t('heatmap.awaitingConfirmation')}
                 </Badge>
               ) : null}
+              {room.isConfirmed && isHost && onUnconfirm && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-7 text-xs text-muted-foreground hover:text-destructive"
+                  onClick={onUnconfirm}
+                >
+                  <X className="h-3 w-3 mr-1" />
+                  {t('heatmap.unconfirm')}
+                </Button>
+              )}
             </div>
           </div>
         </CardHeader>
@@ -138,6 +156,7 @@ export function HeatmapResults({
             heatmapData={room.heatmap}
             onSlotClick={handleSlotClick}
             selectedParticipant={selectedParticipant}
+            use12h={use12h}
           />
 
           {/* Legend */}
@@ -250,7 +269,7 @@ export function HeatmapResults({
                       <div key={participant.id} className="flex items-center justify-between text-sm">
                         <span className="font-medium">{participant.name}</span>
                         <span className="text-muted-foreground text-xs">
-                          {formatTimeForDisplay(pTime)}
+                          {formatTimeForDisplay(pTime, use12h)}
                         </span>
                       </div>
                     );
@@ -274,10 +293,25 @@ export function HeatmapResults({
                       return (
                         <div key={participant.id} className="flex items-center justify-between text-sm">
                           <span className="font-medium text-amber-700">{participant.name}</span>
-                          <span className="text-muted-foreground text-xs">{formatTimeForDisplay(pTime)}</span>
+                          <span className="text-muted-foreground text-xs">{formatTimeForDisplay(pTime, use12h)}</span>
                         </div>
                       );
                     })}
+                  </div>
+                </div>
+              )}
+
+              {getUnavailableParticipants(selectedSlotIndex).length > 0 && (
+                <div>
+                  <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-2">
+                    {t('heatmap.slotDetail.unavailable')} ({getUnavailableParticipants(selectedSlotIndex).length})
+                  </p>
+                  <div className="space-y-1.5">
+                    {getUnavailableParticipants(selectedSlotIndex).map((participant) => (
+                      <div key={participant.id} className="flex items-center text-sm">
+                        <span className="text-muted-foreground">{participant.name}</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
               )}

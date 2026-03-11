@@ -106,7 +106,21 @@
     "shareBanner": {
       "title": "이 링크를 팀과 공유하세요",
       "desc": "링크를 복사해 참가자에게 보내면 가능한 시간을 입력할 수 있습니다",
-      "copyLink": "링크 복사"
+      "copyLink": "링크 복사",
+      "whatsapp": "WhatsApp",
+      "email": "이메일",
+      "shareText": "회의 가능 시간 설문에 참가하세요:"
+    },
+    "responded": "응답 완료",
+    "qrCode": "QR 코드",
+    "qrCodeDesc": "모바일에서 스캔하여 방에 입장하세요",
+    "switch12h": "12시간 형식으로 전환",
+    "switch24h": "24시간 형식으로 전환",
+    "unsavedDialog": {
+      "title": "저장되지 않은 변경사항",
+      "desc": "저장되지 않은 가능 시간이 있습니다. 보기를 전환하면 변경사항이 삭제됩니다.",
+      "stay": "머물기 & 저장",
+      "discard": "삭제 & 전환"
     },
     "deadline": "{{date}}까지 응답",
     "selectTitle": "가능한 시간을 선택해 주세요",
@@ -151,6 +165,7 @@
       "linkCopiedDesc": "이 링크를 팀과 공유하세요.",
       "availabilitySaved": "가능한 시간을 저장했습니다!",
       "meetingConfirmed": "회의 시간을 확정했습니다!",
+      "meetingUnconfirmed": "회의 시간 확정을 취소했습니다.",
       "participantRemoved": "참가자를 삭제했습니다",
       "roomUpdated": "방을 업데이트했습니다!",
       "error": "오류"
@@ -173,6 +188,7 @@
     "sortedByOverlap": "참가자 격침 순으로 정렬",
     "confirmed": "확정됨",
     "awaitingConfirmation": "확인 대기 중",
+    "unconfirm": "확정 취소",
     "thisTimeConfirmed": "이 시간이 확정되었습니다",
     "noneAvailableAtTime": "이 시간에 확실히 참석 가능한 사람이 없습니다.",
     "confirmButton": "확인",
@@ -202,7 +218,8 @@
     "markAs": "표시:",
     "available": "참가 가능",
     "ifNeeded": "필요하다면",
-    "dragHint": "클릭하거나 드래그하여 선택"
+    "dragHint": "클릭하거나 드래그하여 선택",
+    "clearAll": "전체 삭제"
   },
   "createRoom": {
     "title": "회의 일정 잡기",

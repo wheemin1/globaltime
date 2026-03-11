@@ -162,6 +162,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Unconfirm time slot (host only)
+  app.post("/api/rooms/:id/unconfirm", async (req, res) => {
+    try {
+      const roomId = parseInt(req.params.id);
+      const { hostId } = req.body;
+      const room = await storage.getRoom(roomId);
+      if (!room) return res.status(404).json({ message: "Room not found" });
+      if (room.hostId !== hostId) return res.status(403).json({ message: "Only the host can unconfirm" });
+      const updatedRoom = await storage.unconfirmRoom(roomId);
+      broadcastRoomEvent(roomId);
+      res.json(updatedRoom);
+    } catch (error) {
+      res.status(400).json({ message: "Error unconfirming", error: error instanceof Error ? error.message : String(error) });
+    }
+  });
+
   // Confirm time slot (host only)
   app.post("/api/rooms/:id/confirm", async (req, res) => {
     try {

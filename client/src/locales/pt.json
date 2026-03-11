@@ -106,7 +106,21 @@
     "shareBanner": {
       "title": "Compartilhe este link com sua equipe",
       "desc": "Copie o link e envie para os participantes inserem sua disponibilidade",
-      "copyLink": "Copiar link"
+      "copyLink": "Copiar link",
+      "whatsapp": "WhatsApp",
+      "email": "E-mail",
+      "shareText": "Participe da minha pesquisa de disponibilidade:"
+    },
+    "responded": "respondeu",
+    "qrCode": "Código QR",
+    "qrCodeDesc": "Escaneie para abrir esta sala no celular",
+    "switch12h": "Mudar para formato de 12 horas",
+    "switch24h": "Mudar para formato de 24 horas",
+    "unsavedDialog": {
+      "title": "Alterações não salvas",
+      "desc": "Você tem disponibilidade não salva. Mudar de visualização e descartar as alterações?",
+      "stay": "Ficar e Salvar",
+      "discard": "Descartar e Mudar"
     },
     "deadline": "Responder até {{date}}",
     "selectTitle": "Selecione sua disponibilidade",
@@ -151,6 +165,7 @@
       "linkCopiedDesc": "Compartilhe este link com sua equipe.",
       "availabilitySaved": "Disponibilidade salva!",
       "meetingConfirmed": "Reunião confirmada!",
+      "meetingUnconfirmed": "Horário da reunião não confirmado.",
       "participantRemoved": "Participante removido",
       "roomUpdated": "Sala atualizada!",
       "error": "Erro"
@@ -173,6 +188,7 @@
     "sortedByOverlap": "Ordenado por sobreposição de participantes",
     "confirmed": "Confirmado",
     "awaitingConfirmation": "Aguardando confirmação",
+    "unconfirm": "Desconfirmar",
     "thisTimeConfirmed": "Este horário está confirmado",
     "noneAvailableAtTime": "Ninguém definitivamente disponível neste horário.",
     "confirmButton": "Confirmar",
@@ -202,7 +218,8 @@
     "markAs": "Marcar como:",
     "available": "Disponível",
     "ifNeeded": "Se necessário",
-    "dragHint": "Clique ou arraste para selecionar"
+    "dragHint": "Clique ou arraste para selecionar",
+    "clearAll": "Limpar tudo"
   },
   "createRoom": {
     "title": "Agendar reunião",

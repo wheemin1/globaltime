@@ -13,9 +13,8 @@ export function getUserTimezone(): string {
   return Intl.DateTimeFormat().resolvedOptions().timeZone;
 }
 
-export function getTimezoneOffset(timezone: string): number {
-  const now = new Date();
-  const utc = new Date(now.getTime() + now.getTimezoneOffset() * 60000);
+export function getTimezoneOffset(timezone: string, referenceDate?: Date): number {
+  const now = referenceDate ?? new Date();
   
   // Create a date object in the target timezone
   const targetDate = new Date(now.toLocaleString("en-US", { timeZone: timezone }));

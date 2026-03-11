@@ -106,7 +106,21 @@
     "shareBanner": {
       "title": "Partagez ce lien avec votre équipe",
       "desc": "Copiez le lien et envoyez-le aux participants pour qu'ils saisissent leurs disponibilités",
-      "copyLink": "Copier le lien"
+      "copyLink": "Copier le lien",
+      "whatsapp": "WhatsApp",
+      "email": "E-mail",
+      "shareText": "Rejoignez mon sondage de disponibilité :"
+    },
+    "responded": "répondu",
+    "qrCode": "Code QR",
+    "qrCodeDesc": "Scannez pour ouvrir cette salle sur mobile",
+    "switch12h": "Passer au format 12 heures",
+    "switch24h": "Passer au format 24 heures",
+    "unsavedDialog": {
+      "title": "Modifications non sauvegardées",
+      "desc": "Vous avez des disponibilités non sauvegardées. Changer de vue et supprimer les modifications ?",
+      "stay": "Rester et sauvegarder",
+      "discard": "Supprimer et changer"
     },
     "deadline": "Répondre avant le {{date}}",
     "selectTitle": "Veuillez sélectionner vos disponibilités",
@@ -151,6 +165,7 @@
       "linkCopiedDesc": "Partagez ce lien avec votre équipe.",
       "availabilitySaved": "Disponibilités enregistrées !",
       "meetingConfirmed": "Réunion confirmée !",
+      "meetingUnconfirmed": "Heure de réunion non confirmée.",
       "participantRemoved": "Participant supprimé",
       "roomUpdated": "Salle mise à jour !",
       "error": "Erreur"
@@ -173,6 +188,7 @@
     "sortedByOverlap": "Triés par chevauchement des participants",
     "confirmed": "Confirmé",
     "awaitingConfirmation": "En attente de confirmation",
+    "unconfirm": "Annuler la confirmation",
     "thisTimeConfirmed": "Ce créneau est confirmé",
     "noneAvailableAtTime": "Personne de définitivement disponible à cette heure.",
     "confirmButton": "Confirmer",
@@ -202,7 +218,8 @@
     "markAs": "Marquer comme :",
     "available": "Disponible",
     "ifNeeded": "Si nécessaire",
-    "dragHint": "Cliquez ou faites glisser pour sélectionner"
+    "dragHint": "Cliquez ou faites glisser pour sélectionner",
+    "clearAll": "Tout effacer"
   },
   "createRoom": {
     "title": "Planifier une réunion",

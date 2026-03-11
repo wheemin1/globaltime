@@ -106,7 +106,21 @@
     "shareBanner": {
       "title": "このリンクをチームと共有しましょう",
       "desc": "リンクをコピーして参加者に送ると、空き時間を入力できます",
-      "copyLink": "リンクをコピー"
+      "copyLink": "リンクをコピー",
+      "whatsapp": "WhatsApp",
+      "email": "メール",
+      "shareText": "会議の空き時間アンケートに参加してください:"
+    },
+    "responded": "回答済み",
+    "qrCode": "QRコード",
+    "qrCodeDesc": "スキャンしてモバイルでルームを開く",
+    "switch12h": "12時間形式に切り替え",
+    "switch24h": "24時間形式に切り替え",
+    "unsavedDialog": {
+      "title": "未保存の変更",
+      "desc": "保存されていない空き時間があります。ビューを切り替えると変更が破棄されます。",
+      "stay": "留まって保存",
+      "discard": "破棄して切り替え"
     },
     "deadline": "{{date}}までに回答",
     "selectTitle": "空き時間を選択してください",
@@ -151,6 +165,7 @@
       "linkCopiedDesc": "このリンクをチームと共有してください。",
       "availabilitySaved": "空き時間を保存しました！",
       "meetingConfirmed": "会議時間を確定しました！",
+      "meetingUnconfirmed": "会議時間の確定を取り消しました。",
       "participantRemoved": "参加者を削除しました",
       "roomUpdated": "部屋を更新しました！",
       "error": "エラー"
@@ -173,6 +188,7 @@
     "sortedByOverlap": "参加者の重複順に並び替え",
     "confirmed": "確定済み",
     "awaitingConfirmation": "確認待ち",
+    "unconfirm": "確定解除",
     "thisTimeConfirmed": "この時間は確定済みです",
     "noneAvailableAtTime": "この時間に確实に空いている人はいません。",
     "confirmButton": "確定",
@@ -202,7 +218,8 @@
     "markAs": "マーク:",
     "available": "参加可能",
     "ifNeeded": "必要であれば",
-    "dragHint": "クリックまたはドラッグして選択"
+    "dragHint": "クリックまたはドラッグして選択",
+    "clearAll": "すべてクリア"
   },
   "createRoom": {
     "title": "会議をスケジュール",

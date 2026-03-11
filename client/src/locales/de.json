@@ -106,7 +106,21 @@
     "shareBanner": {
       "title": "Teilen Sie diesen Link mit Ihrem Team",
       "desc": "Kopieren Sie den Link und senden Sie ihn an Teilnehmer, damit sie ihre Verfügbarkeit eingeben können",
-      "copyLink": "Link kopieren"
+      "copyLink": "Link kopieren",
+      "whatsapp": "WhatsApp",
+      "email": "E-Mail",
+      "shareText": "Nehmen Sie an meiner Verfügbarkeitsumfrage teil:"
+    },
+    "responded": "geantwortet",
+    "qrCode": "QR-Code",
+    "qrCodeDesc": "Scannen Sie, um diesen Raum auf dem Handy zu öffnen",
+    "switch12h": "Zu 12-Stunden-Format wechseln",
+    "switch24h": "Zu 24-Stunden-Format wechseln",
+    "unsavedDialog": {
+      "title": "Ungespeicherte Änderungen",
+      "desc": "Sie haben ungespeicherte Verfügbarkeiten. Ansicht wechseln und Änderungen verwerfen?",
+      "stay": "Bleiben & Speichern",
+      "discard": "Verwerfen & Wechseln"
     },
     "deadline": "Antwort bis {{date}}",
     "selectTitle": "Bitte wählen Sie Ihre Verfügbarkeit",
@@ -151,6 +165,7 @@
       "linkCopiedDesc": "Teilen Sie diesen Link mit Ihrem Team.",
       "availabilitySaved": "Verfügbarkeit gespeichert!",
       "meetingConfirmed": "Meeting bestätigt!",
+      "meetingUnconfirmed": "Besprechungszeit nicht bestätigt.",
       "participantRemoved": "Teilnehmer entfernt",
       "roomUpdated": "Raum aktualisiert!",
       "error": "Fehler"
@@ -173,6 +188,7 @@
     "sortedByOverlap": "Nach Teilnehmer-Überschneidung sortiert",
     "confirmed": "Bestätigt",
     "awaitingConfirmation": "Warte auf Bestätigung",
+    "unconfirm": "Bestätigung aufheben",
     "thisTimeConfirmed": "Dieser Termin ist bestätigt",
     "noneAvailableAtTime": "Niemand ist zu diesem Zeitpunkt definitiv verfügbar.",
     "confirmButton": "Bestätigen",
@@ -202,7 +218,8 @@
     "markAs": "Markieren als:",
     "available": "Verfügbar",
     "ifNeeded": "Falls nötig",
-    "dragHint": "Klicken oder ziehen zum Auswählen"
+    "dragHint": "Klicken oder ziehen zum Auswählen",
+    "clearAll": "Alles löschen"
   },
   "createRoom": {
     "title": "Meeting planen",
