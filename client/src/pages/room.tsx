@@ -111,16 +111,6 @@ export default function Room() {
     setSelectedAvailability(new Array(totalSlots).fill(0));
   }, [totalSlots]);
 
-  // SSE for real-time updates
-  useEffect(() => {
-    if (!roomId || roomId <= 0) return;
-    const es = new EventSource(`/api/rooms/${roomId}/events`);
-    es.onmessage = () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/rooms", roomId] });
-    };
-    return () => es.close();
-  }, [roomId]);
-
   // Mutation hooks - always called
   const joinRoomMutation = useMutation({
     mutationFn: async (data: JoinRoomRequest) => {

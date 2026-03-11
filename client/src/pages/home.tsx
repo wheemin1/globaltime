@@ -100,7 +100,7 @@ export default function Home() {
   };
 
   return (
-    <Layout>
+    <Layout showFooter={false}>
       <SEO {...seoConfigs.home} />
       <StructuredData type="WebApplication" data={structuredDataConfigs.webApplication} />
       <StructuredData type="Organization" data={structuredDataConfigs.organization} />
