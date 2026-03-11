@@ -36,11 +36,13 @@ export function StructuredData({ type, data }: StructuredDataProps) {
 }
 
 // Predefined structured data configurations
+export const BASE_URL = 'https://globalmeetingtime.netlify.app';
+
 export const structuredDataConfigs = {
   webApplication: {
     name: 'TimeSync',
     description: 'Find the perfect meeting time across time zones with drag & drop availability and visual overlap heatmaps.',
-    url: 'https://your-domain.netlify.app',
+    url: BASE_URL,
     applicationCategory: 'BusinessApplication',
     operatingSystem: 'Web',
     offers: {
@@ -60,8 +62,8 @@ export const structuredDataConfigs = {
   organization: {
     name: 'TimeSync',
     description: 'Meeting coordination platform for global teams',
-    url: 'https://your-domain.netlify.app',
-    logo: 'https://your-domain.netlify.app/logo.png',
+    url: BASE_URL,
+    logo: `${BASE_URL}/favicon-32x32.png`,
     sameAs: []
   }
 };

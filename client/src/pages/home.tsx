@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Calendar } from "@/components/ui/calendar";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Globe, Users, Zap, Clock, Check } from "lucide-react";
-import { useLocation } from "wouter";
+import { Link, useLocation } from "wouter";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
@@ -351,6 +351,19 @@ export default function Home() {
       </section>
 
       <BugReport position="bottom" />
+
+      {/* Footer */}
+      <footer className="border-t border-border bg-muted/20 py-6 px-4">
+        <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-muted-foreground">
+          <span>© {new Date().getFullYear()} TimeSync. Free global meeting scheduler.</span>
+          <nav className="flex items-center gap-4">
+            <Link href="/features" className="hover:text-foreground transition-colors">Features</Link>
+            <Link href="/how-it-works" className="hover:text-foreground transition-colors">How It Works</Link>
+            <Link href="/help/share" className="hover:text-foreground transition-colors">Help</Link>
+            <Link href="/privacy" className="hover:text-foreground transition-colors">Privacy Policy</Link>
+          </nav>
+        </div>
+      </footer>
     </Layout>
   );
 }

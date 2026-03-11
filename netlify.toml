@@ -37,6 +37,12 @@
     X-Robots-Tag = "index, follow"
     Cache-Control = "public, max-age=3600"
 
+[[headers]]
+  for = "/privacy"
+  [headers.values]
+    X-Robots-Tag = "index, follow"
+    Cache-Control = "public, max-age=86400"
+
 # API redirects
 [[redirects]]
   from = "/api/*"
@@ -62,6 +68,11 @@
 
 [[redirects]]
   from = "/help/*"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/privacy"
   to = "/index.html"
   status = 200
 
