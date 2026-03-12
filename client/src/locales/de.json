@@ -196,7 +196,15 @@
       "viewDetails": "Details anzeigen"
     },
     "progressLabel": "{{responded}} von {{total}} geantwortet",
-    "joinToInteract": "Raum beitreten, um deine Verf\u00fcgbarkeit einzutragen"
+    "joinToInteract": "Raum beitreten, um deine Verfügbarkeit einzutragen",
+    "shareInvite": {
+      "title": "Team einladen",
+      "desc": "Link teilen, damit Teilnehmer ihre Verfügbarkeit angeben können",
+      "copyLink": "Link kopieren",
+      "copied": "Kopiert!"
+    },
+    "showMore": "{{n}} weitere",
+    "showLess": "Weniger"
   },
   "participants": {
     "title": "Teilnehmer",
@@ -224,29 +232,23 @@
     "downloadICS": ".ics herunterladen",
     "confirmedTime": "Bestätigte Meeting-Zeit",
     "availableLabel": "Verfügbar",
-    "ifNeededLabel": "Falls nötig",
     "noneLabel": "Nicht verfügbar",
     "allLabel": "Alle {{count}}",
     "slotDetail": {
       "available": "Verfügbar",
-      "ifNeeded": "Falls nötig",
       "unavailable": "Nicht verfügbar"
     },
     "legend": {
       "none": "Keine",
       "some": "Einige",
-      "all": "Alle",
-      "ifNeeded": "Falls nötig"
+      "all": "Alle"
     }
   },
   "timeGrid": {
-    "markAs": "Markieren als:",
     "available": "Verfügbar",
-    "ifNeeded": "Falls nötig",
-    "dragHint": "Klicken oder ziehen zum Auswählen",
     "clearAll": "Alles löschen",
     "slotsSelected": "{{count}} Slots ausgewählt",
-    "tapDayHint": "Spaltenüberschrift antippen, um alle Slots des Tages aus-/abzuwählen"
+    "tapDayHint": "Klicken oder ziehen zum Markieren · Spaltenüberschrift antippen für ganzen Tag"
   },
   "createRoom": {
     "title": "Meeting planen",

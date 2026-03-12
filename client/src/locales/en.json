@@ -105,6 +105,9 @@
     },
     "form": {
       "title": "New Meeting Room",
+      "stepBasic": "Basic info",
+      "stepDates": "Meeting dates",
+      "stepTime": "Daily time window",
       "meetingName": "Meeting Name",
       "meetingNamePlaceholder": "Weekly Standup",
       "yourName": "Your Name",
@@ -112,6 +115,7 @@
       "yourTimezone": "Your Timezone",
       "meetingDates": "Meeting Dates",
       "selectRange": "select range",
+      "dateHint": "Click start date, then end date. Today is highlighted in green.",
       "dailyWindow": "Daily Time Window",
       "createButton": "Create Room & Get Link →",
       "creating": "Creating..."
@@ -139,7 +143,8 @@
     },
     "deadline": "Respond by {{date}}",
     "selectTitle": "Select Your Available Times",
-    "selectDesc": "Click or drag to mark your free hours",
+    "selectDesc": "Click or drag on the grid to mark your available times",
+    "selectInstruction": "Click or drag to mark available times · click a date column header to select the whole day",
     "joinToSave": "Join the room to save your availability.",
     "joinToSaveSm": "Join the room to save.",
     "saveAvailability": "Save Availability",
@@ -151,7 +156,7 @@
     "editMyTimes": "Edit My Times",
     "joinDialog": {
       "title": "Join {{roomName}}",
-      "desc": "Enter your details to mark your availability.",
+      "desc": "Enter your name to mark your available times. No account needed.",
       "yourName": "Your Name",
       "namePlaceholder": "e.g. Alex Kim",
       "timezone": "Your Timezone",
@@ -198,7 +203,15 @@
       "viewDetails": "View details"
     },
     "progressLabel": "{{responded}} of {{total}} responded",
-    "joinToInteract": "Join this room to mark your availability"
+    "joinToInteract": "Join this room to mark your availability",
+    "shareInvite": {
+      "title": "Invite your team",
+      "desc": "Share this link so teammates can add their availability",
+      "copyLink": "Copy Link",
+      "copied": "Copied!"
+    },
+    "showMore": "Show {{n}} more",
+    "showLess": "Show less"
   },
   "participants": {
     "title": "Participants",
@@ -226,29 +239,24 @@
     "downloadICS": "Download .ics",
     "confirmedTime": "Confirmed Meeting Time",
     "availableLabel": "Available",
-    "ifNeededLabel": "If needed",
     "noneLabel": "None",
     "allLabel": "All {{count}}",
     "slotDetail": {
       "available": "Available",
-      "ifNeeded": "If Needed",
       "unavailable": "Unavailable"
     },
     "legend": {
       "none": "None",
       "some": "Some",
-      "all": "All",
-      "ifNeeded": "If needed"
+      "all": "All"
     }
   },
   "timeGrid": {
-    "markAs": "Mark as:",
     "available": "Available",
-    "ifNeeded": "If Needed",
     "dragHint": "Click or drag to select",
     "clearAll": "Clear All",
     "slotsSelected": "{{count}} slots selected",
-    "tapDayHint": "Tap a column header to select/deselect all slots for that day"
+    "tapDayHint": "Click or drag to mark available times · click a date header to toggle all"
   },
   "createRoom": {
     "title": "Schedule a Meeting",

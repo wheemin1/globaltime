@@ -168,6 +168,20 @@
     animation: pulse-confirmed 2s ease-in-out infinite;
   }
 
+  /* ── Today highlight in react-day-picker ── */
+  .rdp-day_today_highlight:not(.rdp-day_selected):not([disabled]) {
+    background: hsl(142, 60%, 92%) !important;
+    border: 2px solid hsl(142, 60%, 55%) !important;
+    color: hsl(142, 60%, 28%) !important;
+    border-radius: 50%;
+    font-weight: 700;
+  }
+  .dark .rdp-day_today_highlight:not(.rdp-day_selected):not([disabled]) {
+    background: hsl(142, 40%, 18%) !important;
+    border-color: hsl(142, 50%, 35%) !important;
+    color: hsl(142, 60%, 70%) !important;
+  }
+
   @keyframes pulse-confirmed {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.72; }

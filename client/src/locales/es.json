@@ -196,7 +196,15 @@
       "viewDetails": "Ver detalles"
     },
     "progressLabel": "{{responded}} de {{total}} han respondido",
-    "joinToInteract": "Únete a la sala para marcar tu disponibilidad"
+    "joinToInteract": "Unéte a la sala para marcar tu disponibilidad",
+    "shareInvite": {
+      "title": "Invita a tu equipo",
+      "desc": "Comparte el enlace para que todos puedan agregar su disponibilidad",
+      "copyLink": "Copiar enlace",
+      "copied": "¡Copiado!"
+    },
+    "showMore": "Ver {{n}} más",
+    "showLess": "Ver menos"
   },
   "participants": {
     "title": "Participantes",
@@ -224,29 +232,24 @@
     "downloadICS": "Descargar .ics",
     "confirmedTime": "Horario de reunión confirmado",
     "availableLabel": "Disponible",
-    "ifNeededLabel": "Si es necesario",
     "noneLabel": "Ninguno",
     "allLabel": "Todos {{count}}",
     "slotDetail": {
       "available": "Disponible",
-      "ifNeeded": "Si es necesario",
       "unavailable": "No disponible"
     },
     "legend": {
       "none": "Ninguno",
       "some": "Algunos",
-      "all": "Todos",
-      "ifNeeded": "Si es necesario"
+      "all": "Todos"
     }
   },
   "timeGrid": {
-    "markAs": "Marcar como:",
     "available": "Disponible",
-    "ifNeeded": "Si es necesario",
     "dragHint": "Haz clic o arrastra para seleccionar",
     "clearAll": "Limpiar todo",
     "slotsSelected": "{{count}} franjas seleccionadas",
-    "tapDayHint": "Toca el encabezado de columna para seleccionar/deseleccionar todos los slots del día"
+    "tapDayHint": "Haz clic o arrastra para marcar · toca el encabezado de fecha para seleccionar todo el día"
   },
   "createRoom": {
     "title": "Programar una reunión",

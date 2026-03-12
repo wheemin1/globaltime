@@ -76,34 +76,28 @@ export function formatDateTimeForDisplay(date: Date, use12h = false): string {
 
 export interface BestSlot {
   slotIndex: number;
-  participantCount: number;         // count of "1" (definitely available)
-  ifNeededCount: number;            // count of "2" (if needed)
-  availableParticipants: string[];  // names with "1"
-  ifNeededParticipants: string[];   // names with "2"
+  participantCount: number;
+  availableParticipants: string[];
 }
 
-export function generateBestSlots(heatmap: number[], participants: Participant[], softHeatmap?: number[]): BestSlot[] {
+export function generateBestSlots(heatmap: number[], participants: Participant[]): BestSlot[] {
   const slots: BestSlot[] = [];
-  
+
   for (let i = 0; i < heatmap.length; i++) {
-    const count1 = heatmap[i];
-    const count2 = softHeatmap?.[i] ?? 0;
-    if (count1 > 0 || count2 > 0) {
+    const count = heatmap[i];
+    if (count > 0) {
       slots.push({
         slotIndex: i,
-        participantCount: count1,
-        ifNeededCount: count2,
-        availableParticipants: participants.filter(p => p.availability[i] === "1").map(p => p.name),
-        ifNeededParticipants: participants.filter(p => p.availability[i] === "2").map(p => p.name),
+        participantCount: count,
+        availableParticipants: participants
+          .filter(p => p.availability[i] === "1" || p.availability[i] === "2")
+          .map(p => p.name),
       });
     }
   }
-  
-  // Sort: weight by count*2 + ifNeeded*1, then chronological
+
   return slots.sort((a, b) => {
-    const scoreA = a.participantCount * 2 + a.ifNeededCount;
-    const scoreB = b.participantCount * 2 + b.ifNeededCount;
-    if (scoreA !== scoreB) return scoreB - scoreA;
+    if (a.participantCount !== b.participantCount) return b.participantCount - a.participantCount;
     return a.slotIndex - b.slotIndex;
   });
 }

@@ -196,7 +196,15 @@
       "viewDetails": "Ver detalhes"
     },
     "progressLabel": "{{responded}} de {{total}} responderam",
-    "joinToInteract": "Entre na sala para marcar sua disponibilidade"
+    "joinToInteract": "Entre na sala para marcar sua disponibilidade",
+    "shareInvite": {
+      "title": "Convide sua equipe",
+      "desc": "Compartilhe este link para que todos possam indicar disponibilidade",
+      "copyLink": "Copiar link",
+      "copied": "Copiado!"
+    },
+    "showMore": "Ver mais {{n}}",
+    "showLess": "Mostrar menos"
   },
   "participants": {
     "title": "Participantes",
@@ -224,29 +232,24 @@
     "downloadICS": "Baixar .ics",
     "confirmedTime": "Reunião confirmada",
     "availableLabel": "Disponível",
-    "ifNeededLabel": "Se necessário",
     "noneLabel": "Indisponível",
     "allLabel": "Todos {{count}}",
     "slotDetail": {
       "available": "Disponível",
-      "ifNeeded": "Se necessário",
       "unavailable": "Indisponível"
     },
     "legend": {
       "none": "Nenhum",
       "some": "Alguns",
-      "all": "Todos",
-      "ifNeeded": "Se necessário"
+      "all": "Todos"
     }
   },
   "timeGrid": {
-    "markAs": "Marcar como:",
     "available": "Disponível",
-    "ifNeeded": "Se necessário",
     "dragHint": "Clique ou arraste para selecionar",
     "clearAll": "Limpar tudo",
     "slotsSelected": "{{count}} faixas selecionadas",
-    "tapDayHint": "Toque no cabeçalho da coluna para selecionar/desselecionar todos os slots do dia"
+    "tapDayHint": "Clique ou arraste para marcar · clique no cabeçalho de data para selecionar o dia todo"
   },
   "createRoom": {
     "title": "Agendar reunião",

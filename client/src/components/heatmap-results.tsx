@@ -39,7 +39,7 @@ export function HeatmapResults({
   const [showAll, setShowAll] = useState(false);
   const { t } = useTranslation();
 
-  const bestSlots = generateBestSlots(room.heatmap, room.participants, room.softHeatmap);
+  const bestSlots = generateBestSlots(room.heatmap, room.participants);
 
   const actualDays = (() => {
     const start = parseISO(room.startDate);
@@ -84,11 +84,8 @@ export function HeatmapResults({
   const getSlotParticipants = (slotIndex: number) =>
     room.participants.filter((p) => p.availability[slotIndex] === "1");
 
-  const getIfNeededParticipants = (slotIndex: number) =>
-    room.participants.filter((p) => p.availability[slotIndex] === "2");
-
   const getUnavailableParticipants = (slotIndex: number) =>
-    room.participants.filter((p) => p.availability[slotIndex] === "0");
+    room.participants.filter((p) => p.availability[slotIndex] !== "1" && p.availability[slotIndex] !== "2");
 
   const slotMinutes = room.slotMinutes ?? 60;
   const slotsPerDay = 24 * Math.round(60 / slotMinutes);
@@ -155,7 +152,6 @@ export function HeatmapResults({
             viewingTimezone={viewingTimezone}
             isEditMode={false}
             heatmapData={room.heatmap}
-            softHeatmapData={room.softHeatmap}
             onSlotClick={handleSlotClick}
             selectedParticipant={selectedParticipant}
             use12h={use12h}
@@ -174,10 +170,6 @@ export function HeatmapResults({
                 <span>{n >= totalParticipants && totalParticipants > 0 ? t('heatmap.legend.all') : `${n}+`}</span>
               </div>
             ))}
-            <div className="flex items-center gap-1.5">
-              <div className="w-3.5 h-3.5 rounded time-cell heatmap-soft p-0" />
-              <span>{t('heatmap.legend.ifNeeded')}</span>
-            </div>
           </div>
         </CardContent>
       </Card>
@@ -213,16 +205,12 @@ export function HeatmapResults({
                         <p className="text-sm font-medium text-foreground">{getSlotLabel(slot.slotIndex)}</p>
                         <p className="text-xs text-muted-foreground truncate">
                           {slot.availableParticipants.join(", ")}
-                          {slot.ifNeededCount > 0 && (
-                            <span className="text-amber-600"> · if needed: {slot.ifNeededParticipants.join(", ")}</span>
-                          )}
                         </p>
                       </div>
                     </div>
                     <div className="shrink-0 flex flex-col items-end gap-1">
                       <span className={`text-sm font-bold ${all ? "text-primary" : "text-foreground"}`}>
                         {slot.participantCount}/{totalParticipants}
-                        {slot.ifNeededCount > 0 && <span className="text-xs text-amber-500 font-normal ml-1">+{slot.ifNeededCount}</span>}
                       </span>
                       {isHost && !room.isConfirmed && (
                         <Button
@@ -248,9 +236,7 @@ export function HeatmapResults({
                 className="mt-3 w-full text-xs text-muted-foreground hover:text-foreground transition-colors py-1"
                 onClick={() => setShowAll(prev => !prev)}
               >
-                {showAll
-                  ? '▲ Show less'
-                  : `▾ Show ${bestSlots.length - 5} more`}
+                {showAll ? t('room.showLess') : t('room.showMore', { n: bestSlots.length - 5 })}
               </button>
             )}
           </CardContent>
@@ -292,26 +278,6 @@ export function HeatmapResults({
                 </div>
               </div>
 
-              {getIfNeededParticipants(selectedSlotIndex).length > 0 && (
-                <div>
-                  <p className="text-xs font-medium text-amber-600 uppercase tracking-wide mb-2">
-                    {t('heatmap.slotDetail.ifNeeded')} ({getIfNeededParticipants(selectedSlotIndex).length})
-                  </p>
-                  <div className="space-y-2">
-                    {getIfNeededParticipants(selectedSlotIndex).map((participant) => {
-                      const dIdx = Math.floor(selectedSlotIndex / slotsPerDay);
-                      const hIdx = selectedSlotIndex % slotsPerDay;
-                      const pTime = convertSlotToLocalTime(dIdx, hIdx, participant.timezone, room.startDate, room.timeStart, slotMinutes);
-                      return (
-                        <div key={participant.id} className="flex items-center justify-between text-sm">
-                          <span className="font-medium text-amber-700">{participant.name}</span>
-                          <span className="text-muted-foreground text-xs">{formatTimeForDisplay(pTime, use12h)}</span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
 
               {getUnavailableParticipants(selectedSlotIndex).length > 0 && (
                 <div>

@@ -45,7 +45,7 @@ function getInitials(name: string) {
 }
 
 function getAvailabilityCount(availability: string) {
-  return availability.split("").filter((b) => b === "1").length;
+  return availability.split("").filter((b) => b === "1" || b === "2").length;
 }
 
 function ParticipantList({

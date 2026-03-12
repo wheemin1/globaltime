@@ -187,6 +187,13 @@ export default function Home() {
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-5">
+                {/* Step 1: Names */}
+                <div className="space-y-1 pb-1 border-b border-border">
+                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                    <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-primary text-primary-foreground text-[10px] font-bold mr-1.5">1</span>
+                    {t('home.form.stepBasic')}
+                  </p>
+                </div>
                 {/* Meeting name + your name */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
@@ -216,29 +223,47 @@ export default function Home() {
                   <TimezoneSelector value={hostTimezone} onChange={setHostTimezone} />
                 </div>
 
+                {/* Step 2: Dates */}
+                <div className="space-y-1 pb-1 border-b border-border pt-1">
+                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                    <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-primary text-primary-foreground text-[10px] font-bold mr-1.5">2</span>
+                    {t('home.form.stepDates')}
+                  </p>
+                </div>
+
                 {/* Date picker */}
                 <div className="space-y-1.5">
-                  <Label className="text-sm font-medium">
-                    {t('home.form.meetingDates')}
-                    <span className="ml-1.5 text-xs text-muted-foreground font-normal">
+                  <div className="flex items-center justify-between">
+                    <Label className="text-sm font-medium">{t('home.form.meetingDates')}</Label>
+                    <span className="text-xs text-muted-foreground">
                       {selectedRange?.from
                         ? selectedRange.to && selectedRange.to.getTime() !== selectedRange.from.getTime()
                           ? `${format(selectedRange.from, "MMM d")} – ${format(selectedRange.to, "MMM d")}`
                           : format(selectedRange.from, "MMM d, yyyy")
                         : t('home.form.selectRange')}
                     </span>
-                  </Label>
+                  </div>
+                  <p className="text-xs text-muted-foreground">{t('home.form.dateHint')}</p>
                   <div className="flex justify-center">
                     <Calendar
                       mode="range"
                       selected={selectedRange}
                       onSelect={setSelectedRange}
                       disabled={(date) => date < today || date > maxDate}
+                      modifiers={{ today }}
+                      modifiersClassNames={{ today: 'rdp-day_today_highlight' }}
                       className="rounded-lg border border-border"
                     />
                   </div>
                 </div>
 
+                {/* Step 3: Time window */}
+                <div className="space-y-1 pb-1 border-b border-border pt-1">
+                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                    <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-primary text-primary-foreground text-[10px] font-bold mr-1.5">3</span>
+                    {t('home.form.stepTime')}
+                  </p>
+                </div>
                 {/* Time window */}
                 <div className="space-y-1.5">
                   <Label className="text-sm font-medium">{t('home.form.dailyWindow')}</Label>

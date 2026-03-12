@@ -39,14 +39,12 @@ export const storage = {
     const totalSlots = daysDiff * slotsPerDay;
 
     // Generate heatmap for the actual number of slots
+    // Treat both '1' (available) and '2' (legacy 'if needed') as available
     const heatmap = new Array(totalSlots).fill(0);
-    const softHeatmap = new Array(totalSlots).fill(0);
     roomParticipants.forEach(participant => {
       for (let i = 0; i < Math.min(totalSlots, participant.availability.length); i++) {
-        if (participant.availability[i] === '1') {
+        if (participant.availability[i] === '1' || participant.availability[i] === '2') {
           heatmap[i]++;
-        } else if (participant.availability[i] === '2') {
-          softHeatmap[i]++;
         }
       }
     });
@@ -55,7 +53,7 @@ export const storage = {
       ...room,
       participants: roomParticipants,
       heatmap,
-      softHeatmap,
+      softHeatmap: [], // kept for schema compat; no longer used
     };
   },
 

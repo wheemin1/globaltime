@@ -197,6 +197,8 @@ export default function CreateRoom() {
                   selected={selectedRange}
                   onSelect={setSelectedRange}
                   disabled={(date) => date < today || date > maxDate}
+                  modifiers={{ today }}
+                  modifiersClassNames={{ today: 'rdp-day_today_highlight' }}
                   className="rounded-lg border border-border"
                 />
               </div>

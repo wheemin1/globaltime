@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Clock, Copy, Globe, ChevronRight, Pencil, AlertCircle, Mail, QrCode, CheckCircle2, CalendarDays } from "lucide-react";
+import { Clock, Copy, Globe, ChevronRight, Pencil, AlertCircle, QrCode, CheckCircle2, CalendarDays } from "lucide-react";
 import { TimeGrid } from "@/components/time-grid";
 import { ParticipantPanel } from "@/components/participant-panel";
 import { HeatmapResults } from "@/components/heatmap-results";
@@ -67,6 +67,7 @@ export default function Room() {
   const [showUnsavedDialog, setShowUnsavedDialog] = useState(false);
   const [pendingViewChange, setPendingViewChange] = useState<"select" | "results" | null>(null);
   const [showQrDialog, setShowQrDialog] = useState(false);
+  const [showShareSection, setShowShareSection] = useState(true);
 
   const setUse12h = (v: boolean) => {
     localStorage.setItem('timeFormat', v ? '12h' : '24h');
@@ -230,6 +231,13 @@ export default function Room() {
       toast({ title: t('room.toast.error'), description: error.message, variant: "destructive" });
     },
   });
+
+  // Auto-collapse share section once the team starts joining
+  useEffect(() => {
+    if (room && room.participants.length > 1) {
+      setShowShareSection(false);
+    }
+  }, [room?.participants.length]);
 
   // All useEffect hooks - always called, with proper dependencies
   useEffect(() => {
@@ -475,12 +483,13 @@ export default function Room() {
               </div>
               <Button
                 variant="ghost"
-                size="icon"
-                className="h-8 w-8 text-muted-foreground hover:text-foreground"
+                size="sm"
+                className="h-8 px-2.5 gap-1.5 text-muted-foreground hover:text-foreground"
                 onClick={handleCopyUrl}
                 title="Copy link"
               >
                 <Copy className="h-4 w-4" />
+                <span className="hidden sm:inline text-xs font-medium">{t('common.share')}</span>
               </Button>
               <Button
                 variant="ghost"
@@ -589,41 +598,48 @@ export default function Room() {
           </div>
         )}
 
-        {/* Share link banner — shown to host when no other participants have joined yet */}
-        {isHost && room.participants.length <= 1 && (
-          <div className="rounded-lg border border-primary/20 bg-primary/5 px-4 py-3 mb-6">
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <p className="text-sm font-medium">{t('room.shareBanner.title')}</p>
-                <p className="text-xs text-muted-foreground mt-0.5">{t('room.shareBanner.desc')}</p>
+        {/* Invite / Share section — always visible for host */}
+        {isHost && (
+          <div className="rounded-lg border border-primary/20 bg-primary/5 mb-4 overflow-hidden">
+            <button
+              type="button"
+              className="w-full flex items-center justify-between px-4 py-3 text-left"
+              onClick={() => setShowShareSection(v => !v)}
+            >
+              <div className="flex items-center gap-2">
+                <Copy className="h-4 w-4 text-primary shrink-0" />
+                <div>
+                  <p className="text-sm font-semibold">{t('room.shareInvite.title')}</p>
+                  {!showShareSection && (
+                    <p className="text-xs text-muted-foreground">{t('room.shareInvite.desc')}</p>
+                  )}
+                </div>
               </div>
-            </div>
-            <div className="flex items-center gap-2 mt-2 flex-wrap">
-              <Button size="sm" variant="outline" onClick={handleCopyUrl} className="shrink-0">
-                <Copy className="h-3.5 w-3.5 mr-1.5" />
-                {t('room.shareBanner.copyLink')}
-              </Button>
-              <Button
-                size="sm"
-                variant="outline"
-                className="shrink-0"
-                onClick={() => window.open(`https://wa.me/?text=${encodeURIComponent(shareText)}`, '_blank')}
-              >
-                {t('room.shareBanner.whatsapp')}
-              </Button>
-              <Button
-                size="sm"
-                variant="outline"
-                className="shrink-0"
-                onClick={() => {
-                  const url = `mailto:?subject=${encodeURIComponent(room.name)}&body=${encodeURIComponent(shareText)}`;
-                  window.location.href = url;
-                }}
-              >
-                <Mail className="h-3.5 w-3.5 mr-1.5" />
-                {t('room.shareBanner.email')}
-              </Button>
-            </div>
+              <span className="text-muted-foreground text-xs shrink-0">{showShareSection ? '▴' : '▾'}</span>
+            </button>
+            {showShareSection && (
+              <div className="px-4 pb-4 space-y-3">
+                <p className="text-xs text-muted-foreground">{t('room.shareInvite.desc')}</p>
+                <div className="flex items-center gap-2 p-2 rounded-md bg-background border border-border text-xs text-muted-foreground font-mono truncate">
+                  {shareUrl}
+                </div>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <Button size="sm" onClick={handleCopyUrl} className="shrink-0">
+                    <Copy className="h-3.5 w-3.5 mr-1.5" />
+                    {t('room.shareInvite.copyLink')}
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="shrink-0"
+                    onClick={() => setShowQrDialog(true)}
+                  >
+                    <QrCode className="h-3.5 w-3.5 mr-1.5" />
+                    {t('room.qrCode')}
+                  </Button>
+                </div>
+              </div>
+            )}
           </div>
         )}
 
@@ -922,7 +938,7 @@ export default function Room() {
             </div>
           </div>
           <div className="pb-2">
-            <p className="text-xs text-muted-foreground text-center mb-3">Scan with your phone camera to open</p>
+            <p className="text-xs text-muted-foreground text-center mb-3">{t('room.qrCodeDesc')}</p>
             <Button className="w-full" variant="outline" onClick={handleCopyUrl}>
               <Copy className="h-3.5 w-3.5 mr-2" />
               {t('room.shareBanner.copyLink')}

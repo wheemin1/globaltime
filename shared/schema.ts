@@ -96,8 +96,8 @@ export type UpdateAvailabilityRequest = z.infer<typeof updateAvailabilitySchema>
 // Response types
 export interface RoomWithParticipants extends Room {
   participants: Participant[];
-  heatmap: number[];     // count of "1" (definitely available) per slot
-  softHeatmap: number[]; // count of "2" (if needed) per slot
+  heatmap: number[];      // count of available participants per slot
+  softHeatmap: number[];  // deprecated, always empty []
 }
 
 export interface HeatmapData {

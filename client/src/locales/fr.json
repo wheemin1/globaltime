@@ -196,7 +196,15 @@
       "viewDetails": "Voir les détails"
     },
     "progressLabel": "{{responded}} sur {{total}} ont répondu",
-    "joinToInteract": "Rejoignez la salle pour indiquer vos disponibilités"
+    "joinToInteract": "Rejoignez la salle pour indiquer vos disponibilités",
+    "shareInvite": {
+      "title": "Invitez votre équipe",
+      "desc": "Partagez ce lien pour que vos collègues ajoutent leurs disponibilités",
+      "copyLink": "Copier le lien",
+      "copied": "Copié !"
+    },
+    "showMore": "Voir {{n}} de plus",
+    "showLess": "Réduire"
   },
   "participants": {
     "title": "Participants",
@@ -224,29 +232,24 @@
     "downloadICS": "Télécharger .ics",
     "confirmedTime": "Réunion confirmée",
     "availableLabel": "Disponible",
-    "ifNeededLabel": "Si nécessaire",
     "noneLabel": "Indisponible",
     "allLabel": "Tous {{count}}",
     "slotDetail": {
       "available": "Disponible",
-      "ifNeeded": "Si nécessaire",
       "unavailable": "Indisponible"
     },
     "legend": {
       "none": "Aucun",
       "some": "Certains",
-      "all": "Tous",
-      "ifNeeded": "Si nécessaire"
+      "all": "Tous"
     }
   },
   "timeGrid": {
-    "markAs": "Marquer comme :",
     "available": "Disponible",
-    "ifNeeded": "Si nécessaire",
     "dragHint": "Cliquez ou faites glisser pour sélectionner",
     "clearAll": "Tout effacer",
     "slotsSelected": "{{count}} créneaux sélectionnés",
-    "tapDayHint": "Appuyez sur l'en-tête de colonne pour sélectionner/désélectionner tous les créneaux du jour"
+    "tapDayHint": "Cliquer ou glisser pour marquer · cliquer sur l'en-tête de date pour sélectionner toute la journée"
   },
   "createRoom": {
     "title": "Planifier une réunion",

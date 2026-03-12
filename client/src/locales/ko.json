@@ -103,13 +103,17 @@
     },
     "form": {
       "title": "새 회의실",
+      "stepBasic": "기본 정보",
+      "stepDates": "회의 날짜",
+      "stepTime": "일일 시간대",
       "meetingName": "회의 이름",
       "meetingNamePlaceholder": "주간 스탠드업",
       "yourName": "내 이름",
       "yourNamePlaceholder": "홍길동",
       "yourTimezone": "내 시간대",
       "meetingDates": "회의 날짜",
-      "selectRange": "날짜 선택",
+      "selectRange": "기간 선택",
+      "dateHint": "시작일을 클릭하고 종료일을 클릭하세요. 오늘날짜는 초록색으로 표시됩니다.",
       "dailyWindow": "하루 시간대",
       "createButton": "회의실 만들고 링크 받기 →",
       "creating": "만드는 중..."
@@ -137,7 +141,7 @@
     },
     "deadline": "{{date}}까지 응답",
     "selectTitle": "가능한 시간을 선택해 주세요",
-    "selectDesc": "클릭 또는 드래그하여 가능한 시간을 표시합니다",
+    "selectDesc": "그리드를 클릭하거나 드래그하여 가능한 시간을 표시하세요",
     "joinToSave": "가능한 시간을 저장하려면 방에 참가하세요.",
     "joinToSaveSm": "저장하려면 참가하세요.",
     "saveAvailability": "가능한 시간 저장",
@@ -149,7 +153,7 @@
     "editMyTimes": "내 시간 편집",
     "joinDialog": {
       "title": "{{roomName}}에 참가",
-      "desc": "이름과 시간대를 입력하고 가능한 시간을 표시하세요.",
+      "desc": "이름을 입력하면 가능한 시간을 표시할 수 있습니다. 계정이 필요하지 앉습니다.",
       "yourName": "내 이름",
       "namePlaceholder": "예: 홍길동",
       "timezone": "내 시간대",
@@ -196,7 +200,15 @@
       "viewDetails": "상세 보기"
     },
     "progressLabel": "전체 {{total}}명 중 {{responded}}명 응답 완료",
-    "joinToInteract": "가용성을 표시하려면 방에 참가해 주세요"
+    "joinToInteract": "가용성을 표시하려면 방에 참가해 주세요",
+    "shareInvite": {
+      "title": "팀원 초대하기",
+      "desc": "이 링크를 공유하여 팀원이 가능한 시간을 입력할 수 있습니다",
+      "copyLink": "링크 복사",
+      "copied": "복사되었습니다!"
+    },
+    "showMore": "{{n}}개 더 보기",
+    "showLess": "접기"
   },
   "participants": {
     "title": "참가자",
@@ -224,29 +236,23 @@
     "downloadICS": ".ics 다운로드",
     "confirmedTime": "확정된 회의 시간",
     "availableLabel": "참가 가능",
-    "ifNeededLabel": "필요하다면",
     "noneLabel": "불가",
     "allLabel": "전원 {{count}}",
     "slotDetail": {
       "available": "가능",
-      "ifNeeded": "필요시",
       "unavailable": "불가"
     },
     "legend": {
       "none": "없음",
       "some": "일부",
-      "all": "전원",
-      "ifNeeded": "필요하다면"
+      "all": "전원"
     }
   },
   "timeGrid": {
-    "markAs": "표시:",
     "available": "참가 가능",
-    "ifNeeded": "필요하다면",
-    "dragHint": "클릭하거나 드래그하여 선택",
     "clearAll": "전체 삭제",
     "slotsSelected": "{{count}}개 슬롯 선택됨",
-    "tapDayHint": "날짜 열 헤더를 탭하면 그날 전체 슬롯을 선택/해제합니다"
+    "tapDayHint": "클릭하거나 드래그하여 가능한 시간 표시 · 날짜 헤더 클릭으로 하루 전체 선택/해제"
   },
   "createRoom": {
     "title": "회의 일정 잡기",

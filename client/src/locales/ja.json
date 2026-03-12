@@ -195,7 +195,15 @@
       "viewDetails": "詳細を見る"
     },
     "progressLabel": "{{total}}人中{{responded}}人が回答済み",
-    "joinToInteract": "ルームに参加して空き時間を登録しましょう"
+    "joinToInteract": "ルームに参加して空き時間を登録しましょう",
+    "shareInvite": {
+      "title": "チームを招待",
+      "desc": "このリンクを共有してチームに空き時間を入力してもらいましょう",
+      "copyLink": "リンクをコピー",
+      "copied": "コピーしました!"
+    },
+    "showMore": "あと{{n}}件",
+    "showLess": "閉じる"
   },
   "participants": {
     "title": "参加者",
@@ -223,29 +231,23 @@
     "downloadICS": ".icsをダウンロード",
     "confirmedTime": "確定した会議時間",
     "availableLabel": "参加可能",
-    "ifNeededLabel": "必要であれば",
     "noneLabel": "なし",
     "allLabel": "全員 {{count}}",
     "slotDetail": {
       "available": "参加可能",
-      "ifNeeded": "必要であれば",
       "unavailable": "参加不可"
     },
     "legend": {
       "none": "なし",
       "some": "一部",
-      "all": "全員",
-      "ifNeeded": "必要であれば"
+      "all": "全員"
     }
   },
   "timeGrid": {
-    "markAs": "マーク:",
     "available": "参加可能",
-    "ifNeeded": "必要であれば",
-    "dragHint": "クリックまたはドラッグして選択",
     "clearAll": "すべてクリア",
     "slotsSelected": "{{count}}個のスロット選択中",
-    "tapDayHint": "列ヘッダーをタップしてその日のスロットを全選択/解除できます"
+    "tapDayHint": "クリックまたはドラッグして空き時間をマーク · 日付ヘッダーで1日分まとめて選択/解除"
   },
   "createRoom": {
     "title": "会議をスケジュール",

@@ -11,7 +11,6 @@ interface TimeGridProps {
   viewingTimezone: string;
   isEditMode?: boolean;
   heatmapData?: number[];
-  softHeatmapData?: number[];
   onSlotClick?: (slotIndex: number) => void;
   selectedParticipant?: number | null;
   use12h?: boolean;
@@ -26,7 +25,6 @@ export function TimeGrid({
   viewingTimezone,
   isEditMode = false,
   heatmapData,
-  softHeatmapData,
   onSlotClick,
   selectedParticipant,
   use12h = false,
@@ -37,7 +35,6 @@ export function TimeGrid({
   const { t } = useTranslation();
   const [isDragging, setIsDragging] = useState(false);
   const [dragValue, setDragValue] = useState<number>(0);
-  const [dragMode, setDragMode] = useState<"available" | "if-needed">("available");
 
   // columns = days, rows = time slots
   const actualDays = useMemo(() => {
@@ -76,13 +73,12 @@ export function TimeGrid({
   // Click a day column header to toggle all slots in that day
   const handleDayHeaderClick = useCallback((dayIndex: number) => {
     if (!isEditMode) return;
-    const target = dragMode === "available" ? 1 : 2;
     const daySlotIndices = timeSlots.map(slotIdx => getSlotIndex(dayIndex, slotIdx));
-    const allSet = daySlotIndices.every(si => selectedSlots[si] === target);
+    const allSet = daySlotIndices.every(si => selectedSlots[si] >= 1);
     const newSlots = [...selectedSlots];
-    daySlotIndices.forEach(si => { newSlots[si] = allSet ? 0 : target; });
+    daySlotIndices.forEach(si => { newSlots[si] = allSet ? 0 : 1; });
     onSlotsChange(newSlots);
-  }, [isEditMode, selectedSlots, onSlotsChange, dragMode, timeSlots, slotsPerDay]);
+  }, [isEditMode, selectedSlots, onSlotsChange, timeSlots, slotsPerDay]);
 
   const handleMouseDown = useCallback((slotIndex: number) => {
     if (!isEditMode) {
@@ -91,14 +87,13 @@ export function TimeGrid({
     }
     navigator.vibrate?.(10);
     setIsDragging(true);
-    const target = dragMode === "available" ? 1 : 2;
     const current = selectedSlots[slotIndex] ?? 0;
-    const newValue = current === target ? 0 : target;
+    const newValue = current >= 1 ? 0 : 1;
     setDragValue(newValue);
     const newSlots = [...selectedSlots];
     newSlots[slotIndex] = newValue;
     onSlotsChange(newSlots);
-  }, [isEditMode, selectedSlots, onSlotsChange, onSlotClick, dragMode]);
+  }, [isEditMode, selectedSlots, onSlotsChange, onSlotClick]);
 
   const handleMouseEnter = useCallback((slotIndex: number) => {
     if (!isDragging || !isEditMode) return;
@@ -123,14 +118,13 @@ export function TimeGrid({
       isVertical: false,
     };
     setIsDragging(true);
-    const target = dragMode === "available" ? 1 : 2;
     const current = selectedSlots[slotIndex] ?? 0;
-    const newValue = current === target ? 0 : target;
+    const newValue = current >= 1 ? 0 : 1;
     setDragValue(newValue);
     const newSlots = [...selectedSlots];
     newSlots[slotIndex] = newValue;
     onSlotsChange(newSlots);
-  }, [isEditMode, selectedSlots, onSlotsChange, onSlotClick, dragMode]);
+  }, [isEditMode, selectedSlots, onSlotsChange, onSlotClick]);
 
   const handleTouchMove = useCallback((e: React.TouchEvent) => {
     if (!isDragging || !isEditMode) return;
@@ -168,8 +162,7 @@ export function TimeGrid({
 
     if (isEditMode) {
       const v = selectedSlots[slotIndex] ?? 0;
-      if (v === 1) classes += " selected";
-      else if (v === 2) classes += " if-needed";
+      if (v >= 1) classes += " selected";
     }
 
     if (heatmapData && !isEditMode) {
@@ -177,15 +170,14 @@ export function TimeGrid({
       if (count > 0) {
         const intensity = Math.min(count, 5);
         classes += ` heatmap-${intensity}`;
-      } else if ((softHeatmapData?.[slotIndex] ?? 0) > 0) {
-        classes += " heatmap-soft";
       }
     }
 
     if (selectedParticipant) {
       const participant = room.participants.find(p => p.id === selectedParticipant);
-      if (participant?.availability[slotIndex] === "1" || participant?.availability[slotIndex] === "2") {
-        classes += " user-focus";
+      if (participant) {
+        const v = participant.availability[slotIndex];
+        if (v === "1" || v === "2") classes += " user-focus";
       }
     }
 
@@ -202,12 +194,9 @@ export function TimeGrid({
 
     if (heatmapData && !isEditMode) {
       const count = heatmapData[slotIndex];
-      const softCount = softHeatmapData?.[slotIndex] ?? 0;
-      const avail = room.participants.filter(p => p.availability[slotIndex] === "1");
-      const ifNeeded = room.participants.filter(p => p.availability[slotIndex] === "2");
+      const avail = room.participants.filter(p => p.availability[slotIndex] === "1" || p.availability[slotIndex] === "2");
       let tt = `${formatTimeForDisplay(localTime, use12h)} — ${count} available`;
       if (avail.length > 0) tt += `: ${avail.map(p => p.name).join(", ")}`;
-      if (softCount > 0) tt += ` · ${softCount} if needed: ${ifNeeded.map(p => p.name).join(", ")}`;
       return tt;
     }
 
@@ -221,33 +210,10 @@ export function TimeGrid({
       {isEditMode && (
         <div className="flex items-center justify-between gap-2 mb-2 flex-wrap">
           <div className="flex items-center gap-1.5 flex-wrap">
-            <span className="text-xs text-muted-foreground font-medium">{t('timeGrid.markAs')}</span>
             <div className="flex gap-1">
               <button
                 type="button"
-                className={`px-2.5 py-1 rounded text-xs font-medium border transition-colors ${
-                  dragMode === "available"
-                    ? "bg-primary text-primary-foreground border-primary"
-                    : "border-border text-muted-foreground hover:bg-accent"
-                }`}
-                onClick={() => setDragMode("available")}
-              >
-                ✓ {t('timeGrid.available')}
-              </button>
-              <button
-                type="button"
-                className={`px-2.5 py-1 rounded text-xs font-medium border transition-colors ${
-                  dragMode === "if-needed"
-                    ? "bg-amber-500 text-white border-amber-500"
-                    : "border-border text-muted-foreground hover:bg-accent"
-                }`}
-                onClick={() => setDragMode("if-needed")}
-              >
-                ~ {t('timeGrid.ifNeeded')}
-              </button>
-              <button
-                type="button"
-                className="ml-1 px-2.5 py-1 rounded text-xs font-medium border border-border text-muted-foreground hover:bg-accent transition-colors"
+                className="px-2.5 py-1 rounded text-xs font-medium border border-border text-muted-foreground hover:bg-accent transition-colors"
                 onClick={() => onSlotsChange(new Array(selectedSlots.length).fill(0))}
               >
                 {t('timeGrid.clearAll')}
