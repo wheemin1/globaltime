@@ -134,6 +134,7 @@
       "stay": "留まって保存",
       "discard": "破棄して切り替え"
     },
+    "unsavedChanges": "未保存",
     "deadline": "{{date}}までに回答",
     "selectTitle": "空き時間を選択してください",
     "selectDesc": "クリックまたはドラッグして空き時間をマークします",
@@ -176,6 +177,8 @@
       "linkCopied": "リンクをコピーしました！",
       "linkCopiedDesc": "このリンクをチームと共有してください。",
       "availabilitySaved": "空き時間を保存しました！",
+      "availabilitySavedDesc": "{{count}}スロット · {{hrs}}時間選択済み",
+      "noSlotsSelected": "スロット未選択 — 参加可能時間をクリア",
       "meetingConfirmed": "会議時間を確定しました！",
       "meetingUnconfirmed": "会議時間の確定を取り消しました。",
       "participantRemoved": "参加者を削除しました",

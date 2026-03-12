@@ -95,7 +95,7 @@ export default function Home() {
       endDate: format(endD, "yyyy-MM-dd"),
       timeStart,
       timeEnd,
-      slotMinutes: 60,
+      slotMinutes: 30,
     });
   };
 

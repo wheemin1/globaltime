@@ -141,6 +141,7 @@
       "stay": "Stay & Save",
       "discard": "Discard & Switch"
     },
+    "unsavedChanges": "Unsaved",
     "deadline": "Respond by {{date}}",
     "selectTitle": "Select Your Available Times",
     "selectDesc": "Click or drag on the grid to mark your available times",
@@ -184,6 +185,8 @@
       "linkCopied": "Link copied!",
       "linkCopiedDesc": "Share this link with your team.",
       "availabilitySaved": "Availability saved!",
+      "availabilitySavedDesc": "{{count}} slots · {{hrs}}h available",
+      "noSlotsSelected": "No slots selected — availability cleared",
       "meetingConfirmed": "Meeting time confirmed!",
       "meetingUnconfirmed": "Meeting time unconfirmed.",
       "participantRemoved": "Participant removed",

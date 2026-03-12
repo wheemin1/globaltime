@@ -135,6 +135,7 @@
       "stay": "Ficar e Salvar",
       "discard": "Descartar e Mudar"
     },
+    "unsavedChanges": "Não salvo",
     "deadline": "Responder até {{date}}",
     "selectTitle": "Selecione sua disponibilidade",
     "selectDesc": "Clique ou arraste para marcar horários disponíveis",
@@ -177,6 +178,8 @@
       "linkCopied": "Link copiado!",
       "linkCopiedDesc": "Compartilhe este link com sua equipe.",
       "availabilitySaved": "Disponibilidade salva!",
+      "availabilitySavedDesc": "{{count}} slots · {{hrs}}h selecionados",
+      "noSlotsSelected": "Nenhum slot selecionado — disponibilidade limpa",
       "meetingConfirmed": "Reunião confirmada!",
       "meetingUnconfirmed": "Horário da reunião não confirmado.",
       "participantRemoved": "Participante removido",

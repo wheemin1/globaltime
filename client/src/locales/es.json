@@ -135,6 +135,7 @@
       "stay": "Quedarse y guardar",
       "discard": "Descartar y cambiar"
     },
+    "unsavedChanges": "Sin guardar",
     "deadline": "Responder antes del {{date}}",
     "selectTitle": "Selecciona tus horarios disponibles",
     "selectDesc": "Haz clic o arrastra para marcar tus horas libres",
@@ -177,6 +178,8 @@
       "linkCopied": "¡Enlace copiado!",
       "linkCopiedDesc": "Comparte este enlace con tu equipo.",
       "availabilitySaved": "¡Disponibilidad guardada!",
+      "availabilitySavedDesc": "{{count}} franjas · {{hrs}}h seleccionadas",
+      "noSlotsSelected": "Sin franjas seleccionadas — disponibilidad borrada",
       "meetingConfirmed": "¡Horario de reunión confirmado!",
       "meetingUnconfirmed": "Hora de reunión sin confirmar.",
       "participantRemoved": "Participante eliminado",

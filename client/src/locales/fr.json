@@ -135,6 +135,7 @@
       "stay": "Rester et sauvegarder",
       "discard": "Supprimer et changer"
     },
+    "unsavedChanges": "Non sauvegardé",
     "deadline": "Répondre avant le {{date}}",
     "selectTitle": "Veuillez sélectionner vos disponibilités",
     "selectDesc": "Cliquez ou glissez pour marquer vos disponibilités",
@@ -177,6 +178,8 @@
       "linkCopied": "Lien copié !",
       "linkCopiedDesc": "Partagez ce lien avec votre équipe.",
       "availabilitySaved": "Disponibilités enregistrées !",
+      "availabilitySavedDesc": "{{count}} créneaux · {{hrs}}h sélectionnés",
+      "noSlotsSelected": "Aucun créneau sélectionné — disponibilité effacée",
       "meetingConfirmed": "Réunion confirmée !",
       "meetingUnconfirmed": "Heure de réunion non confirmée.",
       "participantRemoved": "Participant supprimé",

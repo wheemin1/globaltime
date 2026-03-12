@@ -163,10 +163,16 @@ export default function Room() {
       );
       return response.json();
     },
-    onSuccess: () => {
+    onSuccess: (_, availabilityString) => {
       queryClient.invalidateQueries({ queryKey: ["/api/rooms", roomId] });
+      const slotCount = availabilityString.split('').filter(c => c === '1').length;
+      const sm = room?.slotMinutes ?? 60;
+      const hrs = ((slotCount * sm) / 60).toFixed(1).replace(/\.0$/, '');
       toast({
         title: t('room.toast.availabilitySaved'),
+        description: slotCount > 0
+          ? t('room.toast.availabilitySavedDesc', { count: slotCount, hrs })
+          : t('room.toast.noSlotsSelected'),
       });
       setHasUnsavedChanges(false);
       if (isMobile) {
@@ -392,18 +398,74 @@ export default function Room() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background">
+        {/* Header skeleton */}
         <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/95 backdrop-blur">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex h-14 items-center justify-between">
-            <Skeleton className="h-7 w-32 rounded-lg" />
-            <Skeleton className="h-7 w-44 rounded-lg" />
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex h-14 items-center justify-between gap-4">
+            <div className="flex items-center gap-2">
+              <Skeleton className="h-7 w-7 rounded-lg" />
+              <Skeleton className="h-4 w-4 rounded" />
+              <Skeleton className="h-5 w-32 rounded" />
+              <Skeleton className="h-5 w-20 rounded-full hidden sm:block" />
+            </div>
+            <div className="flex items-center gap-2">
+              <Skeleton className="h-7 w-28 rounded hidden sm:block" />
+              <Skeleton className="h-8 w-16 rounded-md" />
+              <Skeleton className="h-8 w-8 rounded-md" />
+              <Skeleton className="h-8 w-8 rounded-md" />
+            </div>
           </div>
         </header>
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-4">
-          <Skeleton className="h-10 w-64" />
-          <Skeleton className="h-72 w-full rounded-xl" />
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-5">
+          {/* Share card skeleton */}
+          <Skeleton className="h-12 w-full rounded-lg" />
+          {/* Progress bar skeleton */}
+          <div className="space-y-1.5">
+            <div className="flex justify-between">
+              <Skeleton className="h-3 w-24" />
+              <Skeleton className="h-3 w-8" />
+            </div>
+            <Skeleton className="h-1.5 w-full rounded-full" />
+          </div>
+          {/* Tab bar skeleton */}
+          <div className="flex gap-1">
+            <Skeleton className="h-9 w-28 rounded-md" />
+            <Skeleton className="h-9 w-28 rounded-md" />
+          </div>
+          {/* Main grid + sidebar */}
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-            <Skeleton className="lg:col-span-3 h-64 rounded-xl" />
-            <Skeleton className="h-64 rounded-xl" />
+            <div className="lg:col-span-3 rounded-xl border border-border p-4 space-y-3">
+              <Skeleton className="h-5 w-44" />
+              <Skeleton className="h-3 w-56" />
+              {/* Day headers */}
+              <div className="flex gap-1 mt-2">
+                <Skeleton className="h-10 w-14 rounded shrink-0" />
+                {Array.from({ length: 7 }).map((_, i) => (
+                  <Skeleton key={i} className="h-10 flex-1 rounded" />
+                ))}
+              </div>
+              {/* Time rows */}
+              {Array.from({ length: 10 }).map((_, i) => (
+                <div key={i} className="flex gap-1">
+                  <Skeleton className="h-6 w-14 rounded shrink-0" style={{ opacity: i % 2 === 1 ? 0.4 : 1 }} />
+                  {Array.from({ length: 7 }).map((_, j) => (
+                    <Skeleton key={j} className="h-6 flex-1 rounded" style={{ opacity: Math.max(0.15, 0.7 - i * 0.04) }} />
+                  ))}
+                </div>
+              ))}
+            </div>
+            <div className="lg:col-span-1 rounded-xl border border-border p-4 space-y-3">
+              <Skeleton className="h-5 w-24" />
+              {Array.from({ length: 3 }).map((_, i) => (
+                <div key={i} className="flex items-center gap-3">
+                  <Skeleton className="h-8 w-8 rounded-full shrink-0" />
+                  <div className="flex-1 space-y-1.5">
+                    <Skeleton className="h-3.5 w-20" />
+                    <Skeleton className="h-3 w-14" />
+                  </div>
+                  <Skeleton className="h-4 w-8 rounded" />
+                </div>
+              ))}
+            </div>
           </div>
         </main>
       </div>
@@ -845,17 +907,36 @@ export default function Room() {
       </main>
 
       {/* Sticky save button — mobile, when unsaved changes exist */}
-      {isMobile && hasUnsavedChanges && currentView === "select" && currentParticipantId && (
-        <div className="fixed bottom-0 left-0 right-0 z-40 px-4 pb-4 pt-2 bg-background/95 backdrop-blur border-t border-border supports-[backdrop-filter]:bg-background/80">
-          <Button
-            onClick={handleSaveAvailability}
-            className="w-full h-12 font-semibold text-sm"
-            disabled={updateAvailabilityMutation.isPending}
-          >
-            {updateAvailabilityMutation.isPending ? t('common.saving') : `💾 ${t('room.saveAvailability')}`}
-          </Button>
-        </div>
-      )}
+      {isMobile && hasUnsavedChanges && currentView === "select" && currentParticipantId && (() => {
+        const selectedCount = selectedAvailability.filter(v => v >= 1).length;
+        const sm = room.slotMinutes ?? 60;
+        const hrs = ((selectedCount * sm) / 60).toFixed(1).replace(/\.0$/, '');
+        return (
+          <div className="fixed bottom-0 left-0 right-0 z-40 px-4 pb-4 pt-2 bg-background/95 backdrop-blur border-t border-border supports-[backdrop-filter]:bg-background/80 space-y-1.5">
+            <div className="flex items-center justify-between text-xs px-0.5">
+              <span className="text-muted-foreground">
+                {t('timeGrid.slotsSelected', { count: selectedCount })}
+                {selectedCount > 0 && ` · ${hrs}h`}
+              </span>
+              <span className="text-amber-500 font-medium">{t('room.unsavedChanges')}</span>
+            </div>
+            <Button
+              onClick={handleSaveAvailability}
+              className="w-full h-11 font-semibold text-sm"
+              disabled={updateAvailabilityMutation.isPending}
+            >
+              {updateAvailabilityMutation.isPending ? (
+                <span className="flex items-center gap-2">
+                  <span className="animate-spin inline-block border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full w-4 h-4" />
+                  {t('common.saving')}
+                </span>
+              ) : (
+                t('room.saveAvailability')
+              )}
+            </Button>
+          </div>
+        );
+      })()}
 
       {/* Join Room Dialog */}
       <Dialog open={showJoinDialog} onOpenChange={setShowJoinDialog}>

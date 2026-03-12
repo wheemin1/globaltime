@@ -59,6 +59,8 @@ export function TimeGrid({
     const totalMin = room.timeStart * 60 + slotIdx * slotMinutes;
     const hours = Math.floor(totalMin / 60);
     const mins = totalMin % 60;
+    // In 30-min mode, show only :00 labels to keep the axis readable
+    if (slotMinutes <= 30 && mins !== 0) return '';
     if (use12h) {
       const period = hours >= 12 ? 'PM' : 'AM';
       const h12 = hours % 12 || 12;
@@ -160,6 +162,12 @@ export function TimeGrid({
     const slotIndex = getSlotIndex(dayIndex, slotIdx);
     let classes = "time-cell";
 
+    // In 30-min mode mark the start of each hour for a visual separator
+    const totalMinForSlot = room.timeStart * 60 + slotIdx * slotMinutes;
+    if (slotMinutes <= 30 && totalMinForSlot % 60 === 0 && slotIdx > 0) {
+      classes += " hour-start";
+    }
+
     if (isEditMode) {
       const v = selectedSlots[slotIndex] ?? 0;
       if (v >= 1) classes += " selected";
@@ -234,6 +242,7 @@ export function TimeGrid({
         <div
           ref={gridRef}
           className="time-grid"
+          data-slot-min={slotMinutes}
           style={{ gridTemplateColumns: `56px repeat(${actualDays.length}, minmax(38px, 1fr))` }}
           onTouchMove={handleTouchMove}
         >
@@ -256,7 +265,7 @@ export function TimeGrid({
           {/* Time rows: each row = one time slot across all days */}
           {timeSlots.map((slotIdx) => (
             <Fragment key={slotIdx}>
-              <div className="time-header">
+              <div className={`time-header${slotMinutes <= 30 && (room.timeStart * 60 + slotIdx * slotMinutes) % 60 !== 0 ? ' time-header-half' : ''}`}>
                 {slotToTimeStr(slotIdx)}
               </div>
               {actualDays.map((_, dayIndex) => {

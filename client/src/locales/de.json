@@ -135,6 +135,7 @@
       "stay": "Bleiben & Speichern",
       "discard": "Verwerfen & Wechseln"
     },
+    "unsavedChanges": "Ungespeichert",
     "deadline": "Antwort bis {{date}}",
     "selectTitle": "Bitte wählen Sie Ihre Verfügbarkeit",
     "selectDesc": "Klicken oder ziehen Sie, um verfügbare Zeiten zu markieren",
@@ -177,6 +178,8 @@
       "linkCopied": "Link kopiert!",
       "linkCopiedDesc": "Teilen Sie diesen Link mit Ihrem Team.",
       "availabilitySaved": "Verfügbarkeit gespeichert!",
+      "availabilitySavedDesc": "{{count}} Slots · {{hrs}}h ausgewählt",
+      "noSlotsSelected": "Keine Slots ausgewählt — Verfügbarkeit gelöscht",
       "meetingConfirmed": "Meeting bestätigt!",
       "meetingUnconfirmed": "Besprechungszeit nicht bestätigt.",
       "participantRemoved": "Teilnehmer entfernt",

@@ -195,6 +195,35 @@
     50% { opacity: 0.72; }
   }
 
+  /* ── 30-min grid: smaller row height + hour separators ── */
+  .time-grid[data-slot-min="30"] .time-cell {
+    height: 22px;
+    min-width: 32px;
+  }
+  .time-grid[data-slot-min="30"] .time-header {
+    height: 22px;
+    font-size: 10px;
+  }
+  /* Half-hour time-header: invisible placeholder keeps grid alignment */
+  .time-header-half {
+    color: transparent;
+    pointer-events: none;
+  }
+  /* Hour boundary in 30-min grid: slightly stronger top edge */
+  .time-cell.hour-start {
+    border-top-color: var(--border) !important;
+    border-top-width: 2px !important;
+  }
+  @media (max-width: 768px) {
+    .time-grid[data-slot-min="30"] .time-cell {
+      height: 18px;
+      min-width: 28px;
+    }
+    .time-grid[data-slot-min="30"] .time-header {
+      height: 18px;
+    }
+  }
+
   /* ── Grid Headers ── */
   .day-header {
     background: var(--navy);

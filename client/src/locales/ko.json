@@ -139,6 +139,7 @@
       "stay": "머물기 & 저장",
       "discard": "삭제 & 전환"
     },
+    "unsavedChanges": "미저장",
     "deadline": "{{date}}까지 응답",
     "selectTitle": "가능한 시간을 선택해 주세요",
     "selectDesc": "그리드를 클릭하거나 드래그하여 가능한 시간을 표시하세요",
@@ -181,6 +182,8 @@
       "linkCopied": "링크를 복사했습니다!",
       "linkCopiedDesc": "이 링크를 팀과 공유하세요.",
       "availabilitySaved": "가능한 시간을 저장했습니다!",
+      "availabilitySavedDesc": "{{count}}개 슬롯 · {{hrs}}시간 선택됨",
+      "noSlotsSelected": "선택된 슬롯 없음 — 가용성 삭제됨",
       "meetingConfirmed": "회의 시간을 확정했습니다!",
       "meetingUnconfirmed": "회의 시간 확정을 취소했습니다.",
       "participantRemoved": "참가자를 삭제했습니다",
