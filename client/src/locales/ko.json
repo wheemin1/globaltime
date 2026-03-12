@@ -177,14 +177,21 @@
     "loading": "방 로딩 중...",
     "notFound": "방을 찾을 수 없습니다",
     "notFoundDesc": "이 방은 삭제되었거나 링크가 유효하지 않을 수 있습니다.",
-    "errorLoading": "방 로딩 오류"
+    "errorLoading": "방 로딩 오류",
+    "confirmedBanner": {
+      "title": "회의 시간이 확정되었습니다!",
+      "viewDetails": "상세 보기"
+    },
+    "progressLabel": "전체 {{total}}명 중 {{responded}}명 응답 완료",
+    "joinToInteract": "가용성을 표시하려면 방에 참가해 주세요"
   },
   "participants": {
     "title": "참가자",
     "noParticipants": "아직 참가자가 없습니다",
     "team": "팀 ({{count}})",
     "removeParticipant": "참가자 삭제",
-    "responded": "응답함"
+    "responded": "응답함",
+    "notResponded": "미응답"
   },
   "heatmap": {
     "heatmapTitle": "가용성 히트맵",
@@ -224,7 +231,9 @@
     "available": "참가 가능",
     "ifNeeded": "필요하다면",
     "dragHint": "클릭하거나 드래그하여 선택",
-    "clearAll": "전체 삭제"
+    "clearAll": "전체 삭제",
+    "slotsSelected": "{{count}}개 슬롯 선택됨",
+    "tapDayHint": "날짜 열 헤더를 탭하면 그날 전체 슬롯을 선택/해제합니다"
   },
   "createRoom": {
     "title": "회의 일정 잡기",
@@ -244,7 +253,7 @@
       "title": "날짜 선택",
       "label": "날짜 범위 선택",
       "hint": "시작 날짜를 클릭한 다음 종료 날짜 클릭",
-      "rangeHint": "회의 시작일과 종료일을 선택하세요 (14일 이내)."
+      "rangeHint": "회의 시작일과 종료일을 선택하세요 (30일 이내)."
     },
     "step3": {
       "title": "시간 및 옵션",

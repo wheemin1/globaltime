@@ -97,10 +97,17 @@ function ParticipantList({
               </div>
             </div>
             <div className="shrink-0 flex items-center gap-2">
-              <span className="flex items-center gap-1 text-xs font-medium text-primary">
-                <CheckCircle2 className="h-3.5 w-3.5" />
-                {slots}
-              </span>
+              {(() => {
+                const hasResponded = participant.availability.split("").some(b => b === "1" || b === "2");
+                return hasResponded ? (
+                  <span className="flex items-center gap-1 text-xs font-medium text-primary">
+                    <CheckCircle2 className="h-3.5 w-3.5" />
+                    {slots}
+                  </span>
+                ) : (
+                  <span className="text-xs text-muted-foreground italic">{t('participants.notResponded')}</span>
+                );
+              })()}
               {isHost && participant.id !== currentParticipantId && (
                 <button
                   type="button"

@@ -17,6 +17,8 @@ interface TimeGridProps {
   use12h?: boolean;
 }
 
+// ─── Doodle-style grid: columns = days, rows = time slots ───────────────────
+
 export function TimeGrid({
   room,
   selectedSlots,
@@ -30,24 +32,23 @@ export function TimeGrid({
   use12h = false,
 }: TimeGridProps) {
   const gridRef = useRef<HTMLDivElement>(null);
-  const touchStartPos = useRef<{ x: number; y: number; determined: boolean; isHorizontal: boolean } | null>(null);
+  // In column-layout, vertical drag = time selection, horizontal = page scroll
+  const touchStartPos = useRef<{ x: number; y: number; determined: boolean; isVertical: boolean } | null>(null);
   const { t } = useTranslation();
   const [isDragging, setIsDragging] = useState(false);
   const [dragValue, setDragValue] = useState<number>(0);
   const [dragMode, setDragMode] = useState<"available" | "if-needed">("available");
 
-  // Calculate actual dates based on room's date range
+  // columns = days, rows = time slots
   const actualDays = useMemo(() => {
     const startDate = parseISO(room.startDate);
     const endDate = parseISO(room.endDate);
     const dateRange = eachDayOfInterval({ start: startDate, end: endDate });
-    
     return dateRange.map(date => ({
       date,
-      label: format(date, 'EEE'), // Mon, Tue, Wed etc
-      dateLabel: format(date, 'M/d'), // 7/22, 7/23 etc
-      fullLabel: format(date, 'EEE M/d'), // Mon 7/22, Tue 7/23 etc
-      tooltip: format(date, 'EEEE, MMMM d, yyyy'), // Monday, July 22, 2025
+      label: format(date, 'EEE'),
+      dateLabel: format(date, 'M/d'),
+      tooltip: format(date, 'EEEE, MMMM d, yyyy'),
     }));
   }, [room.startDate, room.endDate]);
 
@@ -55,7 +56,7 @@ export function TimeGrid({
   const slotsPerHour = Math.round(60 / slotMinutes);
   const slotsInWindow = (room.timeEnd - room.timeStart) * slotsPerHour;
   const slotsPerDay = 24 * slotsPerHour;
-  const slots = Array.from({ length: slotsInWindow }, (_, i) => i);
+  const timeSlots = Array.from({ length: slotsInWindow }, (_, i) => i);
 
   const slotToTimeStr = (slotIdx: number): string => {
     const totalMin = room.timeStart * 60 + slotIdx * slotMinutes;
@@ -69,22 +70,30 @@ export function TimeGrid({
     return `${hours.toString().padStart(2, "0")}:${mins.toString().padStart(2, "0")}`;
   };
 
-  const getSlotIndex = (dayIndex: number, slotIdx: number) => {
-    return dayIndex * slotsPerDay + slotIdx;
-  };
+  const getSlotIndex = (dayIndex: number, slotIdx: number) =>
+    dayIndex * slotsPerDay + slotIdx;
+
+  // Click a day column header to toggle all slots in that day
+  const handleDayHeaderClick = useCallback((dayIndex: number) => {
+    if (!isEditMode) return;
+    const target = dragMode === "available" ? 1 : 2;
+    const daySlotIndices = timeSlots.map(slotIdx => getSlotIndex(dayIndex, slotIdx));
+    const allSet = daySlotIndices.every(si => selectedSlots[si] === target);
+    const newSlots = [...selectedSlots];
+    daySlotIndices.forEach(si => { newSlots[si] = allSet ? 0 : target; });
+    onSlotsChange(newSlots);
+  }, [isEditMode, selectedSlots, onSlotsChange, dragMode, timeSlots, slotsPerDay]);
 
   const handleMouseDown = useCallback((slotIndex: number) => {
     if (!isEditMode) {
       onSlotClick?.(slotIndex);
       return;
     }
-
     setIsDragging(true);
     const target = dragMode === "available" ? 1 : 2;
     const current = selectedSlots[slotIndex] ?? 0;
     const newValue = current === target ? 0 : target;
     setDragValue(newValue);
-    
     const newSlots = [...selectedSlots];
     newSlots[slotIndex] = newValue;
     onSlotsChange(newSlots);
@@ -92,7 +101,6 @@ export function TimeGrid({
 
   const handleMouseEnter = useCallback((slotIndex: number) => {
     if (!isDragging || !isEditMode) return;
-    
     const newSlots = [...selectedSlots];
     newSlots[slotIndex] = dragValue;
     onSlotsChange(newSlots);
@@ -111,7 +119,7 @@ export function TimeGrid({
       x: e.touches[0].clientX,
       y: e.touches[0].clientY,
       determined: false,
-      isHorizontal: false,
+      isVertical: false,
     };
     setIsDragging(true);
     const target = dragMode === "available" ? 1 : 2;
@@ -132,9 +140,9 @@ export function TimeGrid({
       const dy = Math.abs(touch.clientY - pos.y);
       if (dx < 5 && dy < 5) return;
       pos.determined = true;
-      pos.isHorizontal = dx >= dy;
+      pos.isVertical = dy >= dx; // vertical drag = select time slots within a day column
     }
-    if (pos && !pos.isHorizontal) return; // let vertical scroll pass through
+    if (pos && !pos.isVertical) return; // let horizontal (day-scroll) pass through
     e.preventDefault();
     const element = document.elementFromPoint(touch.clientX, touch.clientY);
     if (element) {
@@ -148,7 +156,6 @@ export function TimeGrid({
     }
   }, [isDragging, isEditMode, selectedSlots, dragValue, onSlotsChange]);
 
-  // Add event listeners for mouse up
   useEffect(() => {
     document.addEventListener("mouseup", handleMouseUp);
     return () => document.removeEventListener("mouseup", handleMouseUp);
@@ -191,104 +198,118 @@ export function TimeGrid({
   const getSlotTooltip = (dayIndex: number, slotIdx: number) => {
     const slotIndex = getSlotIndex(dayIndex, slotIdx);
     const localTime = convertSlotToLocalTime(dayIndex, slotIdx, viewingTimezone, room.startDate, room.timeStart, slotMinutes);
-    
+
     if (heatmapData && !isEditMode) {
       const count = heatmapData[slotIndex];
       const softCount = softHeatmapData?.[slotIndex] ?? 0;
-      const availableParticipants = room.participants.filter(
-        p => p.availability[slotIndex] === "1"
-      );
-      const ifNeededParticipants = room.participants.filter(
-        p => p.availability[slotIndex] === "2"
-      );
-      
-    let tooltip = `${formatTimeForDisplay(localTime, use12h)} - ${count} available`;
-      if (availableParticipants.length > 0) tooltip += `: ${availableParticipants.map(p => p.name).join(", ")}`;
-      if (softCount > 0) tooltip += ` · ${softCount} if needed: ${ifNeededParticipants.map(p => p.name).join(", ")}`;
-      return tooltip;
+      const avail = room.participants.filter(p => p.availability[slotIndex] === "1");
+      const ifNeeded = room.participants.filter(p => p.availability[slotIndex] === "2");
+      let tt = `${formatTimeForDisplay(localTime, use12h)} — ${count} available`;
+      if (avail.length > 0) tt += `: ${avail.map(p => p.name).join(", ")}`;
+      if (softCount > 0) tt += ` · ${softCount} if needed: ${ifNeeded.map(p => p.name).join(", ")}`;
+      return tt;
     }
-    
+
     return formatTimeForDisplay(localTime, use12h);
   };
 
+  const selectedCount = selectedSlots.filter(v => v >= 1).length;
+
   return (
-    <div className="w-full overflow-x-auto">
+    <div className="w-full">
       {isEditMode && (
-        <div className="flex items-center gap-2 mb-2">
-          <span className="text-xs text-muted-foreground font-medium">{t('timeGrid.markAs')}</span>
-          <div className="flex gap-1">
-            <button
-              type="button"
-              className={`px-2.5 py-1 rounded text-xs font-medium border transition-colors ${
-                dragMode === "available"
-                  ? "bg-primary text-primary-foreground border-primary"
-                  : "border-border text-muted-foreground hover:bg-accent"
-              }`}
-              onClick={() => setDragMode("available")}
-            >
-              ✓ {t('timeGrid.available')}
-            </button>
-            <button
-              type="button"
-              className={`px-2.5 py-1 rounded text-xs font-medium border transition-colors ${
-                dragMode === "if-needed"
-                  ? "bg-amber-500 text-white border-amber-500"
-                  : "border-border text-muted-foreground hover:bg-accent"
-              }`}
-              onClick={() => setDragMode("if-needed")}
-            >
-              ~ {t('timeGrid.ifNeeded')}
-            </button>
-            <button
-              type="button"
-              className="ml-1 px-2.5 py-1 rounded text-xs font-medium border border-border text-muted-foreground hover:bg-accent transition-colors"
-              onClick={() => onSlotsChange(new Array(selectedSlots.length).fill(0))}
-            >
-              {t('timeGrid.clearAll')}
-            </button>
+        <div className="flex items-center justify-between gap-2 mb-2 flex-wrap">
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <span className="text-xs text-muted-foreground font-medium">{t('timeGrid.markAs')}</span>
+            <div className="flex gap-1">
+              <button
+                type="button"
+                className={`px-2.5 py-1 rounded text-xs font-medium border transition-colors ${
+                  dragMode === "available"
+                    ? "bg-primary text-primary-foreground border-primary"
+                    : "border-border text-muted-foreground hover:bg-accent"
+                }`}
+                onClick={() => setDragMode("available")}
+              >
+                ✓ {t('timeGrid.available')}
+              </button>
+              <button
+                type="button"
+                className={`px-2.5 py-1 rounded text-xs font-medium border transition-colors ${
+                  dragMode === "if-needed"
+                    ? "bg-amber-500 text-white border-amber-500"
+                    : "border-border text-muted-foreground hover:bg-accent"
+                }`}
+                onClick={() => setDragMode("if-needed")}
+              >
+                ~ {t('timeGrid.ifNeeded')}
+              </button>
+              <button
+                type="button"
+                className="ml-1 px-2.5 py-1 rounded text-xs font-medium border border-border text-muted-foreground hover:bg-accent transition-colors"
+                onClick={() => onSlotsChange(new Array(selectedSlots.length).fill(0))}
+              >
+                {t('timeGrid.clearAll')}
+              </button>
+            </div>
           </div>
+          {selectedCount > 0 && (
+            <span className="text-xs text-muted-foreground tabular-nums ml-auto">
+              {t('timeGrid.slotsSelected', { count: selectedCount })}
+            </span>
+          )}
         </div>
       )}
-      <div
-        ref={gridRef}
-        className="time-grid"
-        style={{ gridTemplateColumns: `80px repeat(${slots.length}, minmax(${slotMinutes === 30 ? 28 : 36}px, 1fr))` }}
-        onTouchMove={handleTouchMove}
-      >
-        {/* Corner cell */}
-        <div className="day-header">Time</div>
-        
-        {/* Slot headers */}
-        {slots.map(s => (
-          <div key={s} className="time-header">
-            {slotToTimeStr(s)}
-          </div>
-        ))}
-        
-        {/* Day rows */}
-        {actualDays.map((dayInfo, dayIndex) => (
-          <Fragment key={dayInfo.date.toISOString()}>
-            <div className="day-header" title={dayInfo.tooltip}>
+      {isEditMode && (
+        <p className="text-xs text-muted-foreground mb-2">{t('timeGrid.tapDayHint')}</p>
+      )}
+      <div className="w-full overflow-x-auto">
+        <div
+          ref={gridRef}
+          className="time-grid"
+          style={{ gridTemplateColumns: `56px repeat(${actualDays.length}, minmax(38px, 1fr))` }}
+          onTouchMove={handleTouchMove}
+        >
+          {/* Top-left corner */}
+          <div className="time-header corner-cell" />
+
+          {/* Day column headers */}
+          {actualDays.map((dayInfo, dayIndex) => (
+            <div
+              key={dayInfo.date.toISOString()}
+              className={`day-header${isEditMode ? " day-header-clickable" : ""}`}
+              title={isEditMode ? `${dayInfo.tooltip} — click to select all` : dayInfo.tooltip}
+              onClick={() => handleDayHeaderClick(dayIndex)}
+            >
               <div className="day-name">{dayInfo.label}</div>
               <div className="day-date">{dayInfo.dateLabel}</div>
             </div>
-            {slots.map((_, slotIdx) => {
-              const slotIndex = getSlotIndex(dayIndex, slotIdx);
-              return (
-                <div
-                  key={`${dayIndex}-${slotIdx}`}
-                  className={getCellClass(dayIndex, slotIdx)}
-                  title={getSlotTooltip(dayIndex, slotIdx)}
-                  data-slot={slotIndex}
-                  onMouseDown={() => handleMouseDown(slotIndex)}
-                  onMouseEnter={() => handleMouseEnter(slotIndex)}
-                  onTouchStart={(e) => handleTouchStart(e, slotIndex)}
-                  style={{ userSelect: "none" }}
-                />
-              );
-            })}
-          </Fragment>
-        ))}
+          ))}
+
+          {/* Time rows: each row = one time slot across all days */}
+          {timeSlots.map((slotIdx) => (
+            <Fragment key={slotIdx}>
+              <div className="time-header">
+                {slotToTimeStr(slotIdx)}
+              </div>
+              {actualDays.map((_, dayIndex) => {
+                const slotIndex = getSlotIndex(dayIndex, slotIdx);
+                return (
+                  <div
+                    key={`${dayIndex}-${slotIdx}`}
+                    className={getCellClass(dayIndex, slotIdx)}
+                    title={getSlotTooltip(dayIndex, slotIdx)}
+                    data-slot={slotIndex}
+                    onMouseDown={() => handleMouseDown(slotIndex)}
+                    onMouseEnter={() => handleMouseEnter(slotIndex)}
+                    onTouchStart={(e) => handleTouchStart(e, slotIndex)}
+                    style={{ userSelect: "none" }}
+                  />
+                );
+              })}
+            </Fragment>
+          ))}
+        </div>
       </div>
     </div>
   );

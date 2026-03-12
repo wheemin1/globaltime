@@ -109,7 +109,7 @@ export default function CreateRoom() {
   };
 
   const today = startOfDay(new Date());
-  const maxDate = addDays(today, 14);
+  const maxDate = addDays(today, 30);
 
   const hours = Array.from({ length: 24 }, (_, i) => i);
 

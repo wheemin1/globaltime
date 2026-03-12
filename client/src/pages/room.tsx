@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Clock, Copy, Globe, ChevronRight, Pencil, AlertCircle, Mail, QrCode } from "lucide-react";
+import { Clock, Copy, Globe, ChevronRight, Pencil, AlertCircle, Mail, QrCode, CheckCircle2, CalendarDays } from "lucide-react";
 import { TimeGrid } from "@/components/time-grid";
 import { ParticipantPanel } from "@/components/participant-panel";
 import { HeatmapResults } from "@/components/heatmap-results";
@@ -22,6 +22,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { apiRequest } from "@/lib/queryClient";
 import { getUserTimezone } from "@/lib/timezone-utils";
 import { parseISO, eachDayOfInterval, format } from "date-fns";
+import { convertSlotToLocalTime, formatTimeForDisplay } from "@/lib/time-slots";
 import type { RoomWithParticipants, JoinRoomRequest } from "@shared/schema";
 import { SEO, seoConfigs } from "@/components/SEO";
 import { BugReport } from "@/components/bug-report";
@@ -91,6 +92,7 @@ export default function Room() {
     queryKey: ["/api/rooms", roomId],
     enabled: roomId > 0,
     retry: false,
+    refetchInterval: 30000,
   });
 
   // Calculate total slots based on room date range and slotMinutes
@@ -288,8 +290,17 @@ export default function Room() {
     updateAvailabilityMutation.mutate(availabilityString);
   };
 
-  const handleCopyUrl = () => {
-    navigator.clipboard.writeText(window.location.href.split("?")[0]);
+  const handleCopyUrl = async () => {
+    const url = window.location.href.split("?")[0];
+    if (typeof navigator.share === "function" && /Mobi|Android/i.test(navigator.userAgent)) {
+      try {
+        await navigator.share({ title: document.title, url });
+        return;
+      } catch {
+        // fall through to clipboard
+      }
+    }
+    navigator.clipboard.writeText(url);
     toast({
       title: t('room.toast.linkCopied'),
       description: t('room.toast.linkCopiedDesc'),
@@ -311,6 +322,19 @@ export default function Room() {
 
   const handleUnconfirm = () => {
     if (isHost) unconfirmTimeMutation.mutate();
+  };
+
+  const getConfirmedSlotLabel = (slotIndex: number): string => {
+    if (!room) return "";
+    const sm = room.slotMinutes ?? 60;
+    const spd = 24 * Math.round(60 / sm);
+    const dayIndex = Math.floor(slotIndex / spd);
+    const slotWithinDay = slotIndex % spd;
+    const days = eachDayOfInterval({ start: parseISO(room.startDate), end: parseISO(room.endDate) });
+    const day = days[dayIndex];
+    if (!day) return "";
+    const localTime = convertSlotToLocalTime(dayIndex, slotWithinDay, viewingTimezone, room.startDate, room.timeStart, sm);
+    return `${format(day, "EEE, MMM d")} · ${formatTimeForDisplay(localTime, use12h)}`;
   };
 
   const handleConfirmSlotConfirmed = () => {
@@ -531,6 +555,36 @@ export default function Room() {
       )}
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        {/* Confirmed time banner */}
+        {room.isConfirmed && room.confirmedSlot !== null && room.confirmedSlot !== undefined && (
+          <div className="rounded-xl border border-emerald-200 bg-emerald-50 dark:border-emerald-900/60 dark:bg-emerald-950/40 px-4 py-3 mb-4">
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex items-center gap-2.5 min-w-0">
+                <div className="shrink-0 w-9 h-9 rounded-full bg-emerald-100 dark:bg-emerald-900/60 flex items-center justify-center">
+                  <CheckCircle2 className="h-5 w-5 text-emerald-600" />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold text-emerald-800 dark:text-emerald-300">
+                    {t('room.confirmedBanner.title')}
+                  </p>
+                  <p className="text-xs text-emerald-700 dark:text-emerald-400 mt-0.5 truncate">
+                    {getConfirmedSlotLabel(room.confirmedSlot)}
+                  </p>
+                </div>
+              </div>
+              <Button
+                size="sm"
+                variant="outline"
+                className="shrink-0 border-emerald-300 text-emerald-700 hover:bg-emerald-100 dark:border-emerald-800 dark:text-emerald-400 dark:hover:bg-emerald-950"
+                onClick={() => currentView !== "results" && handleViewChange("results")}
+              >
+                <CalendarDays className="h-3.5 w-3.5 mr-1.5" />
+                {t('room.confirmedBanner.viewDetails')}
+              </Button>
+            </div>
+          </div>
+        )}
+
         {/* Share link banner — shown to host when no other participants have joined yet */}
         {isHost && room.participants.length <= 1 && (
           <div className="rounded-lg border border-primary/20 bg-primary/5 px-4 py-3 mb-6">
@@ -569,6 +623,26 @@ export default function Room() {
           </div>
         )}
 
+        {/* Response progress */}
+        {room.participants.length > 1 && (
+          <div className="mb-5">
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-xs text-muted-foreground">
+                {t('room.progressLabel', { responded: respondedCount, total: room.participants.length })}
+              </span>
+              <span className="text-xs font-semibold text-foreground tabular-nums">
+                {Math.round((respondedCount / room.participants.length) * 100)}%
+              </span>
+            </div>
+            <div className="w-full h-1.5 bg-muted rounded-full overflow-hidden">
+              <div
+                className="h-full bg-primary rounded-full transition-all duration-500"
+                style={{ width: `${(respondedCount / room.participants.length) * 100}%` }}
+              />
+            </div>
+          </div>
+        )}
+
         {/* Room description and deadline */}
         {(room.description || room.deadline) && (
           <div className="rounded-lg border bg-muted/30 px-4 py-3 mb-6 space-y-1.5">
@@ -592,19 +666,24 @@ export default function Room() {
                   <p className="text-xs text-muted-foreground">{t('room.selectDesc')}</p>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <TimeGrid
-                    room={room}
-                    selectedSlots={selectedAvailability}
-                    onSlotsChange={handleSlotsChange}
-                    viewingTimezone={viewingTimezone}
-                    isEditMode={true}
-                    use12h={use12h}
-                  />
-                  {!currentParticipantId && (
-                    <p className="text-xs text-center text-muted-foreground">
-                      {t('room.joinToSave')}
-                    </p>
-                  )}
+                  <div className="relative">
+                    <TimeGrid
+                      room={room}
+                      selectedSlots={selectedAvailability}
+                      onSlotsChange={handleSlotsChange}
+                      viewingTimezone={viewingTimezone}
+                      isEditMode={true}
+                      use12h={use12h}
+                    />
+                    {!currentParticipantId && !isHost && (
+                      <div className="absolute inset-0 rounded-lg bg-background/80 backdrop-blur-sm flex flex-col items-center justify-center gap-3 z-10">
+                        <p className="text-sm font-medium text-center px-4">{t('room.joinToInteract')}</p>
+                        <Button size="sm" onClick={() => setShowJoinDialog(true)}>
+                          {t('room.joinRoom')}
+                        </Button>
+                      </div>
+                    )}
+                  </div>
                   <Button
                     onClick={handleSaveAvailability}
                     className="w-full"
@@ -665,16 +744,26 @@ export default function Room() {
                       <p className="text-xs text-muted-foreground">{t('room.selectDesc')}</p>
                     </CardHeader>
                     <CardContent className="space-y-4">
-                      <TimeGrid
-                        room={room}
-                        selectedSlots={selectedAvailability}
-                        onSlotsChange={handleSlotsChange}
-                        viewingTimezone={viewingTimezone}
-                        isEditMode={true}
-                        use12h={use12h}
-                      />
+                      <div className="relative">
+                        <TimeGrid
+                          room={room}
+                          selectedSlots={selectedAvailability}
+                          onSlotsChange={handleSlotsChange}
+                          viewingTimezone={viewingTimezone}
+                          isEditMode={true}
+                          use12h={use12h}
+                        />
+                        {!currentParticipantId && !isHost && (
+                          <div className="absolute inset-0 rounded-lg bg-background/80 backdrop-blur-sm flex flex-col items-center justify-center gap-3 z-10">
+                            <p className="text-sm font-medium text-center px-4">{t('room.joinToInteract')}</p>
+                            <Button size="sm" onClick={() => setShowJoinDialog(true)}>
+                              {t('room.joinRoom')}
+                            </Button>
+                          </div>
+                        )}
+                      </div>
                       <div className="flex justify-end items-center gap-3">
-                        {!currentParticipantId && (
+                        {!currentParticipantId && !isHost && (
                           <p className="text-xs text-muted-foreground">{t('room.joinToSaveSm')}</p>
                         )}
                         <Button
@@ -732,6 +821,19 @@ export default function Room() {
           </Tabs>
         )}
       </main>
+
+      {/* Sticky save button — mobile, when unsaved changes exist */}
+      {isMobile && hasUnsavedChanges && currentView === "select" && currentParticipantId && (
+        <div className="fixed bottom-0 left-0 right-0 z-40 px-4 pb-4 pt-2 bg-background/95 backdrop-blur border-t border-border supports-[backdrop-filter]:bg-background/80">
+          <Button
+            onClick={handleSaveAvailability}
+            className="w-full h-12 font-semibold text-sm"
+            disabled={updateAvailabilityMutation.isPending}
+          >
+            {updateAvailabilityMutation.isPending ? t('common.saving') : `💾 ${t('room.saveAvailability')}`}
+          </Button>
+        </div>
+      )}
 
       {/* Join Room Dialog */}
       <Dialog open={showJoinDialog} onOpenChange={setShowJoinDialog}>

@@ -154,6 +154,7 @@ export function HeatmapResults({
             viewingTimezone={viewingTimezone}
             isEditMode={false}
             heatmapData={room.heatmap}
+            softHeatmapData={room.softHeatmap}
             onSlotClick={handleSlotClick}
             selectedParticipant={selectedParticipant}
             use12h={use12h}
@@ -204,8 +205,8 @@ export function HeatmapResults({
                     onClick={() => handleSlotClick(slot.slotIndex)}
                   >
                     <div className="flex items-center gap-3 min-w-0">
-                      <span className="shrink-0 w-5 h-5 rounded-full bg-muted flex items-center justify-center text-xs font-semibold text-muted-foreground">
-                        {idx + 1}
+                      <span className={`shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-xs font-semibold ${all ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"}`}>
+                        {all ? "★" : idx + 1}
                       </span>
                       <div className="min-w-0">
                         <p className="text-sm font-medium text-foreground">{getSlotLabel(slot.slotIndex)}</p>

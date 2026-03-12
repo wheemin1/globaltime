@@ -179,14 +179,21 @@
     "loading": "Loading room...",
     "notFound": "Room not found",
     "notFoundDesc": "This room may have been deleted or the link is invalid.",
-    "errorLoading": "Error loading room"
+    "errorLoading": "Error loading room",
+    "confirmedBanner": {
+      "title": "Meeting time confirmed!",
+      "viewDetails": "View details"
+    },
+    "progressLabel": "{{responded}} of {{total}} responded",
+    "joinToInteract": "Join this room to mark your availability"
   },
   "participants": {
     "title": "Participants",
     "noParticipants": "No participants yet",
     "team": "Team ({{count}})",
     "removeParticipant": "Remove participant",
-    "responded": "responded"
+    "responded": "responded",
+    "notResponded": "Not yet"
   },
   "heatmap": {
     "heatmapTitle": "Availability Heatmap",
@@ -226,7 +233,9 @@
     "available": "Available",
     "ifNeeded": "If Needed",
     "dragHint": "Click or drag to select",
-    "clearAll": "Clear All"
+    "clearAll": "Clear All",
+    "slotsSelected": "{{count}} slots selected",
+    "tapDayHint": "Tap a column header to select/deselect all slots for that day"
   },
   "createRoom": {
     "title": "Schedule a Meeting",
@@ -246,7 +255,7 @@
       "title": "Pick Dates",
       "label": "Select a date range",
       "hint": "Click start date then end date",
-      "rangeHint": "Pick the start and end dates for the meeting (up to 14 days ahead)."
+      "rangeHint": "Pick the start and end dates for the meeting (up to 30 days ahead)."
     },
     "step3": {
       "title": "Time & Options",
