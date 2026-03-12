@@ -1,9 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /room/
 Disallow: /r/
 
-# Sitemap
 Sitemap: https://globalmeetingtime.netlify.app/sitemap.xml
-
-# Crawl-delay for respectful crawling
-Crawl-delay: 1

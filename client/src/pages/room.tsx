@@ -436,7 +436,11 @@ export default function Room() {
 
   return (
     <div className="min-h-screen bg-background">
-      <SEO {...seoConfigs.room} />
+      <SEO
+        title={room.name ? `${room.name} – TimeSync` : seoConfigs.room.title}
+        description={seoConfigs.room.description}
+        noIndex={seoConfigs.room.noIndex}
+      />
 
       {/* App Bar */}
       <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
@@ -916,6 +920,13 @@ export default function Room() {
             <div className="p-3 bg-white rounded-lg">
               <QRCode value={shareUrl} size={200} />
             </div>
+          </div>
+          <div className="pb-2">
+            <p className="text-xs text-muted-foreground text-center mb-3">Scan with your phone camera to open</p>
+            <Button className="w-full" variant="outline" onClick={handleCopyUrl}>
+              <Copy className="h-3.5 w-3.5 mr-2" />
+              {t('room.shareBanner.copyLink')}
+            </Button>
           </div>
         </DialogContent>
       </Dialog>

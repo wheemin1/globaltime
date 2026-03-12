@@ -36,6 +36,7 @@ export function HeatmapResults({
 }: HeatmapResultsProps) {
   const [selectedSlotIndex, setSelectedSlotIndex] = useState<number | null>(null);
   const [showSlotModal, setShowSlotModal] = useState(false);
+  const [showAll, setShowAll] = useState(false);
   const { t } = useTranslation();
 
   const bestSlots = generateBestSlots(room.heatmap, room.participants, room.softHeatmap);
@@ -192,7 +193,7 @@ export function HeatmapResults({
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
-              {bestSlots.slice(0, 5).map((slot, idx) => {
+              {bestSlots.slice(0, showAll ? bestSlots.length : 5).map((slot, idx) => {
                 const all = slot.participantCount === totalParticipants;
                 return (
                   <div
@@ -242,6 +243,16 @@ export function HeatmapResults({
                 );
               })}
             </div>
+            {bestSlots.length > 5 && (
+              <button
+                className="mt-3 w-full text-xs text-muted-foreground hover:text-foreground transition-colors py-1"
+                onClick={() => setShowAll(prev => !prev)}
+              >
+                {showAll
+                  ? '▲ Show less'
+                  : `▾ Show ${bestSlots.length - 5} more`}
+              </button>
+            )}
           </CardContent>
         </Card>
       )}

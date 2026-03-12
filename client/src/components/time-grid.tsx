@@ -89,6 +89,7 @@ export function TimeGrid({
       onSlotClick?.(slotIndex);
       return;
     }
+    navigator.vibrate?.(10);
     setIsDragging(true);
     const target = dragMode === "available" ? 1 : 2;
     const current = selectedSlots[slotIndex] ?? 0;

@@ -18,6 +18,7 @@ import { TimezoneSelector } from "@/components/timezone-selector";
 import { getUserTimezone } from "@/lib/timezone-utils";
 import { Navbar } from "@/components/layout";
 import { BugReport } from "@/components/bug-report";
+import { SEO, seoConfigs } from "@/components/SEO";
 import type { CreateRoomRequest } from "@shared/schema";
 import { useTranslation } from "react-i18next";
 
@@ -115,6 +116,7 @@ export default function CreateRoom() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO {...seoConfigs.createRoom} />
       <Navbar />
 
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
@@ -177,6 +179,7 @@ export default function CreateRoom() {
                   className="text-sm"
                   maxLength={500}
                 />
+                <p className="text-xs text-muted-foreground text-right">{description.length}/500</p>
               </div>
             </CardContent>
           </Card>

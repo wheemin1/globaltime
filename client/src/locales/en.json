@@ -82,6 +82,19 @@
     "stepsSection": {
       "headline": "Schedule a cross-timezone meeting in 3 steps"
     },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "q1": "Is TimeSync free?",
+      "a1": "Yes, completely free. No subscription, no hidden fees, no account required.",
+      "q2": "Do participants need to create an account?",
+      "a2": "No. Participants only enter their name and timezone. No email, no password, no sign-up required.",
+      "q3": "How many people can join a room?",
+      "a3": "There's no hard limit. The more participants, the richer the overlap heatmap.",
+      "q4": "What time zones are supported?",
+      "a4": "TimeSync supports 114+ cities across all major time zones worldwide.",
+      "q5": "How long do meeting rooms stay active?",
+      "a5": "Rooms stay active as long as you have the link. There is no automatic expiration."
+    },
     "seoSection": {
       "title1": "Global meeting scheduler for international teams",
       "body1": "Coordinating meetings across different time zones is hard — someone always ends up calculating offsets or sending the wrong time. TimeSync is a free global meeting scheduler that removes the guesswork. Create a room, share the link, and every participant marks their availability in their own local time. The heatmap shows you exactly when your team overlaps.",
@@ -278,6 +291,8 @@
     "stepOf": "Step {{current}} of {{total}}"
   },
   "features": {
+    "ctaTitle": "Ready to get started?",
+    "ctaSubtitle": "Create your first meeting room in seconds — no account needed.",
     "title": "Everything you need to coordinate global meetings",
     "subtitle": "Purpose-built for distributed teams across time zones",
     "cta": "Try it free",
@@ -309,6 +324,8 @@
     }
   },
   "howItWorks": {
+    "ctaTitle": "Try it now — it's free",
+    "ctaSubtitle": "Start coordinating your global team meetings in under 2 minutes.",
     "title": "How TimeSync works",
     "subtitle": "Coordinate your next meeting in 3 simple steps",
     "step1": {

@@ -80,6 +80,19 @@
     "stepsSection": {
       "headline": "Planifiez une réunion entre fuseaux horaires en 3 étapes"
     },
+    "faq": {
+      "title": "Questions fréquentes",
+      "q1": "TimeSync est-il gratuit ?",
+      "a1": "Oui, entièrement gratuit. Pas d'abonnement, pas de frais cachés, pas de compte requis.",
+      "q2": "Les participants doivent-ils créer un compte ?",
+      "a2": "Non. Les participants saisissent uniquement leur nom et leur fuseau horaire. Pas d'email, de mot de passe ni d'inscription.",
+      "q3": "Combien de personnes peuvent rejoindre une salle ?",
+      "a3": "Il n'y a pas de limite fixe. Plus il y a de participants, plus la carte de chaleur des chevauchements est riche.",
+      "q4": "Quels fuseaux horaires sont pris en charge ?",
+      "a4": "TimeSync prend en charge plus de 114 villes dans tous les principaux fuseaux horaires du monde.",
+      "q5": "Combien de temps les salles de réunion restent-elles actives ?",
+      "a5": "Les salles restent actives tant que vous avez le lien. Il n'y a pas d'expiration automatique."
+    },
     "seoSection": {
       "title1": "Planificateur de réunion mondial pour les équipes internationales",
       "body1": "Coordonner des réunions à travers les fuseaux horaires est difficile. TimeSync est un planificateur de réunion mondial gratuit qui élimine les suppositions. Créez une salle, partagez le lien et chaque participant saisit ses disponibilités dans son heure locale.",
@@ -177,14 +190,21 @@
     "loading": "Chargement de la salle...",
     "notFound": "Salle introuvable",
     "notFoundDesc": "Cette salle a peut-être été supprimée ou le lien est invalide.",
-    "errorLoading": "Erreur de chargement de la salle"
+    "errorLoading": "Erreur de chargement de la salle",
+    "confirmedBanner": {
+      "title": "Heure de réunion confirmée !",
+      "viewDetails": "Voir les détails"
+    },
+    "progressLabel": "{{responded}} sur {{total}} ont répondu",
+    "joinToInteract": "Rejoignez la salle pour indiquer vos disponibilités"
   },
   "participants": {
     "title": "Participants",
     "noParticipants": "Aucun participant pour l'instant",
     "team": "Équipe ({{count}})",
     "removeParticipant": "Supprimer le participant",
-    "responded": "répondu"
+    "responded": "répondu",
+    "notResponded": "Pas encore"
   },
   "heatmap": {
     "heatmapTitle": "Carte de disponibilité",
@@ -224,7 +244,9 @@
     "available": "Disponible",
     "ifNeeded": "Si nécessaire",
     "dragHint": "Cliquez ou faites glisser pour sélectionner",
-    "clearAll": "Tout effacer"
+    "clearAll": "Tout effacer",
+    "slotsSelected": "{{count}} créneaux sélectionnés",
+    "tapDayHint": "Appuyez sur l'en-tête de colonne pour sélectionner/désélectionner tous les créneaux du jour"
   },
   "createRoom": {
     "title": "Planifier une réunion",
@@ -244,7 +266,7 @@
       "title": "Choisir les dates",
       "label": "Sélectionner une plage de dates",
       "hint": "Cliquez sur la date de début puis sur la date de fin",
-      "rangeHint": "Choisissez les dates de début et de fin de la réunion (jusqu'à 14 jours)."
+      "rangeHint": "Choisissez les dates de début et de fin de la réunion (jusqu'à 30 jours)."
     },
     "step3": {
       "title": "Horaires et options",
@@ -267,6 +289,8 @@
     "stepOf": "Étape {{current}} sur {{total}}"
   },
   "features": {
+    "ctaTitle": "Prêt à commencer ?",
+    "ctaSubtitle": "Créez votre première salle de réunion en quelques secondes — sans compte nécessaire.",
     "title": "Tout ce dont vous avez besoin pour coordonner des réunions mondiales",
     "subtitle": "Conçu pour les équipes distribuées à travers les fuseaux horaires",
     "cta": "Essayer gratuitement",
@@ -280,6 +304,8 @@
     }
   },
   "howItWorks": {
+    "ctaTitle": "Essayez-le maintenant — c'est gratuit",
+    "ctaSubtitle": "Commencez à coordonner les réunions de votre équipe mondiale en moins de 2 minutes.",
     "title": "Comment utiliser TimeSync",
     "subtitle": "Coordonnez votre prochaine réunion en 3 étapes simples",
     "step1": { "title": "Créer une salle de réunion", "desc": "Saisissez le nom de la réunion, votre nom et sélectionnez les dates candidates et la plage horaire." },

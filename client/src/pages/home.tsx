@@ -344,6 +344,40 @@ export default function Home() {
 
       <BugReport position="bottom" />
 
+      {/* FAQ section */}
+      <section className="py-12 px-4 sm:px-6 lg:px-8 border-t border-border">
+        <div className="max-w-3xl mx-auto">
+          <StructuredData
+            type="FAQPage"
+            data={{
+              questions: [
+                { q: t('home.faq.q1'), a: t('home.faq.a1') },
+                { q: t('home.faq.q2'), a: t('home.faq.a2') },
+                { q: t('home.faq.q3'), a: t('home.faq.a3') },
+                { q: t('home.faq.q4'), a: t('home.faq.a4') },
+                { q: t('home.faq.q5'), a: t('home.faq.a5') },
+              ],
+            }}
+          />
+          <h2 className="text-lg font-semibold text-foreground mb-6">{t('home.faq.title')}</h2>
+          <div className="space-y-4">
+            {[1, 2, 3, 4, 5].map((n) => (
+              <details key={n} className="group rounded-lg border border-border bg-card px-4 py-3">
+                <summary className="flex cursor-pointer items-center justify-between gap-3 text-sm font-medium text-foreground list-none">
+                  {t(`home.faq.q${n}`)}
+                  <span className="shrink-0 text-muted-foreground group-open:rotate-180 transition-transform">
+                    ▾
+                  </span>
+                </summary>
+                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+                  {t(`home.faq.a${n}`)}
+                </p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* SEO content section */}
       <section className="py-12 px-4 sm:px-6 lg:px-8 border-t border-border bg-muted/20">
         <div className="max-w-3xl mx-auto space-y-6 text-sm text-muted-foreground">

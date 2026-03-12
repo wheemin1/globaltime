@@ -1,4 +1,5 @@
 import { SEO, seoConfigs } from "@/components/SEO";
+import { StructuredData, BASE_URL } from "@/components/StructuredData";
 import { Link as LinkIcon, Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
@@ -75,6 +76,15 @@ export default function HelpShare() {
   return (
     <Layout>
       <SEO {...seoConfigs.helpShare} />
+      <StructuredData
+        type="BreadcrumbList"
+        data={{
+          items: [
+            { name: 'Home', url: BASE_URL },
+            { name: 'Help', url: `${BASE_URL}/help/share` },
+          ],
+        }}
+      />
 
       {/* Hero */}
       <section className="pt-16 pb-12 px-4 sm:px-6 lg:px-8 text-center">

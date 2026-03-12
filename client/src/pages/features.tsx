@@ -1,4 +1,5 @@
 import { SEO, seoConfigs } from "@/components/SEO";
+import { StructuredData, BASE_URL } from "@/components/StructuredData";
 import { Clock, Users, Globe, Zap, Shield, BarChart3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
@@ -20,6 +21,15 @@ export default function Features() {
   return (
     <Layout>
       <SEO {...seoConfigs.features} />
+      <StructuredData
+        type="BreadcrumbList"
+        data={{
+          items: [
+            { name: 'Home', url: BASE_URL },
+            { name: t('nav.features'), url: `${BASE_URL}/features` },
+          ],
+        }}
+      />
 
       {/* Hero */}
       <section className="pt-16 pb-12 px-4 sm:px-6 lg:px-8 text-center">
@@ -53,9 +63,9 @@ export default function Features() {
       {/* CTA */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 border-t border-border">
         <div className="max-w-xl mx-auto text-center space-y-5">
-          <h2 className="text-2xl font-bold text-foreground">Ready to get started?</h2>
+          <h2 className="text-2xl font-bold text-foreground">{t('features.ctaTitle')}</h2>
           <p className="text-muted-foreground text-sm">
-            Create your first meeting room in seconds — no account needed.
+            {t('features.ctaSubtitle')}
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link href="/create-room">

@@ -80,6 +80,19 @@
     "stepsSection": {
       "headline": "Meeting über Zeitzonen in 3 Schritten planen"
     },
+    "faq": {
+      "title": "H\u00e4ufige Fragen",
+      "q1": "Ist TimeSync kostenlos?",
+      "a1": "Ja, v\u00f6llig kostenlos. Kein Abo, keine versteckten Kosten, kein Konto erforderlich.",
+      "q2": "M\u00fcssen Teilnehmer ein Konto erstellen?",
+      "a2": "Nein. Teilnehmer geben nur ihren Namen und ihre Zeitzone an. Keine E-Mail, kein Passwort, keine Registrierung.",
+      "q3": "Wie viele Personen k\u00f6nnen einem Raum beitreten?",
+      "a3": "Es gibt kein festes Limit. Je mehr Teilnehmer, desto aussagekr\u00e4ftiger die \u00dcberschneidungsheatmap.",
+      "q4": "Welche Zeitzonen werden unterst\u00fctzt?",
+      "a4": "TimeSync unterst\u00fctzt 114+ St\u00e4dte in allen wichtigen Zeitzonen weltweit.",
+      "q5": "Wie lange bleiben Meeting-R\u00e4ume aktiv?",
+      "a5": "R\u00e4ume bleiben aktiv, solange du den Link hast. Es gibt kein automatisches Ablaufdatum."
+    },
     "seoSection": {
       "title1": "Globaler Meeting-Planer für internationale Teams",
       "body1": "Meetings über Zeitzonen zu koordinieren ist schwierig. TimeSync ist ein kostenloser globaler Meeting-Planer, der das Rätselraten eliminiert. Raum erstellen, Link teilen – jeder Teilnehmer gibt seine Verfügbarkeit in seiner lokalen Zeit ein.",
@@ -177,14 +190,21 @@
     "loading": "Raum wird geladen...",
     "notFound": "Raum nicht gefunden",
     "notFoundDesc": "Dieser Raum wurde möglicherweise gelöscht oder der Link ist ungültig.",
-    "errorLoading": "Fehler beim Laden des Raums"
+    "errorLoading": "Fehler beim Laden des Raums",
+    "confirmedBanner": {
+      "title": "Besprechungszeit best\u00e4tigt!",
+      "viewDetails": "Details anzeigen"
+    },
+    "progressLabel": "{{responded}} von {{total}} geantwortet",
+    "joinToInteract": "Raum beitreten, um deine Verf\u00fcgbarkeit einzutragen"
   },
   "participants": {
     "title": "Teilnehmer",
     "noParticipants": "Noch keine Teilnehmer",
     "team": "Team ({{count}})",
     "removeParticipant": "Teilnehmer entfernen",
-    "responded": "geantwortet"
+    "responded": "geantwortet",
+    "notResponded": "Noch nicht"
   },
   "heatmap": {
     "heatmapTitle": "Verfügbarkeits-Heatmap",
@@ -224,7 +244,9 @@
     "available": "Verfügbar",
     "ifNeeded": "Falls nötig",
     "dragHint": "Klicken oder ziehen zum Auswählen",
-    "clearAll": "Alles löschen"
+    "clearAll": "Alles löschen",
+    "slotsSelected": "{{count}} Slots ausgewählt",
+    "tapDayHint": "Spaltenüberschrift antippen, um alle Slots des Tages aus-/abzuwählen"
   },
   "createRoom": {
     "title": "Meeting planen",
@@ -244,7 +266,7 @@
       "title": "Daten auswählen",
       "label": "Datumsbereich auswählen",
       "hint": "Klicken Sie auf das Startdatum, dann auf das Enddatum",
-      "rangeHint": "Wählen Sie Start- und Enddatum für das Meeting (bis zu 14 Tage)."
+      "rangeHint": "Wählen Sie Start- und Enddatum für das Meeting (bis zu 30 Tage)."
     },
     "step3": {
       "title": "Zeiten und Optionen",
@@ -280,6 +302,8 @@
     }
   },
   "howItWorks": {
+    "ctaTitle": "Jetzt kostenlos ausprobieren",
+    "ctaSubtitle": "Koordiniere deine globalen Team-Meetings in weniger als 2 Minuten.",
     "title": "So verwenden Sie TimeSync",
     "subtitle": "Koordinieren Sie Ihr nächstes Meeting in 3 einfachen Schritten",
     "step1": { "title": "Meeting-Raum erstellen", "desc": "Meeting-Namen, Ihren Namen eingeben und Kandidatendaten sowie Zeitfenster auswählen." },

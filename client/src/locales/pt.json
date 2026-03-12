@@ -80,6 +80,19 @@
     "stepsSection": {
       "headline": "Agende uma reunião entre fusos horários em 3 etapas"
     },
+    "faq": {
+      "title": "Perguntas frequentes",
+      "q1": "O TimeSync é gratuito?",
+      "a1": "Sim, completamente gratuito. Sem assinatura, sem taxas ocultas, sem conta necessária.",
+      "q2": "Os participantes precisam criar uma conta?",
+      "a2": "Não. Os participantes apenas inserem seu nome e fuso horário. Sem e-mail, senha ou cadastro.",
+      "q3": "Quantas pessoas podem entrar em uma sala?",
+      "a3": "Não há limite fixo. Quanto mais participantes, mais rico será o mapa de calor de sobreposição.",
+      "q4": "Quais fusos horários são suportados?",
+      "a4": "O TimeSync suporta mais de 114 cidades em todos os principais fusos horários do mundo.",
+      "q5": "Por quanto tempo as salas de reunião ficam ativas?",
+      "a5": "As salas ficam ativas enquanto você tiver o link. Não há expiração automática."
+    },
     "seoSection": {
       "title1": "Agendador de reuniões global para equipes internacionais",
       "body1": "Coordenar reuniões entre fusos horários é difícil. O TimeSync é um agendador de reuniões global gratuito que elimina as suposições. Crie uma sala, compartilhe o link e cada participante insere sua disponibilidade no horário local.",
@@ -177,14 +190,21 @@
     "loading": "Carregando sala...",
     "notFound": "Sala não encontrada",
     "notFoundDesc": "Esta sala pode ter sido excluída ou o link é inválido.",
-    "errorLoading": "Erro ao carregar a sala"
+    "errorLoading": "Erro ao carregar a sala",
+    "confirmedBanner": {
+      "title": "Horário da reunião confirmado!",
+      "viewDetails": "Ver detalhes"
+    },
+    "progressLabel": "{{responded}} de {{total}} responderam",
+    "joinToInteract": "Entre na sala para marcar sua disponibilidade"
   },
   "participants": {
     "title": "Participantes",
     "noParticipants": "Nenhum participante ainda",
     "team": "Equipe ({{count}})",
     "removeParticipant": "Remover participante",
-    "responded": "respondeu"
+    "responded": "respondeu",
+    "notResponded": "Ainda não"
   },
   "heatmap": {
     "heatmapTitle": "Mapa de disponibilidade",
@@ -224,7 +244,9 @@
     "available": "Disponível",
     "ifNeeded": "Se necessário",
     "dragHint": "Clique ou arraste para selecionar",
-    "clearAll": "Limpar tudo"
+    "clearAll": "Limpar tudo",
+    "slotsSelected": "{{count}} faixas selecionadas",
+    "tapDayHint": "Toque no cabeçalho da coluna para selecionar/desselecionar todos os slots do dia"
   },
   "createRoom": {
     "title": "Agendar reunião",
@@ -244,7 +266,7 @@
       "title": "Escolher datas",
       "label": "Selecionar intervalo de datas",
       "hint": "Clique na data de início e depois na data de fim",
-      "rangeHint": "Escolha as datas de início e fim da reunião (até 14 dias)."
+      "rangeHint": "Escolha as datas de início e fim da reunião (até 30 dias)."
     },
     "step3": {
       "title": "Horários e opções",
@@ -267,6 +289,8 @@
     "stepOf": "Etapa {{current}} de {{total}}"
   },
   "features": {
+    "ctaTitle": "Pronto para começar?",
+    "ctaSubtitle": "Crie sua primeira sala de reunião em segundos — sem conta necessária.",
     "title": "Tudo que você precisa para coordenar reuniões globais",
     "subtitle": "Projetado para equipes distribuídas em fusos horários",
     "cta": "Experimentar gratuitamente",
@@ -280,6 +304,8 @@
     }
   },
   "howItWorks": {
+    "ctaTitle": "Experimente agora — é grátis",
+    "ctaSubtitle": "Comece a coordenar as reuniões da sua equipe global em menos de 2 minutos.",
     "title": "Como usar o TimeSync",
     "subtitle": "Coordene sua próxima reunião em 3 etapas simples",
     "step1": { "title": "Criar sala de reunião", "desc": "Digite o nome da reunião, seu nome e selecione datas candidatas e janela de horário." },

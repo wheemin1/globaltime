@@ -7,15 +7,23 @@
   <!-- Landing Page -->
   <url>
     <loc>https://globalmeetingtime.netlify.app/</loc>
-    <lastmod>2026-03-11</lastmod>
+    <lastmod>2026-03-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+  </url>
+
+  <!-- Create Room -->
+  <url>
+    <loc>https://globalmeetingtime.netlify.app/create-room</loc>
+    <lastmod>2026-03-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   
   <!-- Features Page -->
   <url>
     <loc>https://globalmeetingtime.netlify.app/features</loc>
-    <lastmod>2026-03-11</lastmod>
+    <lastmod>2026-03-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -23,7 +31,7 @@
   <!-- How It Works Page -->
   <url>
     <loc>https://globalmeetingtime.netlify.app/how-it-works</loc>
-    <lastmod>2026-03-11</lastmod>
+    <lastmod>2026-03-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -31,7 +39,7 @@
   <!-- Help/Share Guide -->
   <url>
     <loc>https://globalmeetingtime.netlify.app/help/share</loc>
-    <lastmod>2026-03-11</lastmod>
+    <lastmod>2026-03-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -39,7 +47,7 @@
   <!-- Privacy Policy -->
   <url>
     <loc>https://globalmeetingtime.netlify.app/privacy</loc>
-    <lastmod>2026-03-11</lastmod>
+    <lastmod>2026-03-12</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>

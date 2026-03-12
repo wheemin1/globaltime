@@ -122,5 +122,11 @@ export const seoConfigs = {
     title: "Meeting Room – TimeSync Global Scheduler",
     description: "Private meeting coordination space for scheduling across time zones",
     noIndex: true
+  },
+
+  createRoom: {
+    title: "Create Meeting Room – TimeSync | Free Global Meeting Scheduler",
+    description: "Set up a free cross-timezone meeting room in 3 simple steps. No registration required. Share the link and collect availability from your global team.",
+    keywords: "create meeting room, schedule meeting, meeting room setup, timezone meeting planner, free meeting scheduler, no signup meeting"
   }
 };

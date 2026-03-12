@@ -1,4 +1,5 @@
 import { SEO, seoConfigs } from "@/components/SEO";
+import { StructuredData, BASE_URL } from "@/components/StructuredData";
 import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
@@ -47,6 +48,23 @@ export default function HowItWorks() {
   return (
     <Layout>
       <SEO {...seoConfigs.howItWorks} />
+      <StructuredData
+        type="HowTo"
+        data={{
+          name: t('howItWorks.title'),
+          description: t('howItWorks.subtitle'),
+          steps: steps.map(step => ({ name: step.title, text: step.description })),
+        }}
+      />
+      <StructuredData
+        type="BreadcrumbList"
+        data={{
+          items: [
+            { name: 'Home', url: BASE_URL },
+            { name: t('howItWorks.title'), url: `${BASE_URL}/how-it-works` },
+          ],
+        }}
+      />
 
       {/* Hero */}
       <section className="pt-16 pb-12 px-4 sm:px-6 lg:px-8 text-center">
@@ -90,9 +108,9 @@ export default function HowItWorks() {
       {/* CTA */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 border-t border-border">
         <div className="max-w-xl mx-auto text-center space-y-5">
-          <h2 className="text-2xl font-bold text-foreground">Try it now — it's free</h2>
+          <h2 className="text-2xl font-bold text-foreground">{t('howItWorks.ctaTitle')}</h2>
           <p className="text-muted-foreground text-sm">
-            Start coordinating your global team meetings in under 2 minutes.
+            {t('howItWorks.ctaSubtitle')}
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link href="/create-room">
