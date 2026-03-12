@@ -234,6 +234,10 @@
     "availableLabel": "Disponible",
     "noneLabel": "Ninguno",
     "allLabel": "Todos {{count}}",
+    "baseTZ": "Huso base",
+    "viewingAs": "Viendo como",
+    "myself": "Yo mismo",
+    "utcMode": "Modo UTC",
     "slotDetail": {
       "available": "Disponible",
       "unavailable": "No disponible"

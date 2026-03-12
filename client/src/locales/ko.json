@@ -238,6 +238,10 @@
     "availableLabel": "참가 가능",
     "noneLabel": "불가",
     "allLabel": "전원 {{count}}",
+    "baseTZ": "기준 시간대",
+    "viewingAs": "보기 기준",
+    "myself": "나 자신",
+    "utcMode": "UTC 모드",
     "slotDetail": {
       "available": "가능",
       "unavailable": "불가"

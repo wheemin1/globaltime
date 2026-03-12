@@ -241,6 +241,10 @@
     "availableLabel": "Available",
     "noneLabel": "None",
     "allLabel": "All {{count}}",
+    "baseTZ": "Base TZ",
+    "viewingAs": "Viewing as",
+    "myself": "Myself",
+    "utcMode": "UTC mode",
     "slotDetail": {
       "available": "Available",
       "unavailable": "Unavailable"

@@ -233,6 +233,10 @@
     "availableLabel": "参加可能",
     "noneLabel": "なし",
     "allLabel": "全員 {{count}}",
+    "baseTZ": "基準 TZ",
+    "viewingAs": "表示中",
+    "myself": "自分",
+    "utcMode": "UTC モード",
     "slotDetail": {
       "available": "参加可能",
       "unavailable": "参加不可"

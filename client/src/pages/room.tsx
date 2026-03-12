@@ -727,6 +727,7 @@ export default function Room() {
                 <HeatmapResults
                   room={room}
                   viewingTimezone={viewingTimezone}
+                  myTimezone={participantTimezone}
                   selectedParticipant={selectedParticipant}
                   onParticipantSelect={setSelectedParticipant}
                   onConfirmSlot={handleConfirmSlot}
@@ -816,6 +817,7 @@ export default function Room() {
                   <HeatmapResults
                     room={room}
                     viewingTimezone={viewingTimezone}
+                    myTimezone={participantTimezone}
                     selectedParticipant={selectedParticipant}
                     onParticipantSelect={setSelectedParticipant}
                     onConfirmSlot={handleConfirmSlot}

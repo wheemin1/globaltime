@@ -1,19 +1,28 @@
-import { useState } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { TimeGrid } from "./time-grid";
-import { Check, Pencil, CalendarDays, CheckCircle2, X } from "lucide-react";
+import { Check, Pencil, CalendarDays, CheckCircle2, X, Globe } from "lucide-react";
 import { convertSlotToLocalTime, formatTimeForDisplay, generateBestSlots } from "@/lib/time-slots";
 import { format, parseISO, eachDayOfInterval, addDays } from "date-fns";
 import type { RoomWithParticipants } from "@shared/schema";
 import { useTranslation } from "react-i18next";
+import { getCommonTimezones } from "@/lib/timezone-utils";
+
+// Module-level TZ list for city-name lookups
+const _TZ_LIST = getCommonTimezones();
+function getFriendlyCity(tz: string): string {
+  if (tz === 'UTC') return 'UTC';
+  return _TZ_LIST.find(t => t.value === tz)?.city ?? tz.split('/').pop()?.replace(/_/g, ' ') ?? tz;
+}
 
 interface HeatmapResultsProps {
   room: RoomWithParticipants;
   viewingTimezone: string;
+  myTimezone: string;
   selectedParticipant: number | null;
   onParticipantSelect: (participantId: number | null) => void;
   onConfirmSlot: (slotIndex: number) => void;
@@ -26,6 +35,7 @@ interface HeatmapResultsProps {
 export function HeatmapResults({
   room,
   viewingTimezone,
+  myTimezone,
   selectedParticipant,
   onParticipantSelect,
   onConfirmSlot,
@@ -37,7 +47,32 @@ export function HeatmapResults({
   const [selectedSlotIndex, setSelectedSlotIndex] = useState<number | null>(null);
   const [showSlotModal, setShowSlotModal] = useState(false);
   const [showAll, setShowAll] = useState(false);
+  const [useUTC, setUseUTC] = useState(false);
+  const [tzAnimating, setTzAnimating] = useState(false);
+  const tzAnimTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { t } = useTranslation();
+
+  // Compute the active viewing timezone: UTC > selected participant > user's chosen TZ
+  const activeViewingTz = useMemo(() => {
+    if (useUTC) return 'UTC';
+    if (selectedParticipant !== null) {
+      const p = room.participants.find(p => p.id === selectedParticipant);
+      if (p) return p.timezone;
+    }
+    return viewingTimezone;
+  }, [useUTC, selectedParticipant, viewingTimezone, room.participants]);
+
+  // Trigger fade animation whenever the active timezone changes
+  const prevTzRef = useRef(activeViewingTz);
+  useEffect(() => {
+    if (prevTzRef.current !== activeViewingTz) {
+      prevTzRef.current = activeViewingTz;
+      setTzAnimating(true);
+      if (tzAnimTimer.current) clearTimeout(tzAnimTimer.current);
+      tzAnimTimer.current = setTimeout(() => setTzAnimating(false), 600);
+    }
+    return () => { if (tzAnimTimer.current) clearTimeout(tzAnimTimer.current); };
+  }, [activeViewingTz]);
 
   const bestSlots = generateBestSlots(room.heatmap, room.participants);
 
@@ -93,7 +128,7 @@ export function HeatmapResults({
   const getSlotLabel = (slotIndex: number) => {
     const dayIndex = Math.floor(slotIndex / slotsPerDay);
     const slotWithinDay = slotIndex % slotsPerDay;
-    const localTime = convertSlotToLocalTime(dayIndex, slotWithinDay, viewingTimezone, room.startDate, room.timeStart, slotMinutes);
+    const localTime = convertSlotToLocalTime(dayIndex, slotWithinDay, activeViewingTz, room.startDate, room.timeStart, slotMinutes);
     const day = actualDays[dayIndex];
     if (!day) return formatTimeForDisplay(localTime, use12h);
     return `${format(day, "EEE, MMM d")} · ${formatTimeForDisplay(localTime, use12h)}`;
@@ -144,18 +179,53 @@ export function HeatmapResults({
           </div>
         </CardHeader>
 
-        <CardContent className="space-y-4">
-          <TimeGrid
-            room={room}
-            selectedSlots={[]}
-            onSlotsChange={() => {}}
-            viewingTimezone={viewingTimezone}
-            isEditMode={false}
-            heatmapData={room.heatmap}
-            onSlotClick={handleSlotClick}
-            selectedParticipant={selectedParticipant}
-            use12h={use12h}
-          />
+        <CardContent className="space-y-3">
+          {/* Timezone status bar */}
+          <div className="flex items-center gap-2 flex-wrap text-xs text-muted-foreground border border-border/50 rounded-md px-3 py-1.5 bg-muted/20">
+            <Globe className="h-3.5 w-3.5 shrink-0 text-muted-foreground/70" />
+            {selectedParticipant !== null ? (
+              <span>
+                {t('heatmap.viewingAs')}:{' '}
+                <strong className="text-foreground">
+                  {room.participants.find(p => p.id === selectedParticipant)?.name ?? t('heatmap.myself')}
+                </strong>
+                {' '}
+                <span className="opacity-60">({getFriendlyCity(activeViewingTz)})</span>
+              </span>
+            ) : (
+              <span>
+                {t('heatmap.viewingAs')}:{' '}
+                <strong className="text-foreground">{t('heatmap.myself')}</strong>
+                {' '}
+                <span className="opacity-60">({getFriendlyCity(useUTC ? 'UTC' : viewingTimezone)})</span>
+              </span>
+            )}
+            <button
+              className={`ml-auto text-xs px-2 py-0.5 rounded border font-mono transition-colors ${
+                useUTC
+                  ? 'border-primary/60 text-primary bg-primary/10'
+                  : 'border-border text-muted-foreground hover:border-muted-foreground/60 hover:text-foreground'
+              }`}
+              onClick={() => setUseUTC(v => !v)}
+              title={t('heatmap.utcMode')}
+            >
+              UTC
+            </button>
+          </div>
+
+          <div className={tzAnimating ? 'tz-fade' : ''}>
+            <TimeGrid
+              room={room}
+              selectedSlots={[]}
+              onSlotsChange={() => {}}
+              viewingTimezone={activeViewingTz}
+              isEditMode={false}
+              heatmapData={room.heatmap}
+              onSlotClick={handleSlotClick}
+              selectedParticipant={selectedParticipant}
+              use12h={use12h}
+            />
+          </div>
 
           {/* Legend */}
           <div className="flex items-center gap-3 text-xs text-muted-foreground flex-wrap">
