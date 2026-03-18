@@ -23,6 +23,7 @@ import { apiRequest } from "@/lib/queryClient";
 import { getUserTimezone } from "@/lib/timezone-utils";
 import { parseISO, eachDayOfInterval, format } from "date-fns";
 import { convertSlotToLocalTime, formatTimeForDisplay } from "@/lib/time-slots";
+import { calculateTotalSlots, getSlotsPerDay } from "@shared/scheduling";
 import type { RoomWithParticipants, JoinRoomRequest } from "@shared/schema";
 import { SEO, seoConfigs } from "@/components/SEO";
 import { BugReport } from "@/components/bug-report";
@@ -39,9 +40,13 @@ export default function Room() {
   
   // Constants derived from params - always computed
   const roomId = parseInt(params.roomId || "0") || 0;
-  const queryHostId = new URLSearchParams(search).get("host");
-  const storedHostId = typeof window !== 'undefined' ? localStorage.getItem(`room_${roomId}_hostId`) : null;
-  const hostId = queryHostId || storedHostId;
+  const queryParams = new URLSearchParams(search);
+  const queryHostToken = queryParams.get("hostToken");
+  const queryLegacyHostId = queryParams.get("host");
+  const storedHostToken = typeof window !== 'undefined' ? localStorage.getItem(`room_${roomId}_hostToken`) : null;
+  const storedLegacyHostId = typeof window !== 'undefined' ? localStorage.getItem(`room_${roomId}_hostId`) : null;
+  const initialHostToken = queryHostToken || storedHostToken;
+  const legacyHostId = queryLegacyHostId || storedLegacyHostId;
   const storedParticipantId = typeof window !== 'undefined' ? localStorage.getItem(`room_${roomId}_participantId`) : null;
   
   // All state hooks first - never conditional
@@ -68,6 +73,87 @@ export default function Room() {
   const [pendingViewChange, setPendingViewChange] = useState<"select" | "results" | null>(null);
   const [showQrDialog, setShowQrDialog] = useState(false);
   const [showShareSection, setShowShareSection] = useState(true);
+  const [hostToken, setHostToken] = useState<string | null>(initialHostToken);
+  const [hostAuthStatus, setHostAuthStatus] = useState<"valid" | "refreshing" | "expired">(
+    initialHostToken || legacyHostId ? "valid" : "expired"
+  );
+
+  const refreshHostToken = async (): Promise<string | null> => {
+    if (roomId <= 0) return null;
+    if (!hostToken && !legacyHostId) return null;
+    setHostAuthStatus("refreshing");
+
+    try {
+      const response = await apiRequest("POST", `/api/rooms/${roomId}/host-token/refresh`, {
+        hostId: legacyHostId,
+        hostToken,
+      });
+      const data = await response.json();
+      if (!data?.hostToken || typeof data.hostToken !== "string") {
+        return null;
+      }
+
+      setHostToken(data.hostToken);
+      setHostAuthStatus("valid");
+      if (typeof window !== 'undefined') {
+        localStorage.setItem(`room_${roomId}_hostToken`, data.hostToken);
+      }
+      return data.hostToken;
+    } catch {
+      setHostAuthStatus("expired");
+      return null;
+    }
+  };
+
+  const withHostAuthRetry = async <T,>(request: (token: string | null) => Promise<T>): Promise<T> => {
+    try {
+      return await request(hostToken);
+    } catch (error) {
+      const isForbidden = error instanceof Error && error.message.startsWith("403:");
+      if (!isForbidden) {
+        if (initialHostToken || legacyHostId) {
+          setHostAuthStatus("valid");
+        }
+        throw error;
+      }
+
+      const refreshedHostToken = await refreshHostToken();
+      if (!refreshedHostToken) {
+        throw new Error("403: Host session expired");
+      }
+      setHostAuthStatus("valid");
+      return request(refreshedHostToken);
+    }
+  };
+
+  const getHostActionErrorDescription = (error: Error): string => {
+    if (error.message.includes("Host session expired")) {
+      return "Host session expired. Re-open the host link or refresh the page.";
+    }
+    if (error.message.startsWith("403:")) {
+      return "Host authorization failed. Please use the original host link.";
+    }
+    return error.message;
+  };
+
+  const getHostAuthStatusLabel = (): string => {
+    if (hostAuthStatus === "refreshing") return "Host auth: refreshing";
+    if (hostAuthStatus === "expired") return "Host auth: expired";
+    return "Host auth: valid";
+  };
+
+  const handleManualHostAuthRefresh = async () => {
+    const refreshed = await refreshHostToken();
+    if (refreshed) {
+      toast({ title: "Host authorization refreshed" });
+      return;
+    }
+    toast({
+      title: t("room.toast.error"),
+      description: "Could not refresh host authorization. Use the original host link.",
+      variant: "destructive",
+    });
+  };
 
   const setUse12h = (v: boolean) => {
     localStorage.setItem('timeFormat', v ? '12h' : '24h');
@@ -99,11 +185,7 @@ export default function Room() {
   // Calculate total slots based on room date range and slotMinutes
   const totalSlots = useMemo(() => {
     if (!room) return 168; // default fallback
-    const startDate = parseISO(room.startDate);
-    const endDate = parseISO(room.endDate);
-    const dateRange = eachDayOfInterval({ start: startDate, end: endDate });
-    const sm = room.slotMinutes ?? 60;
-    return dateRange.length * 24 * Math.round(60 / sm);
+    return calculateTotalSlots(room.startDate, room.endDate, room.slotMinutes ?? 60);
   }, [room?.startDate, room?.endDate, room?.slotMinutes]);
 
   const [selectedAvailability, setSelectedAvailability] = useState<number[]>([]);
@@ -203,11 +285,14 @@ export default function Room() {
 
   const confirmTimeMutation = useMutation({
     mutationFn: async (slotIndex: number) => {
-      const response = await apiRequest("POST", `/api/rooms/${roomId}/confirm`, {
-        slotIndex,
-        hostId,
+      return withHostAuthRetry(async (token) => {
+        const response = await apiRequest("POST", `/api/rooms/${roomId}/confirm`, {
+          slotIndex,
+          hostId: legacyHostId,
+          hostToken: token,
+        });
+        return response.json();
       });
-      return response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/rooms", roomId] });
@@ -215,10 +300,10 @@ export default function Room() {
         title: t('room.toast.meetingConfirmed'),
       });
     },
-    onError: (error) => {
+    onError: (error: Error) => {
       toast({
         title: t('room.toast.error'),
-        description: error.message,
+        description: getHostActionErrorDescription(error),
         variant: "destructive",
       });
     },
@@ -226,15 +311,20 @@ export default function Room() {
 
   const unconfirmTimeMutation = useMutation({
     mutationFn: async () => {
-      const response = await apiRequest("POST", `/api/rooms/${roomId}/unconfirm`, { hostId });
-      return response.json();
+      return withHostAuthRetry(async (token) => {
+        const response = await apiRequest("POST", `/api/rooms/${roomId}/unconfirm`, {
+          hostId: legacyHostId,
+          hostToken: token,
+        });
+        return response.json();
+      });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/rooms", roomId] });
       toast({ title: t('room.toast.meetingUnconfirmed') });
     },
     onError: (error: Error) => {
-      toast({ title: t('room.toast.error'), description: error.message, variant: "destructive" });
+      toast({ title: t('room.toast.error'), description: getHostActionErrorDescription(error), variant: "destructive" });
     },
   });
 
@@ -247,16 +337,28 @@ export default function Room() {
 
   // All useEffect hooks - always called, with proper dependencies
   useEffect(() => {
-    if (hostId) {
+    if (hostToken || legacyHostId) {
       setIsHost(true);
+      setHostAuthStatus("valid");
       if (typeof window !== 'undefined' && roomId > 0) {
-        localStorage.setItem(`room_${roomId}_hostId`, hostId);
+        if (hostToken) {
+          localStorage.setItem(`room_${roomId}_hostToken`, hostToken);
+        }
+        if (legacyHostId) {
+          localStorage.setItem(`room_${roomId}_hostId`, legacyHostId);
+        }
       }
     }
-    if (!hostId && !currentParticipantId) {
+    if (!hostToken && !legacyHostId && !currentParticipantId) {
       setShowJoinDialog(true);
     }
-  }, [hostId, roomId, currentParticipantId]);
+  }, [hostToken, legacyHostId, roomId, currentParticipantId]);
+
+  useEffect(() => {
+    if (initialHostToken && initialHostToken !== hostToken) {
+      setHostToken(initialHostToken);
+    }
+  }, [initialHostToken]);
 
   useEffect(() => {
     if (isHost && room?.participants && room.participants.length > 0 && !currentParticipantId) {
@@ -341,7 +443,7 @@ export default function Room() {
   const getConfirmedSlotLabel = (slotIndex: number): string => {
     if (!room) return "";
     const sm = room.slotMinutes ?? 60;
-    const spd = 24 * Math.round(60 / sm);
+    const spd = getSlotsPerDay(sm);
     const dayIndex = Math.floor(slotIndex / spd);
     const slotWithinDay = slotIndex % spd;
     const days = eachDayOfInterval({ start: parseISO(room.startDate), end: parseISO(room.endDate) });
@@ -361,9 +463,14 @@ export default function Room() {
 
   const updateRoomMutation = useMutation({
     mutationFn: async (data: { name?: string; description?: string }) => {
-      const response = await apiRequest("PATCH", `/api/rooms/${roomId}`, { ...data, hostId });
-      if (!response.ok) throw new Error("Failed to update room");
-      return response.json();
+      return withHostAuthRetry(async (token) => {
+        const response = await apiRequest("PATCH", `/api/rooms/${roomId}`, {
+          ...data,
+          hostId: legacyHostId,
+          hostToken: token,
+        });
+        return response.json();
+      });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/rooms", roomId] });
@@ -371,15 +478,23 @@ export default function Room() {
       toast({ title: t('room.toast.roomUpdated') });
     },
     onError: (error: Error) => {
-      toast({ title: t('room.toast.error'), description: error.message, variant: "destructive" });
+      toast({ title: t('room.toast.error'), description: getHostActionErrorDescription(error), variant: "destructive" });
     },
   });
 
   const deleteParticipantMutation = useMutation({
     mutationFn: async (participantId: number) => {
-      const response = await apiRequest("DELETE", `/api/rooms/${roomId}/participants/${participantId}?hostId=${encodeURIComponent(hostId ?? "")}`);
-      if (!response.ok) throw new Error("Failed to remove participant");
-      return response.json();
+      return withHostAuthRetry(async (token) => {
+        const query = new URLSearchParams();
+        if (legacyHostId) {
+          query.set("hostId", legacyHostId);
+        }
+        if (token) {
+          query.set("hostToken", token);
+        }
+        const response = await apiRequest("DELETE", `/api/rooms/${roomId}/participants/${participantId}?${query.toString()}`);
+        return response.json();
+      });
     },
     onSuccess: (_: unknown, participantId: number) => {
       queryClient.invalidateQueries({ queryKey: ["/api/rooms", roomId] });
@@ -390,7 +505,7 @@ export default function Room() {
       toast({ title: t('room.toast.participantRemoved') });
     },
     onError: (error: Error) => {
-      toast({ title: t('room.toast.error'), description: error.message, variant: "destructive" });
+      toast({ title: t('room.toast.error'), description: getHostActionErrorDescription(error), variant: "destructive" });
     },
   });
 
@@ -531,6 +646,14 @@ export default function Room() {
                   {respondedCount}/{room.participants.length} {t('room.responded')}
                 </Badge>
               )}
+              {isHost && (
+                <Badge
+                  variant={hostAuthStatus === "expired" ? "destructive" : "outline"}
+                  className="text-xs shrink-0 hidden lg:flex"
+                >
+                  {getHostAuthStatusLabel()}
+                </Badge>
+              )}
             </div>
 
             {/* Right controls */}
@@ -597,13 +720,33 @@ export default function Room() {
 
           {/* Mobile timezone row */}
           {isMobile && (
-            <div className="sm:hidden flex items-center gap-1.5 pb-2 text-sm">
+            <div className="sm:hidden flex items-center gap-1.5 pb-2 text-sm flex-wrap">
               <Globe className="h-4 w-4 text-muted-foreground" />
               <TimezoneSelector
                 value={viewingTimezone}
                 onChange={setViewingTimezone}
                 compact
               />
+              {isHost && (
+                <>
+                  <Badge
+                    variant={hostAuthStatus === "expired" ? "destructive" : "outline"}
+                    className="text-[10px]"
+                  >
+                    {getHostAuthStatusLabel()}
+                  </Badge>
+                  {hostAuthStatus === "expired" && (
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="h-7 px-2 text-[11px]"
+                      onClick={handleManualHostAuthRefresh}
+                    >
+                      Retry auth
+                    </Button>
+                  )}
+                </>
+              )}
             </div>
           )}
         </div>

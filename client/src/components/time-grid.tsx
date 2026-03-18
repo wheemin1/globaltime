@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback, useEffect, Fragment, useMemo } from "react";
 import { convertSlotToLocalTime, formatTimeForDisplay } from "@/lib/time-slots";
 import { format, parseISO, eachDayOfInterval } from "date-fns";
+import { getSlotsPerDay, getSlotsPerHour } from "@shared/scheduling";
 import type { RoomWithParticipants } from "@shared/schema";
 import { useTranslation } from "react-i18next";
 
@@ -50,9 +51,9 @@ export function TimeGrid({
   }, [room.startDate, room.endDate]);
 
   const slotMinutes = room.slotMinutes ?? 60;
-  const slotsPerHour = Math.round(60 / slotMinutes);
+  const slotsPerHour = getSlotsPerHour(slotMinutes);
   const slotsInWindow = (room.timeEnd - room.timeStart) * slotsPerHour;
-  const slotsPerDay = 24 * slotsPerHour;
+  const slotsPerDay = getSlotsPerDay(slotMinutes);
   const timeSlots = Array.from({ length: slotsInWindow }, (_, i) => i);
 
   const slotToTimeStr = (slotIdx: number): string => {

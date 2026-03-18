@@ -5,10 +5,13 @@
   "license": "MIT",
   "scripts": {
     "dev": "cross-env NODE_ENV=development tsx server/index.ts",
-    "build": "vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
-    "build:netlify": "vite build",
+    "build": "npm run verify:core && vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
+    "build:netlify": "npm run verify:core && vite build",
     "start": "cross-env NODE_ENV=production node dist/index.js",
     "check": "tsc",
+    "verify:core": "tsx scripts/verify-core.ts",
+    "test:sse:smoke": "tsx scripts/sse-smoke.ts",
+    "test:sse:smoke:local": "tsx scripts/sse-smoke.ts http://localhost:3000/api/rooms/1/events 5 2000",
     "db:push": "drizzle-kit push"
   },
   "dependencies": {

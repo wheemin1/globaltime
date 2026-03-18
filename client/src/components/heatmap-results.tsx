@@ -8,6 +8,7 @@ import { TimeGrid } from "./time-grid";
 import { Check, Pencil, CalendarDays, CheckCircle2, X, Globe } from "lucide-react";
 import { convertSlotToLocalTime, formatTimeForDisplay, generateBestSlots } from "@/lib/time-slots";
 import { format, parseISO, eachDayOfInterval, addDays } from "date-fns";
+import { getSlotsPerDay } from "@shared/scheduling";
 import type { RoomWithParticipants } from "@shared/schema";
 import { useTranslation } from "react-i18next";
 import { getCommonTimezones } from "@/lib/timezone-utils";
@@ -123,7 +124,7 @@ export function HeatmapResults({
     room.participants.filter((p) => p.availability[slotIndex] !== "1" && p.availability[slotIndex] !== "2");
 
   const slotMinutes = room.slotMinutes ?? 60;
-  const slotsPerDay = 24 * Math.round(60 / slotMinutes);
+  const slotsPerDay = getSlotsPerDay(slotMinutes);
 
   const getSlotLabel = (slotIndex: number) => {
     const dayIndex = Math.floor(slotIndex / slotsPerDay);

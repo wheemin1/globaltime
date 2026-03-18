@@ -1,7 +1,7 @@
 import { Suspense, lazy } from "react";
 import { Route, Switch } from "wouter";
-import Home from "@/pages/home";
-import Room from "@/pages/room";
+const Home = lazy(() => import("@/pages/home"));
+const Room = lazy(() => import("@/pages/room"));
 const CreateRoom = lazy(() => import("@/pages/create-room"));
 const Features = lazy(() => import("@/pages/features"));
 const HowItWorks = lazy(() => import("@/pages/how-it-works"));
@@ -17,7 +17,13 @@ import "@/lib/i18n";
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <Suspense fallback={null}>
+      <Suspense
+        fallback={
+          <div className="min-h-screen bg-background flex items-center justify-center">
+            <div className="text-sm text-muted-foreground">Loading...</div>
+          </div>
+        }
+      >
         <div className="min-h-screen bg-background">
           <Switch>
             <Route path="/" component={Home} />

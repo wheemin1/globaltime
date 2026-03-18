@@ -57,7 +57,10 @@ export default function Home() {
       return response.json();
     },
     onSuccess: (data) => {
-      setLocation(`/room/${data.roomId}?host=${data.hostId}`);
+      const hostParam = data.hostToken
+        ? `hostToken=${encodeURIComponent(data.hostToken)}`
+        : `host=${encodeURIComponent(data.hostId)}`;
+      setLocation(`/room/${data.roomId}?${hostParam}`);
     },
     onError: (error) => {
       toast({

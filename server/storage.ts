@@ -1,5 +1,6 @@
 import { db } from "./db";
 import { rooms, participants } from "@shared/schema";
+import { calculateTotalSlots, isValidAvailabilityString } from "@shared/scheduling";
 import { eq, and, sql } from "drizzle-orm";
 import type { Room, Participant } from "@shared/schema";
 
@@ -19,6 +20,34 @@ export const storage = {
     return room;
   },
 
+  async createRoomWithHost(data: {
+    room: {
+      name: string;
+      hostId: string;
+      startDate: string;
+      endDate: string;
+      timeStart: number;
+      timeEnd: number;
+      description?: string | null;
+      deadline?: Date | null;
+      slotMinutes?: number;
+    };
+    hostName: string;
+    hostTimezone: string;
+    totalSlots: number;
+  }): Promise<Room> {
+    return db.transaction(async (tx) => {
+      const [room] = await tx.insert(rooms).values(data.room).returning();
+      await tx.insert(participants).values({
+        roomId: room.id,
+        name: data.hostName,
+        timezone: data.hostTimezone,
+        availability: "0".repeat(data.totalSlots),
+      });
+      return room;
+    });
+  },
+
   async getRoom(id: number): Promise<Room | null> {
     const [room] = await db.select().from(rooms).where(eq(rooms.id, id));
     return room ?? null;
@@ -30,18 +59,16 @@ export const storage = {
 
     const roomParticipants = await this.getParticipantsByRoom(id);
 
-    // Calculate total slots based on room date range
-    const startDate = new Date(room.startDate);
-    const endDate = new Date(room.endDate);
-    const daysDiff = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
-    const slotMinutes = room.slotMinutes ?? 60;
-    const slotsPerDay = 24 * Math.round(60 / slotMinutes);
-    const totalSlots = daysDiff * slotsPerDay;
+    const totalSlots = calculateTotalSlots(room.startDate, room.endDate, room.slotMinutes ?? 60);
 
     // Generate heatmap for the actual number of slots
     // Treat both '1' (available) and '2' (legacy 'if needed') as available
     const heatmap = new Array(totalSlots).fill(0);
     roomParticipants.forEach(participant => {
+      if (!isValidAvailabilityString(participant.availability)) {
+        console.warn(`Skipping malformed availability for participant ${participant.id} in room ${id}`);
+        return;
+      }
       for (let i = 0; i < Math.min(totalSlots, participant.availability.length); i++) {
         if (participant.availability[i] === '1' || participant.availability[i] === '2') {
           heatmap[i]++;

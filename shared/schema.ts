@@ -2,6 +2,23 @@ import { pgTable, text, serial, integer, boolean, jsonb, timestamp } from "drizz
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
+function isValidIsoDateString(value: string): boolean {
+  const match = value.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!match) {
+    return false;
+  }
+  const year = Number.parseInt(match[1], 10);
+  const month = Number.parseInt(match[2], 10);
+  const day = Number.parseInt(match[3], 10);
+  const dt = new Date(Date.UTC(year, month - 1, day));
+
+  return (
+    dt.getUTCFullYear() === year &&
+    dt.getUTCMonth() + 1 === month &&
+    dt.getUTCDate() === day
+  );
+}
+
 export const rooms = pgTable("rooms", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
@@ -47,8 +64,8 @@ export const createRoomSchema = z.object({
   name: z.string().min(1, "Meeting name is required"),
   hostName: z.string().min(1, "Host name is required"),
   hostTimezone: z.string().min(1, "Timezone is required"),
-  startDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid date format"),
-  endDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid date format"),
+  startDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid date format").refine(isValidIsoDateString, "Invalid calendar date"),
+  endDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid date format").refine(isValidIsoDateString, "Invalid calendar date"),
   timeStart: z.number().int().min(0).max(23),
   timeEnd: z.number().int().min(1).max(24),
   description: z.string().max(500).optional(),
@@ -84,7 +101,13 @@ export const updateAvailabilitySchema = z.object({
 export const updateRoomSchema = z.object({
   name: z.string().min(1).optional(),
   description: z.string().max(500).optional(),
-  hostId: z.string(),
+  hostId: z.string().optional(),
+  hostToken: z.string().optional(),
+}).refine((data) => {
+  return Boolean((data.hostToken && data.hostToken.trim().length > 0) || (data.hostId && data.hostId.trim().length > 0));
+}, {
+  message: "hostToken or hostId is required",
+  path: ["hostToken"],
 });
 
 export type UpdateRoomRequest = z.infer<typeof updateRoomSchema>;

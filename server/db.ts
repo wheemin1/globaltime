@@ -3,8 +3,8 @@ import postgres from "postgres";
 import * as schema from "@shared/schema";
 
 if (!process.env.DATABASE_URL) {
-  console.error("DATABASE_URL is not set — database calls will fail.");
+  throw new Error("DATABASE_URL is not set");
 }
 
-const client = postgres(process.env.DATABASE_URL ?? "");
+const client = postgres(process.env.DATABASE_URL);
 export const db = drizzle(client, { schema });

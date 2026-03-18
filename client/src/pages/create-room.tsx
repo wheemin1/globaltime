@@ -62,7 +62,10 @@ export default function CreateRoom() {
         title: t('room.toast.roomCreated'),
         description: t('room.toast.roomCreatedDesc'),
       });
-      setLocation(`/room/${data.roomId}?host=${data.hostId}`);
+      const hostParam = data.hostToken
+        ? `hostToken=${encodeURIComponent(data.hostToken)}`
+        : `host=${encodeURIComponent(data.hostId)}`;
+      setLocation(`/room/${data.roomId}?${hostParam}`);
     },
     onError: (error) => {
       toast({
